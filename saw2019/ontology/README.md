@@ -1,6 +1,6 @@
 # DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams
 
-This folder contains the ontology data related to the running healthcare example used in the paper "DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams", which is submitted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) workshop at [ISWC 2019](https://iswc2019.semanticweb.org/). This paper is currently under review.
+This folder contains the ontology data related to the running healthcare example used in the paper "DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams", which is submitted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) at [ISWC 2019](https://iswc2019.semanticweb.org/). This paper is currently under review.
 
 ## Contents
 
@@ -27,4 +27,4 @@ This ontology is also used for the paper's [evaluations](../evaluations).
 
 ## Contact
  
-The main contact person directly involved with this research is [Mathias De Brouwer](https://www.linkedin.com/in/mathiasdebrouwer/). In case of any remarks or questions, you can send an email to [mrdbrouw.DeBrouwer@UGent.be](mailto:mrdbrouw.DeBrouwer@UGent.be) or [create a GitHub issue](../../../../../issues/new).
+The main contact person directly involved with this research is [Mathias De Brouwer](https://www.linkedin.com/in/mathiasdebrouwer/). In case of any remarks or questions, you can send an email to [mrdbrouw.DeBrouwer@UGent.be](mailto:mrdbrouw.DeBrouwer@UGent.be) or [create a GitHub issue](../../../../issues/new).
