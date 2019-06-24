@@ -1,6 +1,6 @@
 # DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams
 
-This folder contains supportive material for the evaluations in the paper "DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams" submitted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) workshop at [ISWC 2019](https://iswc2019.semanticweb.org/). This paper is currently under review.
+This folder contains supportive material for the evaluations in the paper "DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams" submitted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) at [ISWC 2019](https://iswc2019.semanticweb.org/). This paper is currently under review.
 
 ## Contents
 
@@ -22,4 +22,4 @@ The context loaded into the engines (RDFox in StreamFox set-up, and both C-SPARQ
 
 ## Contact
  
-The main contact person directly involved with this research is [Mathias De Brouwer](https://www.linkedin.com/in/mathiasdebrouwer/). In case of any remarks or questions, you can send an email to [mrdbrouw.DeBrouwer@UGent.be](mailto:mrdbrouw.DeBrouwer@UGent.be) or [create a GitHub issue](../../../../../../issues/new).
+The main contact person directly involved with this research is [Mathias De Brouwer](https://www.linkedin.com/in/mathiasdebrouwer/). In case of any remarks or questions, you can send an email to [mrdbrouw.DeBrouwer@UGent.be](mailto:mrdbrouw.DeBrouwer@UGent.be) or [create a GitHub issue](../../../../../issues/new).
