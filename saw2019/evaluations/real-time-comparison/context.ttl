@@ -1,0 +1,71 @@
+@prefix : <http://occs.intec.ugent.be/ontology/entity#> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+@prefix DUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#> .
+@prefix SAREFiot: <http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#> .
+@prefix SSNiot: <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#> .
+@prefix General: <http://IBCNServices.github.io/Accio-Ontology/General.owl#> .
+@prefix SAREFiot: <http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#> .
+@prefix ContextAccio: <http://IBCNServices.github.io/Accio-Ontology/ContextAccio.owl#> .
+@prefix Localization: <http://IBCNServices.github.io/Accio-Ontology/Localization.owl#> .
+@prefix RoleCompetenceAccio: <http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#> .
+@prefix CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#> .
+
+# department
+:DepartmentA rdf:type Localization:Department .
+
+# nurse Susan
+:Susan rdf:type DUL:Person ;
+       DUL:hasRole [ rdf:type RoleCompetenceAccio:StaffMemberRole ] ;
+       ContextAccio:worksAt :DepartmentA .
+
+# nurse Mary
+:Mary rdf:type DUL:Person ;
+         DUL:hasRole [ rdf:type RoleCompetenceAccio:StaffMemberRole ] ;
+         ContextAccio:worksAt :DepartmentA .
+
+# nurse Jane
+:Jane rdf:type DUL:Person ;
+         DUL:hasRole [ rdf:type RoleCompetenceAccio:StaffMemberRole ] ;
+         ContextAccio:worksAt :DepartmentA .
+
+#######################################
+
+# room
+:R101 rdf:type Localization:PatientRoom ;
+    General:hasId [ General:hasID "R101"^^xsd:string ] ;
+    Localization:hasNumber "101"^^xsd:int ;
+    Localization:isOnDepartment :DepartmentA .
+
+# TV in room
+:TV_R101 rdf:type SAREFiot:TV ;
+    DUL:hasLocation :R101 .
+
+# lights in room
+:RoomLight_R101 rdf:type SAREFiot:RoomLight ;
+    DUL:hasLocation :R101 .
+
+# patient Bob
+:Bob rdf:type DUL:Person ;
+    DUL:hasRole [ rdf:type RoleCompetenceAccio:PatientRole ] ;
+    CareRoomMonitoring:hasDiagnosis CareRoomMonitoring:Concussion ;
+    ContextAccio:LiesOn :DepartmentA ;
+    DUL:hasLocation :R101 .
+
+#######################################
+
+# sensor system
+:40-a5-ef-05-a4-a6 rdf:type ssn:System ;
+    General:hasId [ General:hasID "40-a5-ef-05-a4-a6"^^xsd:string ] ;
+    DUL:hasLocation :R101 .
+
+# sensor A0
+:40-a5-ef-05-a4-a6-A0 rdf:type sosa:Sensor ;
+    sosa:observes [ rdf:type SSNiot:LightIntensity ] ;
+    General:hasId [ General:hasID "40-a5-ef-05-a4-a6-A0"^^xsd:string ] ;
+    SSNiot:isSubsystemOf :40-a5-ef-05-a4-a6 .

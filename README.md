@@ -6,7 +6,7 @@ This research is executed at the [IDLab](http://idlab.technology) research group
 
 ## Contents
 
-No publications exist yet about DIVIDE. The first paper presenting the DIVIDE system has been submitted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) workshop at [ISWC 2019](https://iswc2019.semanticweb.org/). If you are looking for supporting material for this paper, take a look in the [`saw2019`](/saw2019) folder.
+No publications exist yet about DIVIDE. The first paper presenting the DIVIDE system has been submitted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) workshop at [ISWC 2019](https://iswc2019.semanticweb.org/). If you are looking for supporting material for this paper, take a look in the [`saw2019`](saw2019) folder.
 
 ## Contact
  
