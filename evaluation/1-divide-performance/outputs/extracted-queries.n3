@@ -1,0 +1,58 @@
+#Processed by EYE v19.0202.2255 josd
+#eye outputs/proof.n3 --query queries/query-extraction-goal.n3 --nope --tactic existing-path
+
+PREFIX var: <http://josd.github.io/eye/.well-known/genid/iWrx8prZLAKK1S1dV9uXej4QsaU#>
+PREFIX uo: <http://IBCNServices.github.io/Accio-Ontology/ontologies/uo.owl#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ssnDUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/ssnDUL.owl#>
+PREFIX NurseCall: <http://IBCNServices.github.io/Accio-Ontology/NurseCall.owl#>
+PREFIX TaskAccio: <http://IBCNServices.github.io/Accio-Ontology/TaskAccio.owl#>
+PREFIX PersonProfileAccio: <http://IBCNServices.github.io/Accio-Ontology/PersonProfileAccio.owl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX vann: <http://purl.org/vocab/vann/>
+PREFIX terms: <http://purl.org/dc/terms/>
+PREFIX schema: <http://schema.org/>
+PREFIX voaf: <http://purl.org/vocommons/voaf#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ns1: <http://www.w3.org/2006/time#>
+PREFIX tzont: <http://www.w3.org/2006/timezone#>
+PREFIX ns2: <https://w3id.org/saref#>
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX ns3: <https://github.ugent.be/darndt/SRWithEye/example#>
+PREFIX ns4: <http://eulersharp.sourceforge.net/.well-known/genid/myVariables>
+PREFIX ns5: <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/preprocessing/ex#>
+PREFIX ns6: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX : <http://occs.intec.ugent.be/ontology/entity#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX DUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#>
+PREFIX SSNiot: <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#>
+PREFIX General: <http://IBCNServices.github.io/Accio-Ontology/General.owl#>
+PREFIX SAREFiot: <http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#>
+PREFIX ContextAccio: <http://IBCNServices.github.io/Accio-Ontology/ContextAccio.owl#>
+PREFIX Localization: <http://IBCNServices.github.io/Accio-Ontology/Localization.owl#>
+PREFIX RoleCompetenceAccio: <http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#>
+PREFIX CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+PREFIX string: <http://www.w3.org/2000/10/swap/string#>
+
+_:e_sk_0_1 a sd:Query.
+_:e_sk_0_1 sd:inputVariables (("?prop" SSNiot:LightIntensity) ("?threshold" "170.0"^^xsd:float) ("?sensor" <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0>)).
+_:e_sk_0_1 sd:pattern ns6:pattern-1.
+_:e_sk_6_1 a sd:Query.
+_:e_sk_6_1 sd:inputVariables (("?prop" SSNiot:Sound) ("?threshold" "30.0"^^xsd:float) ("?sensor" <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1>)).
+_:e_sk_6_1 sd:pattern ns6:pattern-1.
+
+#2019-06-23T13:54:02.397Z in=600 out=6 ent=6 step=2 brake=1 inf=439215 sec=0.064 inf/sec=6862734
+#ENDS
+

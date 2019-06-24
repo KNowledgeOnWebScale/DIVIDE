@@ -1,0 +1,15 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+PREFIX CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#>
+
+CONSTRUCT { 
+    ?action a ?type .
+}
+WHERE {
+    ?action a ?type .
+    ?type rdfs:subClassOf CareRoomMonitoring:AboveThresholdAction .
+
+    FILTER NOT EXISTS { ?x rdfs:subClassOf ?type } .
+
+    OPTIONAL { ?x rdfs:subClassOf ?type } .
+}

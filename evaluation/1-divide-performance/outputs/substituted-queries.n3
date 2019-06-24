@@ -1,0 +1,78 @@
+#Processed by EYE v19.0202.2255 josd
+#eye queries/query-patterns.n3 outputs/extracted-queries.n3 queries/query-substitution-rules.n3 --query queries/query-substitution-goal.n3 --nope
+
+PREFIX : <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX var: <http://josd.github.io/eye/.well-known/genid/iWrx8prZLAKK1S1dV9uXej4QsaU#>
+PREFIX uo: <http://IBCNServices.github.io/Accio-Ontology/ontologies/uo.owl#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ssnDUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/ssnDUL.owl#>
+PREFIX NurseCall: <http://IBCNServices.github.io/Accio-Ontology/NurseCall.owl#>
+PREFIX TaskAccio: <http://IBCNServices.github.io/Accio-Ontology/TaskAccio.owl#>
+PREFIX PersonProfileAccio: <http://IBCNServices.github.io/Accio-Ontology/PersonProfileAccio.owl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX vann: <http://purl.org/vocab/vann/>
+PREFIX terms: <http://purl.org/dc/terms/>
+PREFIX schema: <http://schema.org/>
+PREFIX voaf: <http://purl.org/vocommons/voaf#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ns1: <http://www.w3.org/2006/time#>
+PREFIX tzont: <http://www.w3.org/2006/timezone#>
+PREFIX ns2: <https://w3id.org/saref#>
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX ns3: <https://github.ugent.be/darndt/SRWithEye/example#>
+PREFIX ns4: <http://eulersharp.sourceforge.net/.well-known/genid/myVariables>
+PREFIX ns5: <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/preprocessing/ex#>
+PREFIX ns6: <http://occs.intec.ugent.be/ontology/entity#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX DUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#>
+PREFIX SSNiot: <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#>
+PREFIX General: <http://IBCNServices.github.io/Accio-Ontology/General.owl#>
+PREFIX SAREFiot: <http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#>
+PREFIX ContextAccio: <http://IBCNServices.github.io/Accio-Ontology/ContextAccio.owl#>
+PREFIX Localization: <http://IBCNServices.github.io/Accio-Ontology/Localization.owl#>
+PREFIX RoleCompetenceAccio: <http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#>
+PREFIX CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+PREFIX string: <http://www.w3.org/2000/10/swap/string#>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+
+:prefixes a owl:Ontology.
+:prefixes sh:declare _:bn_1.
+_:bn_1 sh:prefix "xsd".
+_:bn_1 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI.
+:prefixes sh:declare _:bn_2.
+_:bn_2 sh:prefix "ssn".
+_:bn_2 sh:namespace "http://www.w3.org/ns/ssn/"^^xsd:anyURI.
+:prefixes sh:declare _:bn_3.
+_:bn_3 sh:prefix "sosa".
+_:bn_3 sh:namespace "http://www.w3.org/ns/sosa/"^^xsd:anyURI.
+:prefixes sh:declare _:bn_4.
+_:bn_4 sh:prefix "General".
+_:bn_4 sh:namespace "http://IBCNServices.github.io/Accio-Ontology/General.owl#"^^xsd:anyURI.
+:prefixes sh:declare _:bn_5.
+_:bn_5 sh:prefix "CareRoomMonitoring".
+_:bn_5 sh:namespace "http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#"^^xsd:anyURI.
+:prefixes sh:declare _:bn_6.
+_:bn_6 sh:prefix "DUL".
+_:bn_6 sh:namespace "http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#"^^xsd:anyURI.
+_:sk_38 a sd:Query.
+_:sk_38 sh:construct " CONSTRUCT { ?o a CareRoomMonitoring:AboveThresholdAction ; ssn:forProperty <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightIntensity> . } FROM NAMED WINDOW :win ON <http://idlab.ugent.be/grove> [RANGE PT1S TUMBLING] WHERE { WINDOW :win { ?o a sosa:Observation ; sosa:madeBySensor <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0> ; sosa:hasResult [ DUL:hasDataValue ?v ] ; sosa:resultTime ?t ; General:hasId [ General:hasID ?id ] . FILTER (xsd:float(?v) > xsd:float(170.0)) } } ORDER BY DESC(?t) LIMIT 1 ".
+_:sk_38 sh:prefixes :prefixes.
+_:sk_39 a sd:Query.
+_:sk_39 sh:construct " CONSTRUCT { ?o a CareRoomMonitoring:AboveThresholdAction ; ssn:forProperty <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Sound> . } FROM NAMED WINDOW :win ON <http://idlab.ugent.be/grove> [RANGE PT1S TUMBLING] WHERE { WINDOW :win { ?o a sosa:Observation ; sosa:madeBySensor <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1> ; sosa:hasResult [ DUL:hasDataValue ?v ] ; sosa:resultTime ?t ; General:hasId [ General:hasID ?id ] . FILTER (xsd:float(?v) > xsd:float(30.0)) } } ORDER BY DESC(?t) LIMIT 1 ".
+_:sk_39 sh:prefixes :prefixes.
+
+#2019-06-23T13:54:02.623Z in=35 out=25 ent=232 step=376 brake=7 inf=478793 sec=0.115 inf/sec=4163417
+#ENDS
+

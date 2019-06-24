@@ -1,0 +1,1507 @@
+@prefix : <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@base <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl> .
+
+<http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl> rdf:type owl:Ontology ;
+                                                           owl:imports <http://IBCNServices.github.io/Accio-Ontology/General.owl> ,
+                                                                       <http://IBCNServices.github.io/Accio-Ontology/ontologies/ssnDUL.ttl> ,
+                                                                       <http://IBCNServices.github.io/Accio-Ontology/ontologies/uo.owl> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasFault
+:hasFault rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isFaultOf ;
+          rdfs:domain :Symptom ;
+          rdfs:range :Fault .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasNextObservation
+:hasNextObservation rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :hasPreviousObservation ;
+                    rdf:type owl:FunctionalProperty ;
+                    rdfs:domain <http://www.w3.org/ns/sosa/Observation> ;
+                    rdfs:range <http://www.w3.org/ns/sosa/Observation> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasPreviousObservation
+:hasPreviousObservation rdf:type owl:ObjectProperty ;
+                        rdfs:domain <http://www.w3.org/ns/sosa/Observation> ;
+                        rdfs:range <http://www.w3.org/ns/sosa/Observation> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasSolution
+:hasSolution rdf:type owl:ObjectProperty ;
+             owl:inverseOf :isSolutionOf ;
+             rdfs:domain :Fault ;
+             rdfs:range :Solution .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasSymptom
+:hasSymptom rdf:type owl:ObjectProperty ;
+            owl:inverseOf :isSymptomOf ;
+            rdfs:domain <http://www.w3.org/ns/sosa/Observation> ;
+            rdfs:range :Symptom .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasThreshold
+:hasThreshold rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasRegion> ;
+              rdfs:range :Threshold .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasUnit
+:hasUnit rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#isParametrizedBy> ;
+         rdfs:range [ rdf:type owl:Class ;
+                      owl:unionOf ( <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#UnitOfMeasure>
+                                    <http://purl.obolibrary.org/obo/UO_0000000>
+                                  )
+                    ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#isActionOf
+:isActionOf rdf:type owl:ObjectProperty ;
+            owl:inverseOf :requiresAction .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#isFaultOf
+:isFaultOf rdf:type owl:ObjectProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#isSolutionOf
+:isSolutionOf rdf:type owl:ObjectProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#isSubsystemOf
+:isSubsystemOf rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#isPartOf> ;
+               owl:inverseOf <http://www.w3.org/ns/ssn/hasSubSystem> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#isSymptomOf
+:isSymptomOf rdf:type owl:ObjectProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#isThresholdOnProperty
+:isThresholdOnProperty rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#associatedWith> ;
+                       rdfs:domain :Threshold ;
+                       rdfs:range <http://www.w3.org/ns/ssn/Property> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#requiresAction
+:requiresAction rdf:type owl:ObjectProperty ;
+                rdfs:domain :Solution ;
+                rdfs:range <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Action> .
+
+
+###  http://www.w3.org/ns/sosa/hasResult
+<http://www.w3.org/ns/sosa/hasResult> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/sosa/madeBySensor
+<http://www.w3.org/ns/sosa/madeBySensor> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/sosa/observedProperty
+<http://www.w3.org/ns/sosa/observedProperty> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/sosa/observes
+<http://www.w3.org/ns/sosa/observes> rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/ssn/hasSubSystem
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#forOS
+:forOS rdf:type owl:DatatypeProperty ;
+       rdfs:range xsd:string .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#hasDescription
+:hasDescription rdf:type owl:DatatypeProperty ;
+                rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Acceleration
+:Acceleration rdf:type owl:Class ;
+              rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#AccelerationObservation
+:AccelerationObservation rdf:type owl:Class ;
+                         rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                           owl:allValuesFrom :AccelerationObservationValue
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                           owl:allValuesFrom :Acceleration
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :Accelerometer
+                                         ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#AccelerationObservationValue
+:AccelerationObservationValue rdf:type owl:Class ;
+                              rdfs:subClassOf :QuantityObservationValue ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty :hasUnit ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass <http://purl.obolibrary.org/obo/UO_0000048>
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onDataRange xsd:float
+                                              ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Accelerometer
+:Accelerometer rdf:type owl:Class ;
+               rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                 owl:allValuesFrom :Acceleration
+                               ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BLEBeacon
+:BLEBeacon rdf:type owl:Class ;
+           rdfs:subClassOf <http://www.w3.org/ns/ssn/System> ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                             owl:someValuesFrom :BLETag
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BLETag
+:BLETag rdf:type owl:Class ;
+        rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BLETagObservation
+:BLETagObservation rdf:type owl:Class ;
+                   rdfs:subClassOf :TagObservation ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                     owl:allValuesFrom :BLETagObservationValue
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                     owl:allValuesFrom :BLETag
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :BLEBeacon
+                                   ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BLETagObservationValue
+:BLETagObservationValue rdf:type owl:Class ;
+                        rdfs:subClassOf :TagObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BatteryLevel
+:BatteryLevel rdf:type owl:Class ;
+              rdfs:subClassOf <http://www.w3.org/ns/ssn/SystemProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BatteryLevelObservation
+:BatteryLevelObservation rdf:type owl:Class ;
+                         rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                           owl:allValuesFrom :BatteryLevelObservationValue
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                           owl:allValuesFrom :BatteryLevel
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                           owl:onClass <http://www.w3.org/ns/sosa/Sensor>
+                                         ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BatteryLevelObservationValue
+:BatteryLevelObservationValue rdf:type owl:Class ;
+                              rdfs:subClassOf :QuantityObservationValue ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onDataRange xsd:integer
+                                              ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BelowZeroValueSymptom
+:BelowZeroValueSymptom rdf:type owl:Class ;
+                       rdfs:subClassOf :Symptom .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BodyTemperature
+:BodyTemperature rdf:type owl:Class ;
+                 rdfs:subClassOf :Temperature .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BodyTemperatureObservation
+:BodyTemperatureObservation rdf:type owl:Class ;
+                            rdfs:subClassOf :TemperatureObservation ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                              owl:allValuesFrom :BodyTemperatureObservationValue
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                              owl:allValuesFrom :BodyTemperature
+                                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BodyTemperatureObservationValue
+:BodyTemperatureObservationValue rdf:type owl:Class ;
+                                 rdfs:subClassOf :TemperatureObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Button
+:Button rdf:type owl:Class ;
+        rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                          owl:allValuesFrom :ButtonPush
+                        ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ButtonPush
+:ButtonPush rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ButtonPushObservation
+:ButtonPushObservation rdf:type owl:Class ;
+                       rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                         owl:allValuesFrom :ButtonPushObservationValue
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                         owl:allValuesFrom :ButtonPush
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :Button
+                                       ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ButtonPushObservationValue
+:ButtonPushObservationValue rdf:type owl:Class ;
+                            rdfs:subClassOf :StatusChangeObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BytesReceived
+:BytesReceived rdf:type owl:Class ;
+               rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BytesReceivedObservation
+:BytesReceivedObservation rdf:type owl:Class ;
+                          rdfs:subClassOf :NetworkTransmissionObservation ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                            owl:allValuesFrom :BytesReceivedObservationValue
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                            owl:allValuesFrom :BytesReceived
+                                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BytesReceivedObservationValue
+:BytesReceivedObservationValue rdf:type owl:Class ;
+                               rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                               :QuantityObservationValue ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :hasUnit ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass <http://purl.obolibrary.org/obo/UO_0000233>
+                                               ] ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onDataRange xsd:integer
+                                               ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BytesSent
+:BytesSent rdf:type owl:Class ;
+           rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BytesSentObservation
+:BytesSentObservation rdf:type owl:Class ;
+                      rdfs:subClassOf :NetworkTransmissionObservation ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                        owl:allValuesFrom :BytesSentObservationValue
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                        owl:allValuesFrom :BytesSent
+                                      ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#BytesSentObservationValue
+:BytesSentObservationValue rdf:type owl:Class ;
+                           rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                           :QuantityObservationValue ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty :hasUnit ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass <http://purl.obolibrary.org/obo/UO_0000233>
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onDataRange xsd:integer
+                                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#CO
+:CO rdf:type owl:Class ;
+    rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#CODetector
+:CODetector rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                              owl:allValuesFrom :CO
+                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#COObservation
+:COObservation rdf:type owl:Class ;
+               rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                 owl:allValuesFrom :COObservationValue
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                 owl:allValuesFrom :CO
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                 owl:onClass :CODetector
+                               ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#COObservationValue
+:COObservationValue rdf:type owl:Class ;
+                    rdfs:subClassOf :QuantityObservationValue ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onDataRange xsd:float
+                                    ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#DetectedFault
+:DetectedFault rdf:type owl:Class ;
+               rdfs:subClassOf :Fault .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#DoorWindowContact
+:DoorWindowContact rdf:type owl:Class ;
+                   rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#DoorWindowContactObservation
+:DoorWindowContactObservation rdf:type owl:Class ;
+                              rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                owl:allValuesFrom :DoorWindowContactObservationValue
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                                owl:allValuesFrom :DoorWindowContact
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onClass :DoorWindowContactSensor
+                                              ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#DoorWindowContactObservationValue
+:DoorWindowContactObservationValue rdf:type owl:Class ;
+                                   rdfs:subClassOf :StatusChangeObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#DoorWindowContactSensor
+:DoorWindowContactSensor rdf:type owl:Class ;
+                         rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                           owl:allValuesFrom :DoorWindowContact
+                                         ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ExternalTemperature
+:ExternalTemperature rdf:type owl:Class ;
+                     rdfs:subClassOf :Temperature .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ExternalTemperatureObservation
+:ExternalTemperatureObservation rdf:type owl:Class ;
+                                rdfs:subClassOf :TemperatureObservation ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                  owl:allValuesFrom :InternalTemperatureObservationValue
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                                  owl:allValuesFrom :ExternalTemperature
+                                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ExternalTemperatureObservationValue
+:ExternalTemperatureObservationValue rdf:type owl:Class ;
+                                     rdfs:subClassOf :TemperatureObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#FailedPacketsSent
+:FailedPacketsSent rdf:type owl:Class ;
+                   rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#FailedPacketsSentObservation
+:FailedPacketsSentObservation rdf:type owl:Class ;
+                              rdfs:subClassOf :NetworkTransmissionObservation ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                owl:allValuesFrom :FailedPacketsSentObservationValue
+                                              ] ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                                owl:allValuesFrom :FailedPacketsSent
+                                              ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#FailedPacketsSentObservationValue
+:FailedPacketsSentObservationValue rdf:type owl:Class ;
+                                   rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                                   :QuantityObservationValue ,
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                     owl:onDataRange xsd:integer
+                                                   ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Fault
+:Fault rdf:type owl:Class ;
+       rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Event> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#FaultyPacketsReceived
+:FaultyPacketsReceived rdf:type owl:Class ;
+                       rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#FaultyPacketsReceivedObservation
+:FaultyPacketsReceivedObservation rdf:type owl:Class ;
+                                  rdfs:subClassOf :NetworkTransmissionObservation ,
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                    owl:allValuesFrom :FaultyPacketsReceivedObservationValue
+                                                  ] ,
+                                                  [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                                    owl:allValuesFrom :FaultyPacketsReceived
+                                                  ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#FaultyPacketsReceivedObservationValue
+:FaultyPacketsReceivedObservationValue rdf:type owl:Class ;
+                                       rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                                       :QuantityObservationValue ,
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                         owl:onDataRange xsd:integer
+                                                       ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Humidity
+:Humidity rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#HumidityObservation
+:HumidityObservation rdf:type owl:Class ;
+                     rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                       owl:allValuesFrom :HumidityObservationValue
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                       owl:allValuesFrom :Humidity
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :HumiditySensor
+                                     ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#HumidityObservationValue
+:HumidityObservationValue rdf:type owl:Class ;
+                          rdfs:subClassOf :QuantityObservationValue ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onDataRange xsd:float
+                                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#HumiditySensor
+:HumiditySensor rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/sosa/Sensor>
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                                             owl:someValuesFrom :Humidity
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                  owl:allValuesFrom :Humidity
+                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#IncipientFault
+:IncipientFault rdf:type owl:Class ;
+                rdfs:subClassOf :Fault .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#InternalTemperature
+:InternalTemperature rdf:type owl:Class ;
+                     rdfs:subClassOf :Temperature ,
+                                     <http://www.w3.org/ns/ssn/SystemProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#InternalTemperatureObservation
+:InternalTemperatureObservation rdf:type owl:Class ;
+                                rdfs:subClassOf :TemperatureObservation ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                  owl:allValuesFrom :InternalTemperatureObservationValue
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                                  owl:allValuesFrom :InternalTemperature
+                                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#InternalTemperatureObservationValue
+:InternalTemperatureObservationValue rdf:type owl:Class ;
+                                     rdfs:subClassOf :TemperatureObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#InternalVoltage
+:InternalVoltage rdf:type owl:Class ;
+                 rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> ,
+                                 <http://www.w3.org/ns/ssn/SystemProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#InternalVoltageObservation
+:InternalVoltageObservation rdf:type owl:Class ;
+                            rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                              owl:allValuesFrom :InternalVoltageObservationValue
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                              owl:allValuesFrom :InternalVoltage
+                                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#InternalVoltageObservationValue
+:InternalVoltageObservationValue rdf:type owl:Class ;
+                                 rdfs:subClassOf :QuantityObservationValue ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty :hasUnit ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onClass <http://purl.obolibrary.org/obo/UO_1000218>
+                                                 ] ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onDataRange xsd:float
+                                                 ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightIntensity
+:LightIntensity rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightIntensityObservation
+:LightIntensityObservation rdf:type owl:Class ;
+                           rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                             owl:allValuesFrom :LightIntensityObservationValue
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                             owl:allValuesFrom :LightIntensity
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :LightSensor
+                                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightIntensityObservationValue
+:LightIntensityObservationValue rdf:type owl:Class ;
+                                rdfs:subClassOf :QuantityObservationValue ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty :hasUnit ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass <http://purl.obolibrary.org/obo/UO_1000118>
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onDataRange xsd:float
+                                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightSensor
+:LightSensor rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/sosa/Sensor>
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                                          owl:someValuesFrom :LightIntensity
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                               owl:allValuesFrom :LightIntensity
+                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightSwitch
+:LightSwitch rdf:type owl:Class ;
+             rdfs:subClassOf :Button ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                               owl:allValuesFrom :LightSwitch
+                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightSwitchObservationValue
+:LightSwitchObservationValue rdf:type owl:Class ;
+                             rdfs:subClassOf :ButtonPushObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightSwitchPush
+:LightSwitchPush rdf:type owl:Class ;
+                 rdfs:subClassOf :ButtonPush .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightSwitchPushObservation
+:LightSwitchPushObservation rdf:type owl:Class ;
+                            rdfs:subClassOf :ButtonPushObservation ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                              owl:allValuesFrom :LightSwitchObservationValue
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                              owl:allValuesFrom :LightSwitchPush
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onClass :LightSwitch
+                                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Location
+:Location rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LocationObservation
+:LocationObservation rdf:type owl:Class ;
+                     rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                       owl:allValuesFrom :LocationObservationValue
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                       owl:allValuesFrom :Location
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass <http://www.w3.org/ns/sosa/Sensor>
+                                     ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LocationObservationValue
+:LocationObservationValue rdf:type owl:Class ;
+                          rdfs:subClassOf :ObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Loudness
+:Loudness rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LoudnessObservation
+:LoudnessObservation rdf:type owl:Class ;
+                     rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                       owl:allValuesFrom :LoudnessObservationValue
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                       owl:allValuesFrom :Loudness
+                                     ] ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onClass :LoudnessSensor
+                                     ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LoudnessObservationValue
+:LoudnessObservationValue rdf:type owl:Class ;
+                          rdfs:subClassOf :QuantityObservationValue ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty :hasUnit ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass <http://purl.obolibrary.org/obo/UO_0000259>
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onDataRange xsd:float
+                                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LoudnessSensor
+:LoudnessSensor rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                  owl:allValuesFrom :Loudness
+                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#MissingReportsSymptom
+:MissingReportsSymptom rdf:type owl:Class ;
+                       rdfs:subClassOf :Symptom .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Motion
+:Motion rdf:type owl:Class ;
+        rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#MotionObservation
+:MotionObservation rdf:type owl:Class ;
+                   rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                     owl:allValuesFrom :MotionObservationValue
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                     owl:allValuesFrom :Motion
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                     owl:onClass :MotionSensor
+                                   ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#MotionObservationValue
+:MotionObservationValue rdf:type owl:Class ;
+                        rdfs:subClassOf :StatusChangeObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#MotionSensor
+:MotionSensor rdf:type owl:Class ;
+              rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                owl:allValuesFrom :Motion
+                              ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#NetworkTransmissionObservation
+:NetworkTransmissionObservation rdf:type owl:Class ;
+                                rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                                  owl:allValuesFrom :NetworkTransmissionObservationValue
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                                  owl:allValuesFrom :NetworkTransmissionProperty
+                                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#NetworkTransmissionObservationValue
+:NetworkTransmissionObservationValue rdf:type owl:Class ;
+                                     rdfs:subClassOf :ObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#NetworkTransmissionProperty
+:NetworkTransmissionProperty rdf:type owl:Class ;
+                             rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#NotZeroValueSymptom
+:NotZeroValueSymptom rdf:type owl:Class ;
+                     rdfs:subClassOf :Symptom .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#NrOfPeople
+:NrOfPeople rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#NrOfPeopleObservation
+:NrOfPeopleObservation rdf:type owl:Class ;
+                       rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                         owl:allValuesFrom :NrOfPeopleObservationValue
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                         owl:allValuesFrom :NrOfPeople
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass <http://www.w3.org/ns/sosa/Sensor>
+                                       ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#NrOfPeopleObservationValue
+:NrOfPeopleObservationValue rdf:type owl:Class ;
+                            rdfs:subClassOf :QuantityObservationValue ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                              owl:onDataRange xsd:integer
+                                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ObservationValue
+:ObservationValue rdf:type owl:Class ;
+                  rdfs:subClassOf <http://www.w3.org/ns/sosa/Result> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsDropped
+:PacketsDropped rdf:type owl:Class ;
+                rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsDroppedObservation
+:PacketsDroppedObservation rdf:type owl:Class ;
+                           rdfs:subClassOf :NetworkTransmissionObservation ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                             owl:allValuesFrom :PacketsDroppedObservationValue
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                             owl:allValuesFrom :PacketsDropped
+                                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsDroppedObservationValue
+:PacketsDroppedObservationValue rdf:type owl:Class ;
+                                rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                                :QuantityObservationValue ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                  owl:onDataRange xsd:integer
+                                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsReceived
+:PacketsReceived rdf:type owl:Class ;
+                 rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsReceivedObservation
+:PacketsReceivedObservation rdf:type owl:Class ;
+                            rdfs:subClassOf :NetworkTransmissionObservation ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                              owl:allValuesFrom :PacketsReceivedObservationValue
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                              owl:allValuesFrom :PacketsReceived
+                                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsReceivedObservationValue
+:PacketsReceivedObservationValue rdf:type owl:Class ;
+                                 rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                                 :QuantityObservationValue ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onDataRange xsd:integer
+                                                 ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsSent
+:PacketsSent rdf:type owl:Class ;
+             rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsSentObservation
+:PacketsSentObservation rdf:type owl:Class ;
+                        rdfs:subClassOf :NetworkTransmissionObservation ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                          owl:allValuesFrom :PacketsSentObservationValue
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                          owl:allValuesFrom :PacketsSent
+                                        ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PacketsSentObservationValue
+:PacketsSentObservationValue rdf:type owl:Class ;
+                             rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                             :QuantityObservationValue ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onDataRange xsd:integer
+                                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PersonLieingObservation
+:PersonLieingObservation rdf:type owl:Class ;
+                         rdfs:subClassOf :PersonPositionObservation .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PersonPosition
+:PersonPosition rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PersonPositionObservation
+:PersonPositionObservation rdf:type owl:Class ;
+                           rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                             owl:allValuesFrom :PersonPositionObservationValue
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                             owl:allValuesFrom :PersonPosition
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass <http://www.w3.org/ns/sosa/Sensor>
+                                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PersonPositionObservationValue
+:PersonPositionObservationValue rdf:type owl:Class ;
+                                rdfs:subClassOf :StatusChangeObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PersonSittingObservation
+:PersonSittingObservation rdf:type owl:Class ;
+                          rdfs:subClassOf :PersonPositionObservation .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PersonStandingObservation
+:PersonStandingObservation rdf:type owl:Class ;
+                           rdfs:subClassOf :PersonPositionObservation .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Pressure
+:Pressure rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PressureObservationValue
+:PressureObservationValue rdf:type owl:Class ;
+                          rdfs:subClassOf :StatusChangeObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PressureSensor
+:PressureSensor rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                  owl:allValuesFrom :Pressure
+                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#PressureStatusObservation
+:PressureStatusObservation rdf:type owl:Class ;
+                           rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                             owl:allValuesFrom :PressureObservationValue
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                             owl:allValuesFrom :Pressure
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :PressureSensor
+                                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#QuantityObservationValue
+:QuantityObservationValue rdf:type owl:Class ;
+                          rdfs:subClassOf :ObservationValue ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty :hasUnit ;
+                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                            owl:onClass <http://purl.obolibrary.org/obo/UO_0000000>
+                                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#QueueOccupation
+:QueueOccupation rdf:type owl:Class ;
+                 rdfs:subClassOf :NetworkTransmissionProperty .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#QueueOccupationObservation
+:QueueOccupationObservation rdf:type owl:Class ;
+                            rdfs:subClassOf :NetworkTransmissionObservation ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                              owl:allValuesFrom :QueueOccupationObservationValue
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                              owl:allValuesFrom :QueueOccupation
+                                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#QueueOccupationObservationValue
+:QueueOccupationObservationValue rdf:type owl:Class ;
+                                 rdfs:subClassOf :NetworkTransmissionObservationValue ,
+                                                 :QuantityObservationValue ,
+                                                 [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                   owl:onDataRange xsd:integer
+                                                 ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#RFID
+:RFID rdf:type owl:Class ;
+      rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#RFIDSensor
+:RFIDSensor rdf:type owl:Class ;
+            rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                              owl:allValuesFrom :RFID
+                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#RFIDTag
+:RFIDTag rdf:type owl:Class ;
+         rdfs:subClassOf :Tag .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#RFIDTagObservation
+:RFIDTagObservation rdf:type owl:Class ;
+                    rdfs:subClassOf :TagObservation ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                      owl:allValuesFrom :RFIDTagObservationValue
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                      owl:allValuesFrom :RFID
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                      owl:onClass :RFIDSensor
+                                    ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#RFIDTagObservationValue
+:RFIDTagObservationValue rdf:type owl:Class ;
+                         rdfs:subClassOf :TagObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#SensorStatus
+:SensorStatus rdf:type owl:Class ;
+              rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/General.owl#Status> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Solution
+:Solution rdf:type owl:Class ;
+          rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Event> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Sound
+:Sound rdf:type owl:Class ;
+       rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#SoundObservation
+:SoundObservation rdf:type owl:Class ;
+                  rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                    owl:allValuesFrom :SoundObservationValue
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                    owl:allValuesFrom :Sound
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :SoundSensor
+                                  ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#SoundObservationValue
+:SoundObservationValue rdf:type owl:Class ;
+                       rdfs:subClassOf :QuantityObservationValue ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :hasUnit ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onClass <http://purl.obolibrary.org/obo/UO_0000259>
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                         owl:onDataRange xsd:float
+                                       ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#SoundSensor
+:SoundSensor rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/sosa/Sensor>
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                                          owl:someValuesFrom :Sound
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                               owl:allValuesFrom :Sound
+                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#StatusChangeObservationValue
+:StatusChangeObservationValue rdf:type owl:Class ;
+                              rdfs:subClassOf :ObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Symptom
+:Symptom rdf:type owl:Class ;
+         rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Event> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Tag
+:Tag rdf:type owl:Class ;
+     rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#PhysicalObject> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TagObservation
+:TagObservation rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TagObservationValue
+:TagObservationValue rdf:type owl:Class ;
+                     rdfs:subClassOf :ObservationValue ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                       owl:onDataRange xsd:string
+                                     ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Temperature
+:Temperature rdf:type owl:Class ;
+             rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TemperatureObservation
+:TemperatureObservation rdf:type owl:Class ;
+                        rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                          owl:allValuesFrom :TemperatureObservationValue
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                          owl:allValuesFrom :Temperature
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :TemperatureSensor
+                                        ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TemperatureObservationValue
+:TemperatureObservationValue rdf:type owl:Class ;
+                             rdfs:subClassOf :QuantityObservationValue ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty :hasUnit ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onClass <http://purl.obolibrary.org/obo/UO_0000005>
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                               owl:onDataRange xsd:float
+                                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TemperatureSensor
+:TemperatureSensor rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( <http://www.w3.org/ns/sosa/Sensor>
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                                                owl:someValuesFrom :Temperature
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                                     owl:allValuesFrom :Temperature
+                                   ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Threshold
+:Threshold rdf:type owl:Class ;
+           rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Amount> ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasUnit ;
+                             owl:someValuesFrom <http://purl.obolibrary.org/obo/UO_0000000>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                             owl:someValuesFrom xsd:float
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ThresholdSymptom
+:ThresholdSymptom rdf:type owl:Class ;
+                  rdfs:subClassOf :Symptom .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Tilt
+:Tilt rdf:type owl:Class ;
+      rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TiltCompass
+:TiltCompass rdf:type owl:Class ;
+             rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                               owl:allValuesFrom :Tilt
+                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TiltObservation
+:TiltObservation rdf:type owl:Class ;
+                 rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                   owl:allValuesFrom :TiltObservationValue
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                   owl:allValuesFrom :Tilt
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :TiltCompass
+                                 ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TiltObservationValue
+:TiltObservationValue rdf:type owl:Class ;
+                      rdfs:subClassOf :QuantityObservationValue ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#hasDataValue> ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:float
+                                      ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Touch
+:Touch rdf:type owl:Class ;
+       rdfs:subClassOf <http://www.w3.org/ns/sosa/ObservableProperty> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TouchObservation
+:TouchObservation rdf:type owl:Class ;
+                  rdfs:subClassOf <http://www.w3.org/ns/sosa/Observation> ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://www.w3.org/ns/sosa/hasResult> ;
+                                    owl:allValuesFrom :TouchObservationValue
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://www.w3.org/ns/sosa/observedProperty> ;
+                                    owl:allValuesFrom :Touch
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <http://www.w3.org/ns/sosa/madeBySensor> ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :TouchSensor
+                                  ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TouchObservationValue
+:TouchObservationValue rdf:type owl:Class ;
+                       rdfs:subClassOf :StatusChangeObservationValue .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TouchSensor
+:TouchSensor rdf:type owl:Class ;
+             rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                               owl:allValuesFrom :Touch
+                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#XetalKinsei
+:XetalKinsei rdf:type owl:Class ;
+             rdfs:subClassOf <http://www.w3.org/ns/sosa/Sensor> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.w3.org/ns/sosa/observes> ;
+                               owl:someValuesFrom [ rdf:type owl:Class ;
+                                                    owl:unionOf ( :BatteryLevel
+                                                                  :Location
+                                                                  :NrOfPeople
+                                                                  :PersonPosition
+                                                                )
+                                                  ]
+                             ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#ZeroValueSymptom
+:ZeroValueSymptom rdf:type owl:Class ;
+                  rdfs:subClassOf :Symptom .
+
+
+###  http://www.w3.org/ns/sosa/ObservableProperty
+<http://www.w3.org/ns/sosa/ObservableProperty> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/sosa/Observation
+<http://www.w3.org/ns/sosa/Observation> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/sosa/Result
+<http://www.w3.org/ns/sosa/Result> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/sosa/Sensor
+<http://www.w3.org/ns/sosa/Sensor> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/ssn/System
+<http://www.w3.org/ns/ssn/System> rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/ssn/SystemProperty
+<http://www.w3.org/ns/ssn/SystemProperty> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#Off
+:Off rdf:type owl:NamedIndividual ,
+              :SensorStatus .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#On
+:On rdf:type owl:NamedIndividual ,
+             :SensorStatus .
+
+
+###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi

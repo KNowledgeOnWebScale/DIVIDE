@@ -1,0 +1,40 @@
+@prefix : <http://idlab.ugent.be/sensdesc/query#> .
+
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:prefixes
+	rdf:type owl:Ontology ;
+	sh:declare [ sh:prefix "xsd" ; sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "ssn" ; sh:namespace "http://www.w3.org/ns/ssn/"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "sosa" ; sh:namespace "http://www.w3.org/ns/sosa/"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "General" ; sh:namespace "http://IBCNServices.github.io/Accio-Ontology/General.owl#"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "CareRoomMonitoring" ; sh:namespace "http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "DUL" ; sh:namespace "http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#"^^xsd:anyURI ] .
+
+:pattern-1
+    rdf:type sd:QueryPattern ;
+    sh:prefixes :prefixes ;
+    sh:construct """
+        CONSTRUCT {
+            ?o a CareRoomMonitoring:AboveThresholdAction ;
+               ssn:forProperty ?prop .
+        }
+        FROM NAMED WINDOW :win ON <http://idlab.ugent.be/grove> [RANGE PT1S TUMBLING]
+        WHERE {
+            WINDOW :win {
+                ?o a sosa:Observation ;
+                   sosa:madeBySensor ?sensor ;
+                   sosa:hasResult [ DUL:hasDataValue ?v ] ;
+                   sosa:resultTime ?t ;
+                   General:hasId [ General:hasID ?id ] .
+                FILTER (xsd:float(?v) > xsd:float(?threshold))
+            }
+        }
+        ORDER BY DESC(?t)
+        LIMIT 1
+        """ .

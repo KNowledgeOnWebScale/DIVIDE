@@ -1,0 +1,1131 @@
+#Processed by EYE v19.0202.2255 josd
+#eye outputs/ontology.n3 outputs/rules.n3 sensor-query.n3 --turtle context.ttl --query find-actions.n3
+
+PREFIX var: <http://josd.github.io/eye/.well-known/genid/iWrx8prZLAKK1S1dV9uXej4QsaU#>
+PREFIX uo: <http://IBCNServices.github.io/Accio-Ontology/ontologies/uo.owl#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ssnDUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/ssnDUL.owl#>
+PREFIX NurseCall: <http://IBCNServices.github.io/Accio-Ontology/NurseCall.owl#>
+PREFIX TaskAccio: <http://IBCNServices.github.io/Accio-Ontology/TaskAccio.owl#>
+PREFIX PersonProfileAccio: <http://IBCNServices.github.io/Accio-Ontology/PersonProfileAccio.owl#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX vann: <http://purl.org/vocab/vann/>
+PREFIX terms: <http://purl.org/dc/terms/>
+PREFIX schema: <http://schema.org/>
+PREFIX voaf: <http://purl.org/vocommons/voaf#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX ns1: <http://www.w3.org/2006/time#>
+PREFIX tzont: <http://www.w3.org/2006/timezone#>
+PREFIX ns2: <https://w3id.org/saref#>
+PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX ns3: <https://github.ugent.be/darndt/SRWithEye/example#>
+PREFIX ns4: <http://eulersharp.sourceforge.net/.well-known/genid/myVariables>
+PREFIX ns5: <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/preprocessing/ex#>
+PREFIX ns6: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX : <http://occs.intec.ugent.be/ontology/entity#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX DUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#>
+PREFIX SSNiot: <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#>
+PREFIX General: <http://IBCNServices.github.io/Accio-Ontology/General.owl#>
+PREFIX SAREFiot: <http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#>
+PREFIX ContextAccio: <http://IBCNServices.github.io/Accio-Ontology/ContextAccio.owl#>
+PREFIX Localization: <http://IBCNServices.github.io/Accio-Ontology/Localization.owl#>
+PREFIX RoleCompetenceAccio: <http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#>
+PREFIX CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:gives {
+    _:sk_2 a CareRoomMonitoring:AboveThresholdAction.
+    _:sk_8 a CareRoomMonitoring:AboveThresholdAction.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    _:sk_2 a CareRoomMonitoring:AboveThresholdAction.
+  };
+  r:evidence (
+    <#lemma3>
+  );
+  r:rule <#lemma4>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    _:sk_8 a CareRoomMonitoring:AboveThresholdAction.
+  };
+  r:evidence (
+    <#lemma5>
+  );
+  r:rule <#lemma4>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    _:sk_2 a CareRoomMonitoring:AboveThresholdAction.
+  };
+  r:evidence (
+    <#lemma6>
+  );
+  r:rule <#lemma7>.
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    {?x_0_1 a CareRoomMonitoring:AboveThresholdAction} => {?x_0_1 a CareRoomMonitoring:AboveThresholdAction}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/find-actions.n3>].
+
+<#lemma5> a r:Inference;
+  r:gives {
+    _:sk_8 a CareRoomMonitoring:AboveThresholdAction.
+  };
+  r:evidence (
+    <#lemma8>
+  );
+  r:rule <#lemma9>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    _:sk_2 a CareRoomMonitoring:HandleHighLightInRoomAction.
+  };
+  r:evidence (
+    <#lemma10>
+  );
+  r:rule <#lemma11>.
+
+<#lemma7> a r:Extraction;
+  r:gives {
+    {?x_0_2 a CareRoomMonitoring:HandleHighLightInRoomAction} => {?x_0_2 a CareRoomMonitoring:AboveThresholdAction}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma8> a r:Inference;
+  r:gives {
+    _:sk_8 a CareRoomMonitoring:HandleHighSoundInRoomAction.
+  };
+  r:evidence (
+    <#lemma12>
+  );
+  r:rule <#lemma13>.
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    {?x_0_3 a CareRoomMonitoring:HandleHighSoundInRoomAction} => {?x_0_3 a CareRoomMonitoring:AboveThresholdAction}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma10> a r:Inference;
+  r:gives {
+    _:sk_2 a var:bn_3.
+  };
+  r:evidence (
+    <#lemma14>
+    <#lemma15>
+  );
+  r:rule <#lemma16>.
+
+<#lemma11> a r:Extraction;
+  r:gives {
+    {?x_0_4 a var:bn_3} => {?x_0_4 a CareRoomMonitoring:HandleHighLightInRoomAction}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma12> a r:Inference;
+  r:gives {
+    _:sk_8 a var:bn_10.
+  };
+  r:evidence (
+    <#lemma17>
+    <#lemma18>
+  );
+  r:rule <#lemma19>.
+
+<#lemma13> a r:Extraction;
+  r:gives {
+    {?x_0_5 a var:bn_10} => {?x_0_5 a CareRoomMonitoring:HandleHighSoundInRoomAction}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma14> a r:Inference;
+  r:gives {
+    _:sk_2 a CareRoomMonitoring:LightIntensityAboveThresholdFault.
+  };
+  r:evidence (
+    <#lemma20>
+  );
+  r:rule <#lemma21>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    _:sk_2 a var:bn_4.
+  };
+  r:evidence (
+    <#lemma22>
+    <#lemma23>
+  );
+  r:rule <#lemma24>.
+
+<#lemma16> a r:Extraction;
+  r:gives {
+    {?x_0_6 a CareRoomMonitoring:LightIntensityAboveThresholdFault.
+     ?x_0_6 a var:bn_4} => {?x_0_6 a var:bn_3}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma17> a r:Inference;
+  r:gives {
+    _:sk_8 a CareRoomMonitoring:SoundAboveThresholdFault.
+  };
+  r:evidence (
+    <#lemma25>
+  );
+  r:rule <#lemma26>.
+
+<#lemma18> a r:Inference;
+  r:gives {
+    _:sk_8 a var:bn_11.
+  };
+  r:evidence (
+    <#lemma27>
+    <#lemma28>
+  );
+  r:rule <#lemma29>.
+
+<#lemma19> a r:Extraction;
+  r:gives {
+    {?x_0_7 a CareRoomMonitoring:SoundAboveThresholdFault.
+     ?x_0_7 a var:bn_11} => {?x_0_7 a var:bn_10}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma20> a r:Inference;
+  r:gives {
+    _:sk_2 a var:bn_31.
+  };
+  r:evidence (
+    <#lemma30>
+    <#lemma31>
+  );
+  r:rule <#lemma32>.
+
+<#lemma21> a r:Extraction;
+  r:gives {
+    {?x_0_8 a var:bn_31} => {?x_0_8 a CareRoomMonitoring:LightIntensityAboveThresholdFault}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma22> a r:Inference;
+  r:gives {
+    _:sk_0 a sd:Query.
+    _:sk_0 sd:pattern ns6:pattern-1.
+    _:sk_0 sd:inputVariables (("?prop" SSNiot:LightIntensity) ("?threshold" "170.0"^^xsd:float) ("?sensor" <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0>)).
+    _:sk_0 sd:outputVariables (("?v" _:sk_1) ("?o" _:sk_2)).
+    _:sk_2 a sosa:Observation.
+    _:sk_2 sosa:madeBySensor <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0>.
+    _:sk_2 sosa:hasResult _:sk_3.
+    _:sk_3 a SSNiot:QuantityObservationValue.
+    _:sk_3 DUL:hasDataValue _:sk_1.
+    _:sk_2 SSNiot:hasSymptom _:sk_4.
+    _:sk_4 a SSNiot:ThresholdSymptom.
+    _:sk_4 ssn:forProperty _:sk_5.
+    _:sk_5 a SSNiot:LightIntensity.
+  };
+  r:evidence (
+    <#lemma33>
+    <#lemma34>
+    <#lemma35>
+    <#lemma36>
+    <#lemma37>
+    <#lemma38>
+    <#lemma39>
+    <#lemma40>
+    <#lemma41>
+    <#lemma42>
+    <#lemma43>
+    <#lemma44>
+    <#lemma45>
+    <#lemma46>
+    <#lemma47>
+  );
+  r:rule <#lemma48>.
+
+<#lemma23> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0> a var:bn_5.
+  };
+  r:evidence (
+    <#lemma45>
+    <#lemma49>
+  );
+  r:rule <#lemma50>.
+
+<#lemma24> a r:Extraction;
+  r:gives {
+    {?x_0_9 sosa:madeBySensor ?x_1_9.
+     ?x_1_9 a var:bn_5} => {?x_0_9 a var:bn_4}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma25> a r:Inference;
+  r:gives {
+    _:sk_8 a var:bn_53.
+  };
+  r:evidence (
+    <#lemma51>
+    <#lemma52>
+  );
+  r:rule <#lemma53>.
+
+<#lemma26> a r:Extraction;
+  r:gives {
+    {?x_0_10 a var:bn_53} => {?x_0_10 a CareRoomMonitoring:SoundAboveThresholdFault}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma27> a r:Inference;
+  r:gives {
+    _:sk_6 a sd:Query.
+    _:sk_6 sd:pattern ns6:pattern-1.
+    _:sk_6 sd:inputVariables (("?prop" SSNiot:Sound) ("?threshold" "30.0"^^xsd:float) ("?sensor" <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1>)).
+    _:sk_6 sd:outputVariables (("?v" _:sk_7) ("?o" _:sk_8)).
+    _:sk_8 a sosa:Observation.
+    _:sk_8 sosa:madeBySensor <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1>.
+    _:sk_8 sosa:hasResult _:sk_9.
+    _:sk_9 a SSNiot:QuantityObservationValue.
+    _:sk_9 DUL:hasDataValue _:sk_7.
+    _:sk_8 SSNiot:hasSymptom _:sk_10.
+    _:sk_10 a SSNiot:ThresholdSymptom.
+    _:sk_10 ssn:forProperty _:sk_11.
+    _:sk_11 a SSNiot:Sound.
+  };
+  r:evidence (
+    <#lemma33>
+    <#lemma34>
+    <#lemma35>
+    <#lemma36>
+    <#lemma54>
+    <#lemma55>
+    <#lemma56>
+    <#lemma57>
+    <#lemma58>
+    <#lemma59>
+    <#lemma60>
+    <#lemma61>
+    <#lemma62>
+    <#lemma46>
+    <#lemma63>
+  );
+  r:rule <#lemma48>.
+
+<#lemma28> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1> a var:bn_12.
+  };
+  r:evidence (
+    <#lemma62>
+    <#lemma64>
+  );
+  r:rule <#lemma65>.
+
+<#lemma29> a r:Extraction;
+  r:gives {
+    {?x_0_11 sosa:madeBySensor ?x_1_11.
+     ?x_1_11 a var:bn_12} => {?x_0_11 a var:bn_11}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma30> a r:Inference;
+  r:gives {
+    _:sk_2 a var:bn_32.
+  };
+  r:evidence (
+    <#lemma22>
+    <#lemma66>
+  );
+  r:rule <#lemma67>.
+
+<#lemma31> a r:Inference;
+  r:gives {
+    _:sk_2 a var:bn_33.
+  };
+  r:evidence (
+    <#lemma22>
+    <#lemma68>
+  );
+  r:rule <#lemma69>.
+
+<#lemma32> a r:Extraction;
+  r:gives {
+    {?x_0_12 a var:bn_32.
+     ?x_0_12 a var:bn_33} => {?x_0_12 a var:bn_31}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma33> a r:Extraction;
+  r:gives {
+    :Bob DUL:hasRole _:t_0.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma34> a r:Extraction;
+  r:gives {
+    _:t_0 a RoleCompetenceAccio:PatientRole.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma35> a r:Extraction;
+  r:gives {
+    :Bob DUL:hasLocation :R101.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma36> a r:Extraction;
+  r:gives {
+    :Bob CareRoomMonitoring:hasDiagnosis CareRoomMonitoring:Concussion.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma37> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:Concussion CareRoomMonitoring:hasMedicalSymptom CareRoomMonitoring:ConcussionSensitivenessToLight.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma38> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionSensitivenessToLight SSNiot:hasThreshold CareRoomMonitoring:ConcussionLightIntensityThreshold.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma39> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionLightIntensityThreshold DUL:hasDataValue "170.0"^^xsd:float.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma40> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionLightIntensityThreshold SSNiot:isThresholdOnProperty CareRoomMonitoring:_LightIntensity.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma41> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:_LightIntensity a SSNiot:LightIntensity.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma42> a r:Extraction;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0> a sosa:Sensor.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma43> a r:Extraction;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0> sosa:observes _:t_1.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma44> a r:Extraction;
+  r:gives {
+    _:t_1 a SSNiot:LightIntensity.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma45> a r:Extraction;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0> SSNiot:isSubsystemOf <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6>.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma46> a r:Extraction;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6> DUL:hasLocation :R101.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma47> a r:Extraction;
+  r:gives {
+    SSNiot:LightIntensity rdfs:subClassOf sosa:ObservableProperty.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma48> a r:Extraction;
+  r:gives {
+    {?x_0_13 DUL:hasRole ?x_1_13.
+     ?x_1_13 a RoleCompetenceAccio:PatientRole.
+     ?x_0_13 DUL:hasLocation ?x_2_13.
+     ?x_0_13 CareRoomMonitoring:hasDiagnosis ?x_3_13.
+     ?x_3_13 CareRoomMonitoring:hasMedicalSymptom ?x_4_13.
+     ?x_4_13 SSNiot:hasThreshold ?x_5_13.
+     ?x_5_13 DUL:hasDataValue ?x_6_13.
+     ?x_5_13 SSNiot:isThresholdOnProperty ?x_7_13.
+     ?x_7_13 a ?x_8_13.
+     ?x_9_13 a sosa:Sensor.
+     ?x_9_13 sosa:observes ?x_10_13.
+     ?x_10_13 a ?x_8_13.
+     ?x_9_13 SSNiot:isSubsystemOf ?x_11_13.
+     ?x_11_13 DUL:hasLocation ?x_2_13.
+     ?x_8_13 rdfs:subClassOf sosa:ObservableProperty} => {_:x_12_13 a sd:Query.
+     _:x_12_13 sd:pattern ns6:pattern-1.
+     _:x_12_13 sd:inputVariables (("?prop" ?x_8_13) ("?threshold" ?x_6_13) ("?sensor" ?x_9_13)).
+     _:x_12_13 sd:outputVariables (("?v" _:x_13_13) ("?o" _:x_14_13)).
+     _:x_14_13 a sosa:Observation.
+     _:x_14_13 sosa:madeBySensor ?x_9_13.
+     _:x_14_13 sosa:hasResult _:x_15_13.
+     _:x_15_13 a SSNiot:QuantityObservationValue.
+     _:x_15_13 DUL:hasDataValue _:x_13_13.
+     _:x_14_13 SSNiot:hasSymptom _:x_16_13.
+     _:x_16_13 a SSNiot:ThresholdSymptom.
+     _:x_16_13 ssn:forProperty _:x_17_13.
+     _:x_17_13 a ?x_8_13}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/sensor-query.n3>].
+
+<#lemma49> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6> a var:bn_6.
+  };
+  r:evidence (
+    <#lemma46>
+    <#lemma70>
+  );
+  r:rule <#lemma71>.
+
+<#lemma50> a r:Extraction;
+  r:gives {
+    {?x_0_14 SSNiot:isSubsystemOf ?x_1_14.
+     ?x_1_14 a var:bn_6} => {?x_0_14 a var:bn_5}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma51> a r:Inference;
+  r:gives {
+    _:sk_8 a var:bn_54.
+  };
+  r:evidence (
+    <#lemma27>
+    <#lemma72>
+  );
+  r:rule <#lemma73>.
+
+<#lemma52> a r:Inference;
+  r:gives {
+    _:sk_8 a var:bn_55.
+  };
+  r:evidence (
+    <#lemma27>
+    <#lemma74>
+  );
+  r:rule <#lemma75>.
+
+<#lemma53> a r:Extraction;
+  r:gives {
+    {?x_0_15 a var:bn_54.
+     ?x_0_15 a var:bn_55} => {?x_0_15 a var:bn_53}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma54> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:Concussion CareRoomMonitoring:hasMedicalSymptom CareRoomMonitoring:ConcussionSensitivenessToSound.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma55> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionSensitivenessToSound SSNiot:hasThreshold CareRoomMonitoring:ConcussionSoundThreshold.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma56> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionSoundThreshold DUL:hasDataValue "30.0"^^xsd:float.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma57> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionSoundThreshold SSNiot:isThresholdOnProperty CareRoomMonitoring:_Sound.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma58> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:_Sound a SSNiot:Sound.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma59> a r:Extraction;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1> a sosa:Sensor.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma60> a r:Extraction;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1> sosa:observes _:t_2.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma61> a r:Extraction;
+  r:gives {
+    _:t_2 a SSNiot:Sound.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma62> a r:Extraction;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1> SSNiot:isSubsystemOf <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6>.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma63> a r:Extraction;
+  r:gives {
+    SSNiot:Sound rdfs:subClassOf sosa:ObservableProperty.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma64> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6> a var:bn_13.
+  };
+  r:evidence (
+    <#lemma46>
+    <#lemma76>
+  );
+  r:rule <#lemma77>.
+
+<#lemma65> a r:Extraction;
+  r:gives {
+    {?x_0_16 SSNiot:isSubsystemOf ?x_1_16.
+     ?x_1_16 a var:bn_13} => {?x_0_16 a var:bn_12}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma66> a r:Inference;
+  r:gives {
+    _:sk_4 a CareRoomMonitoring:LightIntensityAboveThresholdSymptom.
+  };
+  r:evidence (
+    <#lemma78>
+  );
+  r:rule <#lemma79>.
+
+<#lemma67> a r:Extraction;
+  r:gives {
+    {?x_0_17 SSNiot:hasSymptom ?x_1_17.
+     ?x_1_17 a CareRoomMonitoring:LightIntensityAboveThresholdSymptom} => {?x_0_17 a var:bn_32}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma68> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0> a var:bn_34.
+  };
+  r:evidence (
+    <#lemma45>
+    <#lemma80>
+  );
+  r:rule <#lemma81>.
+
+<#lemma69> a r:Extraction;
+  r:gives {
+    {?x_0_18 sosa:madeBySensor ?x_1_18.
+     ?x_1_18 a var:bn_34} => {?x_0_18 a var:bn_33}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma70> a r:Inference;
+  r:gives {
+    :R101 a var:bn_7.
+  };
+  r:evidence (
+    <#lemma82>
+    <#lemma83>
+  );
+  r:rule <#lemma84>.
+
+<#lemma71> a r:Extraction;
+  r:gives {
+    {?x_0_19 DUL:hasLocation ?x_1_19.
+     ?x_1_19 a var:bn_7} => {?x_0_19 a var:bn_6}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma72> a r:Inference;
+  r:gives {
+    _:sk_10 a CareRoomMonitoring:SoundAboveThresholdSymptom.
+  };
+  r:evidence (
+    <#lemma85>
+  );
+  r:rule <#lemma86>.
+
+<#lemma73> a r:Extraction;
+  r:gives {
+    {?x_0_20 SSNiot:hasSymptom ?x_1_20.
+     ?x_1_20 a CareRoomMonitoring:SoundAboveThresholdSymptom} => {?x_0_20 a var:bn_54}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma74> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A1> a var:bn_56.
+  };
+  r:evidence (
+    <#lemma62>
+    <#lemma87>
+  );
+  r:rule <#lemma88>.
+
+<#lemma75> a r:Extraction;
+  r:gives {
+    {?x_0_21 sosa:madeBySensor ?x_1_21.
+     ?x_1_21 a var:bn_56} => {?x_0_21 a var:bn_55}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma76> a r:Inference;
+  r:gives {
+    :R101 a var:bn_14.
+  };
+  r:evidence (
+    <#lemma89>
+    <#lemma90>
+  );
+  r:rule <#lemma91>.
+
+<#lemma77> a r:Extraction;
+  r:gives {
+    {?x_0_22 DUL:hasLocation ?x_1_22.
+     ?x_1_22 a var:bn_14} => {?x_0_22 a var:bn_13}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma78> a r:Inference;
+  r:gives {
+    _:sk_4 a var:bn_41.
+  };
+  r:evidence (
+    <#lemma22>
+    <#lemma92>
+  );
+  r:rule <#lemma93>.
+
+<#lemma79> a r:Extraction;
+  r:gives {
+    {?x_0_23 a var:bn_41} => {?x_0_23 a CareRoomMonitoring:LightIntensityAboveThresholdSymptom}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma80> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6> a var:bn_35.
+  };
+  r:evidence (
+    <#lemma46>
+    <#lemma94>
+  );
+  r:rule <#lemma95>.
+
+<#lemma81> a r:Extraction;
+  r:gives {
+    {?x_0_24 SSNiot:isSubsystemOf ?x_1_24.
+     ?x_1_24 a var:bn_35} => {?x_0_24 a var:bn_34}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma82> a r:Inference;
+  r:gives {
+    :R101 DUL:isLocationOf :RoomLight_R101.
+  };
+  r:evidence (
+    <#lemma96>
+  );
+  r:rule <#lemma97>.
+
+<#lemma83> a r:Inference;
+  r:gives {
+    :RoomLight_R101 a SAREFiot:LightingDevice.
+  };
+  r:evidence (
+    <#lemma98>
+  );
+  r:rule <#lemma99>.
+
+<#lemma84> a r:Extraction;
+  r:gives {
+    {?x_0_25 DUL:isLocationOf ?x_1_25.
+     ?x_1_25 a SAREFiot:LightingDevice} => {?x_0_25 a var:bn_7}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma85> a r:Inference;
+  r:gives {
+    _:sk_10 a var:bn_63.
+  };
+  r:evidence (
+    <#lemma27>
+    <#lemma100>
+  );
+  r:rule <#lemma101>.
+
+<#lemma86> a r:Extraction;
+  r:gives {
+    {?x_0_26 a var:bn_63} => {?x_0_26 a CareRoomMonitoring:SoundAboveThresholdSymptom}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma87> a r:Inference;
+  r:gives {
+    <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6> a var:bn_57.
+  };
+  r:evidence (
+    <#lemma46>
+    <#lemma102>
+  );
+  r:rule <#lemma103>.
+
+<#lemma88> a r:Extraction;
+  r:gives {
+    {?x_0_27 SSNiot:isSubsystemOf ?x_1_27.
+     ?x_1_27 a var:bn_57} => {?x_0_27 a var:bn_56}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma89> a r:Inference;
+  r:gives {
+    :R101 DUL:isLocationOf :TV_R101.
+  };
+  r:evidence (
+    <#lemma104>
+  );
+  r:rule <#lemma97>.
+
+<#lemma90> a r:Inference;
+  r:gives {
+    :TV_R101 a SAREFiot:SoundInfluencingDevice.
+  };
+  r:evidence (
+    <#lemma105>
+  );
+  r:rule <#lemma106>.
+
+<#lemma91> a r:Extraction;
+  r:gives {
+    {?x_0_28 DUL:isLocationOf ?x_1_28.
+     ?x_1_28 a SAREFiot:SoundInfluencingDevice} => {?x_0_28 a var:bn_14}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma92> a r:Inference;
+  r:gives {
+    _:sk_4 a var:bn_42.
+  };
+  r:evidence (
+    <#lemma22>
+    <#lemma22>
+  );
+  r:rule <#lemma107>.
+
+<#lemma93> a r:Extraction;
+  r:gives {
+    {?x_0_29 a SSNiot:ThresholdSymptom.
+     ?x_0_29 a var:bn_42} => {?x_0_29 a var:bn_41}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma94> a r:Inference;
+  r:gives {
+    :R101 a var:bn_36.
+  };
+  r:evidence (
+    <#lemma108>
+    <#lemma109>
+  );
+  r:rule <#lemma110>.
+
+<#lemma95> a r:Extraction;
+  r:gives {
+    {?x_0_30 DUL:hasLocation ?x_1_30.
+     ?x_1_30 a var:bn_36} => {?x_0_30 a var:bn_35}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma96> a r:Extraction;
+  r:gives {
+    :RoomLight_R101 DUL:hasLocation :R101.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma97> a r:Extraction;
+  r:gives {
+    {?x_0_31 DUL:hasLocation ?x_1_31} => {?x_1_31 DUL:isLocationOf ?x_0_31}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma98> a r:Extraction;
+  r:gives {
+    :RoomLight_R101 a SAREFiot:RoomLight.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma99> a r:Extraction;
+  r:gives {
+    {?x_0_32 a SAREFiot:RoomLight} => {?x_0_32 a SAREFiot:LightingDevice}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma100> a r:Inference;
+  r:gives {
+    _:sk_10 a var:bn_64.
+  };
+  r:evidence (
+    <#lemma27>
+    <#lemma27>
+  );
+  r:rule <#lemma111>.
+
+<#lemma101> a r:Extraction;
+  r:gives {
+    {?x_0_33 a SSNiot:ThresholdSymptom.
+     ?x_0_33 a var:bn_64} => {?x_0_33 a var:bn_63}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma102> a r:Inference;
+  r:gives {
+    :R101 a var:bn_58.
+  };
+  r:evidence (
+    <#lemma108>
+    <#lemma112>
+  );
+  r:rule <#lemma113>.
+
+<#lemma103> a r:Extraction;
+  r:gives {
+    {?x_0_34 DUL:hasLocation ?x_1_34.
+     ?x_1_34 a var:bn_58} => {?x_0_34 a var:bn_57}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma104> a r:Extraction;
+  r:gives {
+    :TV_R101 DUL:hasLocation :R101.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma105> a r:Extraction;
+  r:gives {
+    :TV_R101 a SAREFiot:TV.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/context.ttl>].
+
+<#lemma106> a r:Extraction;
+  r:gives {
+    {?x_0_35 a SAREFiot:TV} => {?x_0_35 a SAREFiot:SoundInfluencingDevice}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma107> a r:Extraction;
+  r:gives {
+    {?x_0_36 ssn:forProperty ?x_1_36.
+     ?x_1_36 a SSNiot:LightIntensity} => {?x_0_36 a var:bn_42}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma108> a r:Inference;
+  r:gives {
+    :R101 DUL:isLocationOf :Bob.
+  };
+  r:evidence (
+    <#lemma35>
+  );
+  r:rule <#lemma97>.
+
+<#lemma109> a r:Inference;
+  r:gives {
+    :Bob a var:bn_37.
+  };
+  r:evidence (
+    <#lemma114>
+    <#lemma115>
+  );
+  r:rule <#lemma116>.
+
+<#lemma110> a r:Extraction;
+  r:gives {
+    {?x_0_37 DUL:isLocationOf ?x_1_37.
+     ?x_1_37 a var:bn_37} => {?x_0_37 a var:bn_36}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma111> a r:Extraction;
+  r:gives {
+    {?x_0_38 ssn:forProperty ?x_1_38.
+     ?x_1_38 a SSNiot:Sound} => {?x_0_38 a var:bn_64}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma112> a r:Inference;
+  r:gives {
+    :Bob a var:bn_59.
+  };
+  r:evidence (
+    <#lemma117>
+    <#lemma118>
+  );
+  r:rule <#lemma119>.
+
+<#lemma113> a r:Extraction;
+  r:gives {
+    {?x_0_39 DUL:isLocationOf ?x_1_39.
+     ?x_1_39 a var:bn_59} => {?x_0_39 a var:bn_58}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma114> a r:Inference;
+  r:gives {
+    :Bob a var:bn_38.
+  };
+  r:evidence (
+    <#lemma36>
+    <#lemma120>
+  );
+  r:rule <#lemma121>.
+
+<#lemma115> a r:Inference;
+  r:gives {
+    :Bob a var:bn_40.
+  };
+  r:evidence (
+    <#lemma33>
+    <#lemma34>
+  );
+  r:rule <#lemma122>.
+
+<#lemma116> a r:Extraction;
+  r:gives {
+    {?x_0_40 a var:bn_38.
+     ?x_0_40 a var:bn_40} => {?x_0_40 a var:bn_37}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma117> a r:Inference;
+  r:gives {
+    :Bob a var:bn_60.
+  };
+  r:evidence (
+    <#lemma36>
+    <#lemma123>
+  );
+  r:rule <#lemma124>.
+
+<#lemma118> a r:Inference;
+  r:gives {
+    :Bob a var:bn_62.
+  };
+  r:evidence (
+    <#lemma33>
+    <#lemma34>
+  );
+  r:rule <#lemma125>.
+
+<#lemma119> a r:Extraction;
+  r:gives {
+    {?x_0_41 a var:bn_60.
+     ?x_0_41 a var:bn_62} => {?x_0_41 a var:bn_59}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma120> a r:Inference;
+  r:gives {
+    CareRoomMonitoring:Concussion a var:bn_39.
+  };
+  r:evidence (
+    <#lemma37>
+    <#lemma126>
+  );
+  r:rule <#lemma127>.
+
+<#lemma121> a r:Extraction;
+  r:gives {
+    {?x_0_42 CareRoomMonitoring:hasDiagnosis ?x_1_42.
+     ?x_1_42 a var:bn_39} => {?x_0_42 a var:bn_38}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma122> a r:Extraction;
+  r:gives {
+    {?x_0_43 DUL:hasRole ?x_1_43.
+     ?x_1_43 a RoleCompetenceAccio:PatientRole} => {?x_0_43 a var:bn_40}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma123> a r:Inference;
+  r:gives {
+    CareRoomMonitoring:Concussion a var:bn_61.
+  };
+  r:evidence (
+    <#lemma54>
+    <#lemma128>
+  );
+  r:rule <#lemma129>.
+
+<#lemma124> a r:Extraction;
+  r:gives {
+    {?x_0_44 CareRoomMonitoring:hasDiagnosis ?x_1_44.
+     ?x_1_44 a var:bn_61} => {?x_0_44 a var:bn_60}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma125> a r:Extraction;
+  r:gives {
+    {?x_0_45 DUL:hasRole ?x_1_45.
+     ?x_1_45 a RoleCompetenceAccio:PatientRole} => {?x_0_45 a var:bn_62}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma126> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionSensitivenessToLight a CareRoomMonitoring:SensitiveToLight.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma127> a r:Extraction;
+  r:gives {
+    {?x_0_46 CareRoomMonitoring:hasMedicalSymptom ?x_1_46.
+     ?x_1_46 a CareRoomMonitoring:SensitiveToLight} => {?x_0_46 a var:bn_39}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+<#lemma128> a r:Extraction;
+  r:gives {
+    CareRoomMonitoring:ConcussionSensitivenessToSound a CareRoomMonitoring:SensitiveToSound.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/ontology.n3>].
+
+<#lemma129> a r:Extraction;
+  r:gives {
+    {?x_0_47 CareRoomMonitoring:hasMedicalSymptom ?x_1_47.
+     ?x_1_47 a CareRoomMonitoring:SensitiveToSound} => {?x_0_47 a var:bn_61}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/sensdesc/DIVIDE/evaluation/1-divide-performance/outputs/rules.n3>].
+
+#2019-06-23T13:54:02.217Z in=18359 out=2 ent=5820 step=626892 brake=11 inf=12578159 sec=0.777 inf/sec=16188107
+#ENDS
+

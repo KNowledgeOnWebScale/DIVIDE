@@ -1,0 +1,140 @@
+@prefix : <http://idlab.ugent.be/sensdesc/query#> .
+
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+@prefix r: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+# first rule to start substitution
+{
+    ?q rdf:type sd:Query ;
+       sd:pattern ?p ;
+       sd:inputVariables ?v .
+    ?p sh:construct ?s .
+    ?v math:memberCount ?c .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sh:construct ?s ;
+        sd:replacementsRequired ?c ;
+        sd:replacementsDone "0"^^xsd:integer ;
+        sd:queryResult ?q .
+} .
+
+# rule to substitute literals
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sh:construct ?s ;
+        sd:replacementsRequired ?c ;
+        sd:replacementsDone ?r_old ;
+        sd:queryResult ?q .
+
+    ?q rdf:type sd:Query ;
+       sd:inputVariables ?vs .
+
+    ?v list:in ?vs .
+
+    ( (?s) ?v ) list:append ?replace_subj .
+    ?replace_subj string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+
+    (?r_old "1"^^xsd:integer) math:sum ?r_new .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sh:construct ?s_replaced ;
+        sd:replacementsRequired ?c ;
+        sd:replacementsDone ?r_new ;
+        sd:queryResult ?q .
+} .
+
+# rule to substitute URIs
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sh:construct ?s ;
+        sd:replacementsRequired ?c ;
+        sd:replacementsDone ?r_old ;
+        sd:queryResult ?q .
+
+    ?q rdf:type sd:Query ;
+       sd:inputVariables ?vs .
+
+    ?v list:in ?vs ;
+       rdf:first ?item_1 ;
+       list:last ?item_2 .
+    ?item_2 log:rawType log:Other ;
+            log:uri ?item_2_uri .
+    ("<" ?item_2_uri ">") string:concatenation ?item_2_new .
+
+    (?s ?item_1 ?item_2_new) string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+
+    (?r_old "1"^^xsd:integer) math:sum ?r_new .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sh:construct ?s_replaced ;
+        sd:replacementsRequired ?c ;
+        sd:replacementsDone ?r_new ;
+        sd:queryResult ?q .
+} .
+
+
+
+# rule to replace newlines by spaces
+{
+    ?x rdf:type sd:InstantiatedQuery ;
+       sh:construct ?s ;
+       sd:replacementsRequired ?c ;
+       sd:replacementsDone ?r ;
+       sd:queryResult ?q .
+
+    ?c math:equalTo ?r .
+
+    (?s "\n" "") string:replace ?s_new .
+    ?s_new string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sh:construct ?s_new ;
+        sd:replacementsRequired ?c ;
+        sd:replacementsDone ?r ;
+        sd:queryResult ?q .
+} .
+
+# rule to trim double spaces
+{
+    ?x rdf:type sd:InstantiatedQuery ;
+       sh:construct ?s ;
+       sd:replacementsRequired ?c ;
+       sd:replacementsDone ?r ;
+       sd:queryResult ?q .
+
+    ?c math:equalTo ?r .
+
+    (?s "  " " ") string:replace ?s_new .
+    ?s_new string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sh:construct ?s_new ;
+        sd:replacementsRequired ?c ;
+        sd:replacementsDone ?r ;
+        sd:queryResult ?q .
+} .

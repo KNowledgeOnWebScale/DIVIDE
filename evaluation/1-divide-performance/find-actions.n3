@@ -1,0 +1,7 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+@prefix CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#> .
+
+{ ?x rdf:type CareRoomMonitoring:AboveThresholdAction . }
+=>
+{ ?x rdf:type CareRoomMonitoring:AboveThresholdAction . } .

@@ -1,0 +1,51 @@
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+PREFIX DUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#>
+PREFIX General: <http://IBCNServices.github.io/Accio-Ontology/General.owl#>
+PREFIX SSNiot: <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#>
+PREFIX RoleCompetenceAccio: <http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#>
+PREFIX CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#>
+
+CONSTRUCT { 
+    [ a sosa:Observation ;
+      sosa:madeBySensor ?s ;
+      sosa:resultTime ?time ;
+      General:hasId [ General:hasID ?s_id ] ;
+      SSNiot:hasSymptom [
+          a SSNiot:ThresholdSymptom ;
+          ssn:forProperty [ a ?prop ]
+      ] ] .
+}
+WHERE {
+    ?o a sosa:Observation ;
+       sosa:madeBySensor ?s ;
+       sosa:hasResult ?r ;
+       sosa:resultTime ?time ;
+       General:hasId ?id .
+    ?id General:hasID ?s_id .
+    ?r DUL:hasDataValue ?v .
+    
+    ?p DUL:hasRole ?role ;
+       DUL:hasLocation ?l ;
+       CareRoomMonitoring:hasDiagnosis ?diagnosis .
+    ?role a RoleCompetenceAccio:PatientRole .
+    ?diagnosis CareRoomMonitoring:hasMedicalSymptom ?symptom .
+    ?symptom SSNiot:hasThreshold ?th_o .
+    ?th_o DUL:hasDataValue ?threshold ;
+          SSNiot:isThresholdOnProperty ?prop_o1 .
+    ?prop_o1 a ?prop .
+
+    FILTER (xsd:float(?v) > xsd:float(?threshold))
+    
+    ?s rdf:type sosa:Sensor ;
+       sosa:observes ?prop_o2 ;
+       SSNiot:isSubsystemOf ?sys .
+    ?sys DUL:hasLocation ?l .
+    ?prop_o2 a ?prop .
+
+    ?prop rdfs:subClassOf sosa:ObservableProperty .
+}

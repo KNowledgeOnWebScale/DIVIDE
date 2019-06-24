@@ -1,0 +1,279 @@
+@prefix : <http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl> .
+
+<http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl> rdf:type owl:Ontology ;
+                                                                        owl:imports <http://IBCNServices.github.io/Accio-Ontology/General.owl> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#acquiredAtTimepoint
+:acquiredAtTimepoint rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ;
+                     rdfs:domain [ rdf:type owl:Class ;
+                                   owl:unionOf ( :Competence
+                                                 <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Role>
+                                               )
+                                 ] ;
+                     rdfs:range <http://www.w3.org/2006/time#Instant> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#appliesTo
+:appliesTo rdf:type owl:ObjectProperty ;
+           rdfs:domain [ rdf:type owl:Class ;
+                         owl:unionOf ( :EditDataCompetence
+                                       :ReadDataCompetence
+                                       :WriteDataCompetence
+                                     )
+                       ] ;
+           rdfs:range :Form .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#belongsToRole
+:belongsToRole rdf:type owl:ObjectProperty ;
+               owl:inverseOf :entailsCompetence ;
+               rdfs:domain :Competence ;
+               rdfs:range <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Role> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#entailsCompetence
+:entailsCompetence rdf:type owl:ObjectProperty ;
+                   rdfs:domain <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Role> ;
+                   rdfs:range :Competence .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#isValidDuringPeriod
+:isValidDuringPeriod rdf:type owl:ObjectProperty ;
+                     rdfs:domain [ rdf:type owl:Class ;
+                                   owl:unionOf ( :Competence
+                                                 <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Role>
+                                               )
+                                 ] ;
+                     rdfs:range <http://www.w3.org/2006/time#ProperInterval> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#providesInputFor
+:providesInputFor rdf:type owl:ObjectProperty ,
+                           owl:TransitiveProperty ;
+                  rdfs:domain :Form ;
+                  rdfs:range :Form .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#hasFrequency
+:hasFrequency rdf:type owl:DatatypeProperty ,
+                       owl:FunctionalProperty ;
+              rdfs:domain :Form ;
+              rdfs:range xsd:float .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#isDigital
+:isDigital rdf:type owl:DatatypeProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :Form ;
+           rdfs:range xsd:boolean .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#AdministerMedicationCompetence
+:AdministerMedicationCompetence rdf:type owl:Class ;
+                                rdfs:subClassOf :MedicalCompetence .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#CareCompetence
+:CareCompetence rdf:type owl:Class ;
+                rdfs:subClassOf :Competence .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#CareReceiverRole
+:CareReceiverRole rdf:type owl:Class ;
+                  rdfs:subClassOf :PersonRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#CaregiverRole
+:CaregiverRole rdf:type owl:Class ;
+               rdfs:subClassOf :StaffMemberRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#ClientRole
+:ClientRole rdf:type owl:Class ;
+            rdfs:subClassOf :CareReceiverRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#Competence
+:Competence rdf:type owl:Class ;
+            rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#SocialObject> ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :isValidDuringPeriod ;
+                              owl:someValuesFrom <http://www.w3.org/2006/time#ProperInterval>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :acquiredAtTimepoint ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass <http://www.w3.org/2006/time#Instant>
+                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#ContactPersonRole
+:ContactPersonRole rdf:type owl:Class ;
+                   rdfs:subClassOf :PersonRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#EditDataCompetence
+:EditDataCompetence rdf:type owl:Class ;
+                    rdfs:subClassOf :Competence ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :appliesTo ;
+                                      owl:someValuesFrom :Form
+                                    ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#FamilyCaregiverRole
+:FamilyCaregiverRole rdf:type owl:Class ;
+                     rdfs:subClassOf :CaregiverRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#FamilyRole
+:FamilyRole rdf:type owl:Class ;
+            rdfs:subClassOf :PersonRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#Form
+:Form rdf:type owl:Class ;
+      rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#InformationObject> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#GasProviderRole
+:GasProviderRole rdf:type owl:Class ;
+                 rdfs:subClassOf :ServiceProviderRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#HotelFunctionCompetence
+:HotelFunctionCompetence rdf:type owl:Class ;
+                         rdfs:subClassOf :Competence .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#MedicalCareProviderRole
+:MedicalCareProviderRole rdf:type owl:Class ;
+                         rdfs:subClassOf :ServiceProviderRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#MedicalCompetence
+:MedicalCompetence rdf:type owl:Class ;
+                   rdfs:subClassOf :Competence .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#MedicalForm
+:MedicalForm rdf:type owl:Class ;
+             rdfs:subClassOf :Form .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#MedicalRole
+:MedicalRole rdf:type owl:Class ;
+             rdfs:subClassOf :CaregiverRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#OrganizationRole
+:OrganizationRole rdf:type owl:Class ;
+                  rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Role> ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :isValidDuringPeriod ;
+                                    owl:someValuesFrom <http://www.w3.org/2006/time#ProperInterval>
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :acquiredAtTimepoint ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass <http://www.w3.org/2006/time#Instant>
+                                  ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#PatientRole
+:PatientRole rdf:type owl:Class ;
+             rdfs:subClassOf :CareReceiverRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#PersonRole
+:PersonRole rdf:type owl:Class ;
+            rdfs:subClassOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Role> ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :isValidDuringPeriod ;
+                              owl:someValuesFrom <http://www.w3.org/2006/time#ProperInterval>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :entailsCompetence ;
+                              owl:allValuesFrom :Competence
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :acquiredAtTimepoint ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass <http://www.w3.org/2006/time#Instant>
+                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#ReadDataCompetence
+:ReadDataCompetence rdf:type owl:Class ;
+                    rdfs:subClassOf :Competence ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :appliesTo ;
+                                      owl:someValuesFrom :Form
+                                    ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#ReadWriteEditDataCompetence
+:ReadWriteEditDataCompetence rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( :EditDataCompetence
+                                                                        :ReadDataCompetence
+                                                                        :WriteDataCompetence
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:subClassOf :Competence .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#ResidentRole
+:ResidentRole rdf:type owl:Class ;
+              rdfs:subClassOf :CareReceiverRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#ServiceProviderRole
+:ServiceProviderRole rdf:type owl:Class ;
+                     rdfs:subClassOf :OrganizationRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#StaffMemberRole
+:StaffMemberRole rdf:type owl:Class ;
+                 rdfs:subClassOf :PersonRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#TherapeuticCompetence
+:TherapeuticCompetence rdf:type owl:Class ;
+                       rdfs:subClassOf :Competence .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#WaterProvider
+:WaterProvider rdf:type owl:Class ;
+               rdfs:subClassOf :ServiceProviderRole .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/RoleCompetenceAccio.owl#WriteDataCompetence
+:WriteDataCompetence rdf:type owl:Class ;
+                     rdfs:subClassOf :Competence ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty :appliesTo ;
+                                       owl:someValuesFrom :Form
+                                     ] .
+
+
+###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi

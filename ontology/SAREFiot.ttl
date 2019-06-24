@@ -1,0 +1,785 @@
+@prefix : <http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@base <http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl> .
+
+<http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl> rdf:type owl:Ontology ;
+                                                             owl:imports <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl> ,
+                                                                         <http://ontology.tno.nl/saref.ttl> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#deviceOwnedBy
+:deviceOwnedBy rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#associatedWith> ;
+               owl:inverseOf :ownsDevice .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#observedDevice
+:observedDevice rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#associatedWith> ;
+                rdfs:domain <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TagObservationValue> ;
+                rdfs:range <https://w3id.org/saref#Device> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#ownsDevice
+:ownsDevice rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#associatedWith> ;
+            rdfs:domain <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#Person> ;
+            rdfs:range <https://w3id.org/saref#Device> .
+
+
+###  https://w3id.org/saref#IsUsedFor
+<https://w3id.org/saref#IsUsedFor> rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/saref#hasCategory
+<https://w3id.org/saref#hasCategory> rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#hasVolume
+:hasVolume rdf:type owl:DatatypeProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:range xsd:float .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#BLEBracelet
+:BLEBracelet rdf:type owl:Class ;
+             rdfs:subClassOf :PersonalElectronicDevice .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Buzzer
+:Buzzer rdf:type owl:Class ;
+        rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                          owl:someValuesFrom <https://w3id.org/saref#Actuator>
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasState> ;
+                          owl:someValuesFrom <https://w3id.org/saref#MultiLevelState>
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasState> ;
+                          owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasState> ;
+                          owl:someValuesFrom <https://w3id.org/saref#StartStopState>
+                        ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Camera
+:Camera rdf:type owl:Class ;
+        rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                          owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                          owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasState> ;
+                          owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                        ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#CellPhone
+:CellPhone rdf:type owl:Class ;
+           rdfs:subClassOf :PersonalElectronicDevice ,
+                           :TelephoneDevice ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                             owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom :Visualization
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#ColorWall
+:ColorWall rdf:type owl:Class ;
+           rdfs:subClassOf :LightingDevice ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom :LightLevelControlFunction
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom :LightLevelState
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Communication
+:Communication rdf:type owl:Class ;
+               rdfs:subClassOf <https://w3id.org/saref#Task> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#GPSDevice
+:GPSDevice rdf:type owl:Class ;
+           rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                             owl:someValuesFrom :Navigation
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                             owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom :NavigationFunction
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom :Visualization
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom <https://w3id.org/saref#StartStopFunction>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom <https://w3id.org/saref#StartStopState>
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#IndicatorLight
+:IndicatorLight rdf:type owl:Class ;
+                rdfs:subClassOf :LightingDevice ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#isSubsystemOf> ;
+                                  owl:someValuesFrom <http://www.w3.org/ns/ssn/System>
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                                  owl:someValuesFrom <https://w3id.org/saref#Safety>
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <https://w3id.org/saref#hasState> ;
+                                  owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Intercom
+:Intercom rdf:type owl:Class ;
+          rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                            owl:someValuesFrom :Communication
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                            owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                            owl:someValuesFrom :VolumeLevelControlFunction
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                            owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                            owl:someValuesFrom <https://w3id.org/saref#StartStopFunction>
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                            owl:someValuesFrom :VolumeLevelState
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                            owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                            owl:someValuesFrom <https://w3id.org/saref#StartStopState>
+                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#LightControlFunction
+:LightControlFunction rdf:type owl:Class ;
+                      rdfs:subClassOf <https://w3id.org/saref#Function> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#LightLevelControlFunction
+:LightLevelControlFunction rdf:type owl:Class ;
+                           rdfs:subClassOf :LightControlFunction ,
+                                           <https://w3id.org/saref#LevelControlFunction> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#LightLevelState
+:LightLevelState rdf:type owl:Class ;
+                 rdfs:subClassOf <https://w3id.org/saref#MultiLevelState> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#LightOnOffFunction
+:LightOnOffFunction rdf:type owl:Class ;
+                    rdfs:subClassOf :LightControlFunction ,
+                                    <https://w3id.org/saref#OnOffFunction> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#LightingDevice
+:LightingDevice rdf:type owl:Class ;
+                rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <https://w3id.org/saref#IsUsedFor> ;
+                                  owl:someValuesFrom <https://w3id.org/saref#Light>
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                                  owl:someValuesFrom <https://w3id.org/saref#Lighting>
+                                ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#MagneticLock
+:MagneticLock rdf:type owl:Class ;
+              rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                                owl:someValuesFrom <https://w3id.org/saref#Safety>
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                                owl:someValuesFrom <https://w3id.org/saref#Actuator>
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <https://w3id.org/saref#hasState> ;
+                                owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                              ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Microphone
+:Microphone rdf:type owl:Class ;
+            rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                              owl:someValuesFrom :Communication
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                              owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                              owl:someValuesFrom :VolumeLevelControlFunction
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                              owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#hasState> ;
+                              owl:someValuesFrom :VolumeLevelState
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#hasState> ;
+                              owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#MoodLight
+:MoodLight rdf:type owl:Class ;
+           rdfs:subClassOf :LightingDevice ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom :LightLevelControlFunction
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom :LightLevelState
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#MultimediaFunction
+:MultimediaFunction rdf:type owl:Class ;
+                    rdfs:subClassOf <https://w3id.org/saref#Function> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#MultimediaHandset
+:MultimediaHandset rdf:type owl:Class ;
+                   rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                                     owl:someValuesFrom :Communication
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                                     owl:someValuesFrom <https://w3id.org/saref#Entertainment>
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                                     owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                     owl:someValuesFrom :LightControlFunction
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                     owl:someValuesFrom :TVControlFunction
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                     owl:someValuesFrom :Telephony
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                     owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasState> ;
+                                     owl:someValuesFrom :LightLevelState
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasState> ;
+                                     owl:someValuesFrom :VolumeLevelState
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <https://w3id.org/saref#hasState> ;
+                                     owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                                   ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Navigation
+:Navigation rdf:type owl:Class ;
+            rdfs:subClassOf <https://w3id.org/saref#Task> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#NavigationFunction
+:NavigationFunction rdf:type owl:Class ;
+                    rdfs:subClassOf <https://w3id.org/saref#Function> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#PDA
+:PDA rdf:type owl:Class ;
+     rdfs:subClassOf :PersonalElectronicDevice ,
+                     :TelephoneDevice ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                       owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                     ] ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                       owl:someValuesFrom :Visualization
+                     ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#PersonalElectronicDevice
+:PersonalElectronicDevice rdf:type owl:Class ;
+                          rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                                            owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                            owl:someValuesFrom :VolumeLevelControlFunction
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                            owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                                            owl:someValuesFrom :VolumeLevelState
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                                            owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#PortablePhone
+:PortablePhone rdf:type owl:Class ;
+               rdfs:subClassOf :PersonalElectronicDevice ,
+                               :TelephoneDevice .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#RollingShutter
+:RollingShutter rdf:type owl:Class ;
+                rdfs:subClassOf <https://w3id.org/saref#BuildingObject> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#RollingShutterControlFunction
+:RollingShutterControlFunction rdf:type owl:Class ;
+                               rdfs:subClassOf <https://w3id.org/saref#Function> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#RollingShutterDevice
+:RollingShutterDevice rdf:type owl:Class ;
+                      rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <https://w3id.org/saref#IsUsedFor> ;
+                                        owl:someValuesFrom :RollingShutter
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                                        owl:someValuesFrom <https://w3id.org/saref#BuildingRelated>
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                        owl:someValuesFrom :RollingShutterControlFunction
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                        owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <https://w3id.org/saref#hasState> ;
+                                        owl:someValuesFrom :RollingShutterLevelState
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty <https://w3id.org/saref#hasState> ;
+                                        owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                                      ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#RollingShutterLevelControlFunction
+:RollingShutterLevelControlFunction rdf:type owl:Class ;
+                                    rdfs:subClassOf :RollingShutterControlFunction ,
+                                                    <https://w3id.org/saref#LevelControlFunction> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#RollingShutterLevelState
+:RollingShutterLevelState rdf:type owl:Class ;
+                          rdfs:subClassOf <https://w3id.org/saref#MultiLevelState> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#RollingShutterOpenCloseFunction
+:RollingShutterOpenCloseFunction rdf:type owl:Class ;
+                                 rdfs:subClassOf :RollingShutterControlFunction ,
+                                                 <https://w3id.org/saref#OpenCloseFunction> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#RoomLight
+:RoomLight rdf:type owl:Class ;
+           rdfs:subClassOf :LightingDevice ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom :LightLevelControlFunction
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom :LightLevelState
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <https://w3id.org/saref#hasState> ;
+                             owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Screen
+:Screen rdf:type owl:Class ;
+        rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                          owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                          owl:someValuesFrom :Visualization
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                          owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty <https://w3id.org/saref#hasState> ;
+                          owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                        ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#SensorBoard
+:SensorBoard rdf:type owl:Class ;
+             rdfs:subClassOf <https://w3id.org/saref#DeviceCategory> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#SmartPhone
+:SmartPhone rdf:type owl:Class ;
+            rdfs:subClassOf :GPSDevice ,
+                            :PersonalElectronicDevice ,
+                            :TelephoneDevice ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                              owl:someValuesFrom <https://w3id.org/saref#Entertainment>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                              owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                              owl:someValuesFrom :Visualization
+                            ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TMoteSky
+:TMoteSky rdf:type owl:Class ;
+          rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                            owl:someValuesFrom :SensorBoard
+                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TV
+:TV rdf:type owl:Class ;
+    rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                      owl:someValuesFrom <https://w3id.org/saref#Entertainment>
+                    ] ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                      owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                    ] ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                      owl:someValuesFrom :TVControlFunction
+                    ] ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                      owl:someValuesFrom :Visualization
+                    ] ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                      owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                    ] ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty <https://w3id.org/saref#hasState> ;
+                      owl:someValuesFrom :VolumeLevelState
+                    ] ,
+                    [ rdf:type owl:Restriction ;
+                      owl:onProperty <https://w3id.org/saref#hasState> ;
+                      owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                    ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TVChannel
+:TVChannel rdf:type owl:Class ;
+           rdfs:subClassOf :TVProperty ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/General.owl#hasName> ;
+                             owl:someValuesFrom xsd:string
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://IBCNServices.github.io/Accio-Ontology/General.owl#hasNumber> ;
+                             owl:someValuesFrom xsd:integer
+                           ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TVChannelSwitchingFunction
+:TVChannelSwitchingFunction rdf:type owl:Class ;
+                            rdfs:subClassOf :TVControlFunction .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TVControlFunction
+:TVControlFunction rdf:type owl:Class ;
+                   rdfs:subClassOf :MultimediaFunction .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TVOnOffFunction
+:TVOnOffFunction rdf:type owl:Class ;
+                 rdfs:subClassOf :TVControlFunction ,
+                                 <https://w3id.org/saref#OnOffFunction> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TVProperty
+:TVProperty rdf:type owl:Class ;
+            rdfs:subClassOf <https://w3id.org/saref#Property> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TVVolume
+:TVVolume rdf:type owl:Class ;
+          rdfs:subClassOf :TVProperty ,
+                          :Volume ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasVolume ;
+                            owl:someValuesFrom xsd:float
+                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TVVolumeLevelControlFunction
+:TVVolumeLevelControlFunction rdf:type owl:Class ;
+                              rdfs:subClassOf :TVControlFunction ,
+                                              :VolumeLevelControlFunction .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#TelephoneDevice
+:TelephoneDevice rdf:type owl:Class ;
+                 rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <https://w3id.org/saref#accomplishes> ;
+                                   owl:someValuesFrom :Communication
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                                   owl:someValuesFrom <https://w3id.org/saref#Multimedia>
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                   owl:someValuesFrom :Telephony
+                                 ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Telephony
+:Telephony rdf:type owl:Class ;
+           rdfs:subClassOf :MultimediaFunction .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#UnderBedLight
+:UnderBedLight rdf:type owl:Class ;
+               rdfs:subClassOf :LightingDevice ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                 owl:someValuesFrom :LightLevelControlFunction
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <https://w3id.org/saref#hasFunction> ;
+                                 owl:someValuesFrom <https://w3id.org/saref#OnOffFunction>
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <https://w3id.org/saref#hasState> ;
+                                 owl:someValuesFrom :LightLevelState
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <https://w3id.org/saref#hasState> ;
+                                 owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                               ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Vibrator
+:Vibrator rdf:type owl:Class ;
+          rdfs:subClassOf <https://w3id.org/saref#Device> ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasCategory> ;
+                            owl:someValuesFrom <https://w3id.org/saref#Actuator>
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                            owl:someValuesFrom <https://w3id.org/saref#MultiLevelState>
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                            owl:someValuesFrom <https://w3id.org/saref#OnOffState>
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <https://w3id.org/saref#hasState> ;
+                            owl:someValuesFrom <https://w3id.org/saref#StartStopState>
+                          ] .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Visualization
+:Visualization rdf:type owl:Class ;
+               rdfs:subClassOf :MultimediaFunction .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Volume
+:Volume rdf:type owl:Class ;
+        rdfs:subClassOf <https://w3id.org/saref#Property> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#VolumeLevelControlFunction
+:VolumeLevelControlFunction rdf:type owl:Class ;
+                            rdfs:subClassOf <https://w3id.org/saref#LevelControlFunction> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#VolumeLevelState
+:VolumeLevelState rdf:type owl:Class ;
+                  rdfs:subClassOf <https://w3id.org/saref#MultiLevelState> .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TagObservationValue
+<http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#TagObservationValue> rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                                                                owl:onProperty :observedDevice ;
+                                                                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                                                owl:onClass <https://w3id.org/saref#Device>
+                                                                                              ] .
+
+
+###  https://w3id.org/saref#BuildingObject
+<https://w3id.org/saref#BuildingObject> rdf:type owl:Class .
+
+
+###  https://w3id.org/saref#DeviceCategory
+<https://w3id.org/saref#DeviceCategory> rdf:type owl:Class .
+
+
+###  https://w3id.org/saref#Entertainment
+<https://w3id.org/saref#Entertainment> rdf:type owl:Class .
+
+
+###  https://w3id.org/saref#Lighting
+<https://w3id.org/saref#Lighting> rdf:type owl:Class .
+
+
+###  https://w3id.org/saref#Safety
+<https://w3id.org/saref#Safety> rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Communication
+:Communication rdf:type owl:NamedIndividual ,
+                        :Communication .
+
+
+###  http://IBCNServices.github.io/Accio-Ontology/SAREFiot.owl#Navigation
+:Navigation rdf:type owl:NamedIndividual ,
+                     :Navigation .
+
+
+###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi

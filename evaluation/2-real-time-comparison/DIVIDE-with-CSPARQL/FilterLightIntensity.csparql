@@ -1,0 +1,23 @@
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+PREFIX DUL: <http://IBCNServices.github.io/Accio-Ontology/ontologies/DUL.owl#>
+PREFIX General: <http://IBCNServices.github.io/Accio-Ontology/General.owl#>
+PREFIX CareRoomMonitoring: <http://IBCNServices.github.io/Accio-Ontology/DIVIDE-example/CareRoomMonitoring.owl#>
+
+CONSTRUCT {
+    ?o a CareRoomMonitoring:AboveThresholdAction ;
+       ssn:forProperty <http://IBCNServices.github.io/Accio-Ontology/SSNiot.owl#LightIntensity> .
+}
+FROM STREAM <http://idlab.ugent.be/grove> [RANGE 1s TUMBLING]
+WHERE {
+    ?o a sosa:Observation ;
+       sosa:madeBySensor <http://occs.intec.ugent.be/ontology/entity#40-a5-ef-05-a4-a6-A0> ;
+       sosa:hasResult [ DUL:hasDataValue ?v ] ;
+       sosa:resultTime ?t ;
+       General:hasId [ General:hasID ?id ] .
+    FILTER (xsd:float(?v) > xsd:float(170.0))
+}
+ORDER BY DESC(?t)
+LIMIT 1
