@@ -1,6 +1,6 @@
 # DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams
 
-This folder contains supportive material for the evaluations in the paper "DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams", which is submitted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) at [ISWC 2019](https://iswc2019.semanticweb.org/). This paper is currently under review.
+This folder contains supportive material for the evaluations in the paper "DIVIDE: Adaptive Context-Aware Query Derivation for IoT Data Streams", which is accepted to the 1st International Workshop on Sensors and Actuators on the Web ([SAW2019](http://saw.gitlab.emse.fr/2019/)) at [ISWC 2019](https://iswc2019.semanticweb.org/).
 
 ## Contents
 
