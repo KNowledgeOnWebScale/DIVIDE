@@ -4,7 +4,9 @@ This folder contains the ontology data related to the running healthcare example
 
 ## Contents
 
-In the paper, the DIVIDE system is explained through a running healthcare example. This folder contains all ontology files related to this example.
+In the paper, the DIVIDE system is explained through a running healthcare example. This folder contains all ontology files related to this example. Furthermore, it also contains additional visual and textual explanation of the ontology observation pattern described & used in the paper.
+
+### Ontology files
 
 The used ontology is a snapshot of the [ACCIO continuous care ontology](https://github.com/IBCNServices/Accio-Ontology/tree/gh-pages). The main ontology file is [`CareRoomMonitoring.ttl`](CareRoomMonitoring.ttl). All direct and indirect imports of this ontology are also included in this folder.
 
@@ -24,6 +26,10 @@ Consider the list below for a mapping of the ontology files in this folder to th
 * `uo.ttl`: http://IBCNServices.github.io/Accio-Ontology/ontologies/uo.owl
 
 This ontology is also used for the paper's [evaluations](../evaluations).
+
+### Ontology observation pattern
+
+The ontology observation pattern described and used in the running example of the paper is explained in more detail in the [`observation-pattern`](observation-pattern) subfolder.
 
 ## Contact
  
