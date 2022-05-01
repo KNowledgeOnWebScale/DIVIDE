@@ -1,0 +1,5 @@
+{
+  "goal": "goal.n3",
+  "sensorQueryRule": "sensor-query.n3",
+  "queryPattern": "query-pattern.n3"
+}

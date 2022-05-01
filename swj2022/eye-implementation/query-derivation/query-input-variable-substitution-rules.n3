@@ -1,0 +1,537 @@
+@prefix : <http://idlab.ugent.be/sensdesc/query#> .
+
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+@prefix r: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+
+# rules to unify all query types
+#################################
+
+{
+    ?a sh:construct ?b .
+}
+=>
+{
+    ?a sd:queryBody ?b .
+} .
+
+{
+    ?a sh:select ?b .
+}
+=>
+{
+    ?a sd:queryBody ?b .
+} .
+
+{
+    ?a sh:ask ?b .
+}
+=>
+{
+    ?a sd:queryBody ?b .
+} .
+
+{
+    ?a sh:describe ?b .
+}
+=>
+{
+    ?a sd:queryBody ?b .
+} .
+
+
+# first rule to start substitution
+###################################
+
+{
+    ?q rdf:type sd:Query ;
+       sd:pattern ?p ;
+       sd:inputVariables ?v ;
+       sd:pattern [ sh:prefixes ?prefixes ] .
+    ?p sd:queryBody ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?q ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?v ;
+        sd:prefixes ?prefixes .
+} .
+
+
+# rules to substitute literals (object of log:rawType property is rdfs:Literal)
+################################################################################
+
+# rule to substitute xsd:string literals
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 ;
+       list:last ?item_2 .
+
+    ?item_2 log:rawType rdfs:Literal .
+    (?item_2) string:concatenation ?item_2_str .
+    (?item_2_str xsd:string) log:dtlit ?item_2_dt .
+    ?item_2_dt log:equalTo ?item_2 .
+
+    ("\"" ?item_2 "\"") string:concatenation ?item_2_new .
+    (?s ?item_1 ?item_2_new) string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:inputVariables ?remainingInputVariables ;
+        sd:prefixes ?prefixes .
+} .
+
+# rule for any supported datatype except the ones for which EYE removes the datatype
+# annotation (xsd:string, xsd:integer, xsd:double, xsd:decimal, xsd:boolean)
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    sd:SupportedDataTypesList sd:contains ?dataTypes .
+    ?dataTypes list:member ?dataType .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 ;
+       list:last ?item_2 .
+
+    ?item_2 log:rawType rdfs:Literal .
+    (?item_2) string:concatenation ?item_2_str .
+    (?item_2_str ?dataType) log:dtlit ?item_2_dt .
+    ?item_2_dt log:equalTo ?item_2 .
+
+    ("\"" ?item_2 "\"^^" ?dataType) string:concatenation ?item_2_new .
+    (?s ?item_1 ?item_2_new) string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:inputVariables ?remainingInputVariables ;
+        sd:prefixes ?prefixes .
+} .
+
+# rule 1 to substitute datatypes for which EYE removes the datatype annotation,
+# except xsd:string (xsd:integer, xsd:double, xsd:decimal, xsd:boolean)
+# -> this rule checks for all default supported datatypes that the variable
+#    to be replaced is not of this type
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 ;
+       list:last ?item_2 .
+
+    ?item_2 log:rawType rdfs:Literal .
+    (?item_2) string:concatenation ?item_2_str .
+
+    (?item_2_str xsd:string) log:dtlit ?item_2_dt0 .
+    ?item_2_dt0 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:float) log:dtlit ?item_2_dt1 .
+    ?item_2_dt1 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:duration) log:dtlit ?item_2_dt2 .
+    ?item_2_dt2 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:dateTime) log:dtlit ?item_2_dt3 .
+    ?item_2_dt3 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:time) log:dtlit ?item_2_dt4 .
+    ?item_2_dt4 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:date) log:dtlit ?item_2_dt5 .
+    ?item_2_dt5 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:gYearMonth) log:dtlit ?item_2_dt6 .
+    ?item_2_dt6 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:gYear) log:dtlit ?item_2_dt7 .
+    ?item_2_dt7 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:gMonthDay) log:dtlit ?item_2_dt8 .
+    ?item_2_dt8 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:gDay) log:dtlit ?item_2_dt9 .
+    ?item_2_dt9 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:gMonth) log:dtlit ?item_2_dt10 .
+    ?item_2_dt10 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:hexBinary) log:dtlit ?item_2_dt11 .
+    ?item_2_dt11 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:base64Binary) log:dtlit ?item_2_dt12 .
+    ?item_2_dt12 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:anyURI) log:dtlit ?item_2_dt13 .
+    ?item_2_dt13 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:QName) log:dtlit ?item_2_dt14 .
+    ?item_2_dt14 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:NOTATION) log:dtlit ?item_2_dt15 .
+    ?item_2_dt15 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:normalizedString) log:dtlit ?item_2_dt16 .
+    ?item_2_dt16 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:token) log:dtlit ?item_2_dt17 .
+    ?item_2_dt17 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:language) log:dtlit ?item_2_dt18 .
+    ?item_2_dt18 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:NMTOKEN) log:dtlit ?item_2_dt19 .
+    ?item_2_dt19 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:NMTOKENS) log:dtlit ?item_2_dt20 .
+    ?item_2_dt20 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:Name) log:dtlit ?item_2_dt21 .
+    ?item_2_dt21 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:NCName) log:dtlit ?item_2_dt22 .
+    ?item_2_dt22 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:ID) log:dtlit ?item_2_dt23 .
+    ?item_2_dt23 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:IDREF) log:dtlit ?item_2_dt24 .
+    ?item_2_dt24 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:IDREFS) log:dtlit ?item_2_dt25 .
+    ?item_2_dt25 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:ENTITY) log:dtlit ?item_2_dt26 .
+    ?item_2_dt26 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:ENTITIES) log:dtlit ?item_2_dt27 .
+    ?item_2_dt27 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:integer) log:dtlit ?item_2_dt28 .
+    ?item_2_dt28 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:nonPositiveInteger) log:dtlit ?item_2_dt29 .
+    ?item_2_dt29 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:negativeInteger) log:dtlit ?item_2_dt30 .
+    ?item_2_dt30 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:long) log:dtlit ?item_2_dt31 .
+    ?item_2_dt31 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:int) log:dtlit ?item_2_dt32 .
+    ?item_2_dt32 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:short) log:dtlit ?item_2_dt33 .
+    ?item_2_dt33 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:byte) log:dtlit ?item_2_dt34 .
+    ?item_2_dt34 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:nonNegativeInteger) log:dtlit ?item_2_dt35 .
+    ?item_2_dt35 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:unsignedLong) log:dtlit ?item_2_dt36 .
+    ?item_2_dt36 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:unsignedInt) log:dtlit ?item_2_dt37 .
+    ?item_2_dt37 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:unsignedShort) log:dtlit ?item_2_dt38 .
+    ?item_2_dt38 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:unsignedByte) log:dtlit ?item_2_dt39 .
+    ?item_2_dt39 log:notEqualTo ?item_2 .
+
+    (?item_2_str xsd:positiveInteger) log:dtlit ?item_2_dt40 .
+    ?item_2_dt40 log:notEqualTo ?item_2 .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes ;
+        sd:inStep1OfShortenedDataTypeReplacement ?v .
+} .
+
+# rule 2 to substitute datatypes for which EYE removes the datatype annotation,
+# except xsd:string (xsd:integer, xsd:double, xsd:decimal, xsd:boolean)
+# -> this rule initializes the triples to check the extra supported datatypes
+#    in the next step
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes ;
+        sd:inStep1OfShortenedDataTypeReplacement ?v .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 ;
+       list:last ?item_2 .
+    ?item_2 log:rawType rdfs:Literal .
+
+    sd:ExtraSupportedDataTypesList sd:contains ?dataTypes .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes ;
+        sd:inStep2OfShortenedDataTypeReplacement [
+            sd:involvedListItem ?v ;
+            sd:remainingDataTypesToCheck ?dataTypes
+        ] .
+} .
+
+# rule 3 to substitute datatypes for which EYE removes the datatype annotation,
+# except xsd:string (xsd:integer, xsd:double, xsd:decimal, xsd:boolean)
+# -> this rule does the actual check for all extra supported datatypes that the
+#    variable to be replaced is not of this type
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes ;
+        sd:inStep2OfShortenedDataTypeReplacement [
+            sd:involvedListItem ?v ;
+            sd:remainingDataTypesToCheck ?dataTypes
+        ] .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 ;
+       list:last ?item_2 .
+    ?item_2 log:rawType rdfs:Literal .
+
+    ?dataTypes list:first ?dt .
+    ((?dt) ?remainingDataTypes) list:append ?dataTypes .
+
+    (?item_2) string:concatenation ?item_2_str .
+    (?item_2_str ?dt) log:dtlit ?item_2_dt .
+    ?item_2_dt log:notEqualTo ?item_2 .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes ;
+        sd:inStep2OfShortenedDataTypeReplacement [
+            sd:involvedListItem ?v ;
+            sd:remainingDataTypesToCheck ?remainingDataTypes ;
+            sd:dataTypesToCheck ?dataTypes
+        ] .
+} .
+
+# rule 4 to substitute datatypes for which EYE removes the datatype annotation,
+# except xsd:string (xsd:integer, xsd:double, xsd:decimal, xsd:boolean)
+# -> this rule does the actual substitution of the variable as a raw variable
+#    without any quotes or datatype annotation (since it is not of any of the
+#    default or extra defined datatypes)
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes ;
+        sd:inStep2OfShortenedDataTypeReplacement [
+            sd:involvedListItem ?v ;
+            sd:remainingDataTypesToCheck ?dataTypes
+        ] .
+
+    ?dataTypes math:memberCount 0 .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 ;
+       list:last ?item_2 .
+    ?item_2 log:rawType rdfs:Literal .
+
+    (?item_2) string:concatenation ?item_2_str .
+    (?s ?item_1 ?item_2_str) string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:inputVariables ?remainingInputVariables ;
+        sd:prefixes ?prefixes .
+} .
+
+
+# rule to substitute URIs (object of log:rawType property is log:Other)
+########################################################################
+
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 ;
+       list:last ?item_2 .
+
+    ?item_2 log:rawType log:Other ;
+            log:uri ?item_2_uri .
+    ("<" ?item_2_uri ">") string:concatenation ?item_2_new .
+
+    (?s ?item_1 ?item_2_new) string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:inputVariables ?remainingInputVariables ;
+        sd:prefixes ?prefixes .
+} .
+
+
+# rule to handle input variables that do not occur in the query pattern body
+#############################################################################
+
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingInputVariables) list:append ?vs .
+    ?v rdf:first ?item_1 .
+
+    (?item_1 "?" "\\?") string:replace ?item_1_escaped .
+    ?s string:notMatches ?item_1_escaped .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+            sd:queryBody ?s ;
+            sd:inputVariables ?remainingInputVariables ;
+            sd:prefixes ?prefixes .
+} .
+
+
+# final formatting rules
+#########################
+
+# replace newlines by spaces
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    ?vs math:memberCount 0 .
+
+    (?s "\n" " ") string:replace ?s_new .
+    ?s_new string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_new ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+} .
+
+# trim double spaces
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    ?vs math:memberCount 0 .
+
+    (?s "  " " ") string:replace ?s_new .
+    ?s_new string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_new ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+} .
+
+# retrieve instantiated SHACL queries (only the preprocessed ones)
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:inputVariables ?vs ;
+        sd:prefixes ?prefixes .
+
+    ?origq sd:pattern ?p .
+
+    ?vs math:memberCount 0 .
+
+    ?s_replaced string:notMatches "\\s\\s" .
+    ?s_replaced string:notMatches "\n" .
+}
+=>
+{
+    ?iq rdf:type sd:SubstitutedQuery ;
+        sd:queryBody ?s_replaced ;
+        sh:prefixes ?prefixes ;
+        sd:pattern ?p .
+} .

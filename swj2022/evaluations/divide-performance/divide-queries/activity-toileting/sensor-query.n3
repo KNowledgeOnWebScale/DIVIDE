@@ -1,0 +1,71 @@
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sd-query: <http://idlab.ugent.be/sensdesc/query#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> .
+@prefix MonitoredPerson: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> .
+@prefix Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/> .
+@prefix SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/> .
+@prefix SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
+@prefix Homelab: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/> .
+@prefix HomelabWearable: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/> .
+@prefix KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> .
+
+@prefix saref-core: <https://saref.etsi.org/core/> .
+@prefix saref4ehaw: <https://saref.etsi.org/saref4ehaw/> .
+@prefix saref4bldg: <https://saref.etsi.org/saref4bldg/> .
+@prefix saref4wear: <https://saref.etsi.org/saref4wear/> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+{
+    ?model rdf:type ActivityRecognition:ActivityRecognitionModel ;
+           <https://w3id.org/eep#implements> [
+               rdf:type ActivityRecognition:Configuration ;
+               KBActivityRecognition:containsRule ?a
+           ] .
+    ?a rdf:type KBActivityRecognition:ActivityRule ;
+       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+       KBActivityRecognition:hasCondition [
+           rdf:type KBActivityRecognition:RegularThreshold ;
+           KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+           saref-core:hasValue ?threshold ;
+           Sensors:analyseStateOf [ rdf:type ?analyzed ] ;
+           KBActivityRecognition:forProperty [ rdf:type ?prop ]
+       ] .
+
+    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+
+    ?sensor rdf:type saref-core:Device ;
+            saref-core:measuresProperty [ rdf:type ?prop ] ;
+            Sensors:isRelevantTo ?room ;
+            Sensors:analyseStateOf [ rdf:type ?analyzed ] .
+
+    ?prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+    ?analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+    ?patient MonitoredPerson:hasIndoorLocation ?room .
+}
+=>
+{
+    _:q rdf:type sd:Query ;
+        sd:pattern sd-query:pattern ;
+        sd:inputVariables (("?sensor" ?sensor) ("?threshold" ?threshold)
+                           ("?activityType" ?activityType) ("?patient" ?patient)
+                           ("?model" ?model)) ;
+        sd:windowParameters () .
+
+    _:p rdf:type ActivityRecognition:ActivityPrediction ;
+        ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+        ActivityRecognition:activityPredictionMadeFor ?patient ;
+        ActivityRecognition:predictedBy ?model ;
+        saref-core:hasTimestamp _:t ;
+        KBActivityRecognition:detectedBySensor ?sensor .
+} .

@@ -1,0 +1,43 @@
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sd-query: <http://idlab.ugent.be/sensdesc/query#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> .
+@prefix MonitoredPerson: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> .
+@prefix Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/> .
+@prefix SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/> .
+@prefix SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
+@prefix Homelab: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/> .
+@prefix HomelabWearable: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/> .
+@prefix KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> .
+
+@prefix saref-core: <https://saref.etsi.org/core/> .
+@prefix saref4ehaw: <https://saref.etsi.org/saref4ehaw/> .
+@prefix saref4bldg: <https://saref.etsi.org/saref4bldg/> .
+@prefix saref4wear: <https://saref.etsi.org/saref4wear/> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+
+{
+    ?p rdf:type KBActivityRecognition:RoutineActivityPrediction ;
+       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+       ActivityRecognition:activityPredictionMadeFor ?patient ;
+       ActivityRecognition:predictedBy ?model ;
+       saref-core:hasTimestamp ?t .
+    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+}
+=>
+{
+    _:p rdf:type KBActivityRecognition:RoutineActivityPrediction ;
+        ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+        ActivityRecognition:activityPredictionMadeFor ?patient ;
+        ActivityRecognition:predictedBy ?model ;
+        saref-core:hasTimestamp ?t .
+} .

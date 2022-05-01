@@ -1,0 +1,405 @@
+@prefix : <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@base <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
+
+<https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> rdf:type owl:Ontology ;
+                                                              terms:creator "Bram Steenwinckel, Mathias De Brouwer, Femke Ongenae" ;
+                                                              terms:publisher "IDLab - imec - Ghent University" ;
+                                                              rdfs:comment "This ontology describes the different concepts used within the DAHCC ontology to link wearables and wearables sensors to their corresponding properties and sensing abilities." ;
+                                                              rdfs:label "The DAHCC Sensors and Wearable Ontology" ;
+                                                              owl:versionInfo "0.0.1" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/creator
+terms:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/description
+terms:description rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/issued
+terms:issued rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/license
+terms:license rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/modified
+terms:modified rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/publisher
+terms:publisher rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/source
+terms:source rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+terms:title rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespacePrefix
+vann:preferredNamespacePrefix rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespaceUri
+vann:preferredNamespaceUri rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/ns/prov#hadPrimarySource
+prov:hadPrimarySource rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/Sensors/analyseStateOf
+<https://dahcc.idlab.ugent.be/Ontology/Sensors/analyseStateOf> owl:propertyChainAxiom ( <https://dahcc.idlab.ugent.be/Ontology/Sensors/analyseStateOf>
+                                                                                        <https://saref.etsi.org/saref4wear/isLocated>
+                                                                                      ) .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/hasAxis
+:hasAxis rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf <http://www.opengis.net/ont/geosparql#hasGeometry> ;
+         rdfs:range :Axis .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Acceleration
+:Acceleration rdf:type owl:Class ;
+              rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Accelerometer
+:Accelerometer rdf:type owl:Class ;
+               rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Altitude
+:Altitude rdf:type owl:Class ;
+          rdfs:subClassOf :GeoLocation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/AmbientLightSensor
+:AmbientLightSensor rdf:type owl:Class ;
+                    rdfs:subClassOf <https://saref.etsi.org/core/Sensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/AmbientNoiseSensor
+:AmbientNoiseSensor rdf:type owl:Class ;
+                    rdfs:subClassOf <https://saref.etsi.org/core/Sensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Amplitude
+:Amplitude rdf:type owl:Class ;
+           rdfs:subClassOf :Noise .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ApplicationUsage
+:ApplicationUsage rdf:type owl:Class ;
+                  rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ApplicationUsageMeter
+:ApplicationUsageMeter rdf:type owl:Class ;
+                       rdfs:subClassOf :SmartphoneUsageMeter .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Axis
+:Axis rdf:type owl:Class ;
+      rdfs:subClassOf <http://www.opengis.net/ont/geosparql#Geometry> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/BatteryLevelMeter
+:BatteryLevelMeter rdf:type owl:Class ;
+                   rdfs:subClassOf <https://saref.etsi.org/core/Meter> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/BloodPressure
+:BloodPressure rdf:type owl:Class ;
+               rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/BloodVolumePulse
+:BloodVolumePulse rdf:type owl:Class ;
+                  rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Empatica
+:Empatica rdf:type owl:Class ;
+          rdfs:subClassOf <https://saref.etsi.org/saref4wear/OnBodyWearable> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Frequency
+:Frequency rdf:type owl:Class ;
+           rdfs:subClassOf :Noise .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/GPSSensor
+:GPSSensor rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/core/Sensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/GSRSensor
+:GSRSensor rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/core/Sensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/GeoLocation
+:GeoLocation rdf:type owl:Class ;
+             rdfs:subClassOf <https://saref.etsi.org/core/Property> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Gravity
+:Gravity rdf:type owl:Class ;
+         rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/GravitySensor
+:GravitySensor rdf:type owl:Class ;
+               rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Gyroscope
+:Gyroscope rdf:type owl:Class ;
+           rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/HeartRate
+:HeartRate rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/InterBeatInterval
+:InterBeatInterval rdf:type owl:Class ;
+                   rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/KeyStrokes
+:KeyStrokes rdf:type owl:Class ;
+            rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/KeyboardUsageMeter
+:KeyboardUsageMeter rdf:type owl:Class ;
+                    rdfs:subClassOf :SmartphoneUsageMeter .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Latitude
+:Latitude rdf:type owl:Class ;
+          rdfs:subClassOf :GeoLocation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Light
+:Light rdf:type owl:Class ;
+       rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/LinearAcceleration
+:LinearAcceleration rdf:type owl:Class ;
+                    rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/LinearAccelerometer
+:LinearAccelerometer rdf:type owl:Class ;
+                     rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/LocationAccuracy
+:LocationAccuracy rdf:type owl:Class ;
+                  rdfs:subClassOf :GeoLocation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/LocationBearing
+:LocationBearing rdf:type owl:Class ;
+                 rdfs:subClassOf :GeoLocation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Longitude
+:Longitude rdf:type owl:Class ;
+           rdfs:subClassOf :GeoLocation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/MagneticFieldStrength
+:MagneticFieldStrength rdf:type owl:Class ;
+                       rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Magnetometer
+:Magnetometer rdf:type owl:Class ;
+              rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Noise
+:Noise rdf:type owl:Class ;
+       rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/OnWristDetector
+:OnWristDetector rdf:type owl:Class ;
+                 rdfs:subClassOf <https://saref.etsi.org/core/Meter> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/OrientationDeviation
+:OrientationDeviation rdf:type owl:Class ;
+                      rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/PPGSensor
+:PPGSensor rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/core/Sensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Proximity
+:Proximity rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ProximitySensor
+:ProximitySensor rdf:type owl:Class ;
+                 rdfs:subClassOf <https://saref.etsi.org/core/Sensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Rotation
+:Rotation rdf:type owl:Class ;
+          rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/RotationSensor
+:RotationSensor rdf:type owl:Class ;
+                rdfs:subClassOf <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SPO2
+:SPO2 rdf:type owl:Class ;
+      rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ScreenUsage
+:ScreenUsage rdf:type owl:Class ;
+             rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ScreenUsageMeter
+:ScreenUsageMeter rdf:type owl:Class ;
+                  rdfs:subClassOf :SmartphoneUsageMeter .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SkinConductance
+:SkinConductance rdf:type owl:Class ;
+                 rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SkinTemperature
+:SkinTemperature rdf:type owl:Class ;
+                 rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Smartphone
+:Smartphone rdf:type owl:Class ;
+            rdfs:subClassOf <https://saref.etsi.org/saref4wear/NearBodyWearable> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SmartphoneAcceleration
+:SmartphoneAcceleration rdf:type owl:Class ;
+                        rdfs:subClassOf :Acceleration .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SmartphoneUsageMeter
+:SmartphoneUsageMeter rdf:type owl:Class ;
+                      rdfs:subClassOf <https://saref.etsi.org/core/Meter> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/StepCount
+:StepCount rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/StepCounter
+:StepCounter rdf:type owl:Class ;
+             rdfs:subClassOf <https://saref.etsi.org/core/Meter> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Thermopile
+:Thermopile rdf:type owl:Class ;
+            rdfs:subClassOf <https://saref.etsi.org/core/TemperatureSensor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/WearableAcceleration
+:WearableAcceleration rdf:type owl:Class ;
+                      rdfs:subClassOf :Acceleration .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Weight
+:Weight rdf:type owl:Class ;
+        rdfs:subClassOf <https://saref.etsi.org/saref4wear/BiometricProperty> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/XAxis
+:XAxis rdf:type owl:Class ;
+       rdfs:subClassOf :Axis .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/YAxis
+:YAxis rdf:type owl:Class ;
+       rdfs:subClassOf :Axis .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ZAxis
+:ZAxis rdf:type owl:Class ;
+       rdfs:subClassOf :Axis .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty
+<https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty> rdf:type owl:Class ;
+                                                                       rdfs:subClassOf <https://saref.etsi.org/saref4wear/WearableProperty> ,
+                                                                                       [ rdf:type owl:Restriction ;
+                                                                                         owl:onProperty :hasAxis ;
+                                                                                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                                         owl:onClass :Axis
+                                                                                       ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor
+<https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor> rdf:type owl:Class ;
+                                                                     rdfs:subClassOf <https://saref.etsi.org/core/Sensor> ,
+                                                                                     [ rdf:type owl:Restriction ;
+                                                                                       owl:onProperty <https://saref.etsi.org/core/measuresProperty> ;
+                                                                                       owl:allValuesFrom <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty>
+                                                                                     ] .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :XAxis
+                :YAxis
+                :ZAxis
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

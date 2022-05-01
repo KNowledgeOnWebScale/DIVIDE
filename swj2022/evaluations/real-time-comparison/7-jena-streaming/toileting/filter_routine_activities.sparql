@@ -1,0 +1,42 @@
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sd-query: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+PREFIX ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/>
+PREFIX MonitoredPerson: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/>
+PREFIX Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/>
+PREFIX SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/>
+PREFIX SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/>
+PREFIX Homelab: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/>
+PREFIX HomelabWearable: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearable/Homelab/>
+PREFIX KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/>
+
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX saref4ehaw: <https://saref.etsi.org/saref4ehaw/>
+PREFIX saref4bldg: <https://saref.etsi.org/saref4bldg/>
+PREFIX saref4wear: <https://saref.etsi.org/saref4wear/>
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+CONSTRUCT {
+    _:p rdf:type KBActivityRecognition:RoutineActivityPrediction ;
+        ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+        ActivityRecognition:activityPredictionMadeFor ?patient ;
+        ActivityRecognition:predictedBy ?model ;
+        saref-core:hasTimestamp ?t .
+}
+WHERE {
+    ?p rdf:type KBActivityRecognition:RoutineActivityPrediction ;
+       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+       ActivityRecognition:activityPredictionMadeFor ?patient ;
+       ActivityRecognition:predictedBy ?model ;
+       saref-core:hasTimestamp ?t .
+    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+}

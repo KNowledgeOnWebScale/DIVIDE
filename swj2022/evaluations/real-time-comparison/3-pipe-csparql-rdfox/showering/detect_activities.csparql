@@ -1,0 +1,557 @@
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sd-query: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+PREFIX ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/>
+PREFIX MonitoredPerson: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/>
+PREFIX Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/>
+PREFIX SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/>
+PREFIX SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/>
+PREFIX Homelab: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/>
+PREFIX HomelabWearable: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearable/Homelab/>
+PREFIX KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/>
+
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX saref4ehaw: <https://saref.etsi.org/saref4ehaw/>
+PREFIX saref4bldg: <https://saref.etsi.org/saref4bldg/>
+PREFIX saref4wear: <https://saref.etsi.org/saref4wear/>
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+CONSTRUCT {
+    _:p rdf:type ActivityRecognition:ActivityPrediction ;
+        ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+        ActivityRecognition:activityPredictionMadeFor ?patient ;
+        ActivityRecognition:predictedBy ?model .
+}
+FROM <http://localhost:8176/local_context.ttl>
+FROM <http://localhost:8176/ontology/ActivityRecognition.ttl>
+FROM <http://localhost:8176/ontology/MonitoredPerson.ttl>
+FROM <http://localhost:8176/ontology/Sensors.ttl>
+FROM <http://localhost:8176/ontology/SensorsAndActuators.ttl>
+FROM <http://localhost:8176/ontology/SensorsAndWearables.ttl>
+FROM <http://localhost:8176/ontology/KBActivityRecognition.ttl>
+FROM <http://localhost:8176/ontology/_Homelab_tbox.ttl>
+FROM <http://localhost:8176/ontology/_HomelabWearable_tbox.ttl>
+FROM <http://localhost:8176/ontology/affectedBy.ttl>
+FROM <http://localhost:8176/ontology/eep.ttl>
+FROM <http://localhost:8176/ontology/cpannotationschema.ttl>
+FROM <http://localhost:8176/ontology/saref.ttl>
+FROM <http://localhost:8176/ontology/saref4bldg.ttl>
+FROM <http://localhost:8176/ontology/saref4ehaw.ttl>
+FROM <http://localhost:8176/ontology/saref4wear.ttl>
+FROM STREAM <http://protego.ilabt.imec.be/idlab.homelab> [RANGE 60s STEP 10s]
+WHERE {
+    BIND (NOW() AS ?now)
+
+    {
+        SELECT * WHERE {
+            FILTER (xsd:float(?avgV1) >= xsd:float(?c8_threshold))
+            {
+                SELECT (AVG(?v) as ?avgV1) ?sensor8 ?c8_prop ?model ?activityType ?t_peak ?c4_prop ?patient ?c8_threshold
+                WHERE {
+                    ?model rdf:type ActivityRecognition:ActivityRecognitionModel ;
+                           <https://w3id.org/eep#implements> [
+                               rdf:type ActivityRecognition:Configuration ;
+                               KBActivityRecognition:containsRule ?a
+                           ] .
+                    ?a rdf:type KBActivityRecognition:ActivityRule ;
+                       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+                       KBActivityRecognition:onTimeWindow ?timeWindow ;
+                       KBActivityRecognition:hasCondition [
+                           rdf:type KBActivityRecognition:OrCondition ;
+                           KBActivityRecognition:firstCondition ?c2 ;
+                           KBActivityRecognition:secondCondition ?c3
+                       ] .
+
+                    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+
+                    ?patient MonitoredPerson:hasIndoorLocation ?room .
+
+                    ?c2 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c4 ;
+                        KBActivityRecognition:secondCondition ?c8 .
+
+                    ?c4 rdf:type KBActivityRecognition:OrCondition ;
+                        KBActivityRecognition:firstCondition ?c10 ;
+                        KBActivityRecognition:secondCondition ?c12 ;
+                        Sensors:analyseStateOf [ rdf:type ?c4_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c4_prop ] .
+                    ?c4_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c4_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c8 rdf:type KBActivityRecognition:MeanThreshold ;
+                        KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                        saref-core:hasValue ?c8_threshold ;
+                        Sensors:analyseStateOf [ rdf:type ?c8_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c8_prop ] .
+                    ?c8_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c8_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c10 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c14 ;
+                        KBActivityRecognition:secondCondition ?c18 .
+
+                    ?c12 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c16 ;
+                        KBActivityRecognition:secondCondition ?c18b .
+
+                    ?c14 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c15 ;
+                        KBActivityRecognition:secondCondition ?c15 .
+
+                    ?c15 rdf:type KBActivityRecognition:SlopeThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c15_threshold .
+
+                    ?c16 rdf:type KBActivityRecognition:SlopeThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c16_threshold .
+
+                    ?c18 rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c18_threshold .
+
+                    ?c18b rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c18b_threshold .
+
+                    ?sensor8 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c8_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c8_analyzed ] .
+
+                    ?sensor4 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c4_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c4_analyzed ] .
+
+
+                    ?sensor4 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v1 ;
+                        Sensors:hasTimestampUTC ?t1 ;
+                        saref-core:relatesToProperty [ rdf:type ?c4_prop ]
+                    ] .
+                    ?sensor4 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v2 ;
+                        Sensors:hasTimestampUTC ?t2 ;
+                        saref-core:relatesToProperty [ rdf:type ?c4_prop ]
+                    ] .
+                    ?sensor4 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v3 ;
+                        Sensors:hasTimestampUTC ?t3 ;
+                        saref-core:relatesToProperty [ rdf:type ?c4_prop ]
+                    ] .
+
+                    BIND ((xsd:integer(?t2) - xsd:integer(?t1)) AS ?t_diff1)
+                    BIND ((xsd:integer(?t3) - xsd:integer(?t2)) AS ?t_diff2)
+                    FILTER (xsd:integer(?t_diff1) > 0)
+                    FILTER (xsd:integer(?t_diff2) > 0)
+
+                    BIND (((xsd:float(?v2) - xsd:float(?v1)) / (xsd:float(?t_diff1) / "60000"^^xsd:float)) AS ?slope2)
+                    FILTER (xsd:float(?slope2) >= xsd:float(?c15_threshold))
+                    BIND (((xsd:float(?v3) - xsd:float(?v2)) / (xsd:float(?t_diff2) / "60000"^^xsd:float)) AS ?slope3)
+                    FILTER (xsd:float(?slope3) >= xsd:float(?c15_threshold))
+
+                    ?sensor4 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v_peak2 ;
+                        Sensors:hasTimestampUTC ?t_peak ;
+                        saref-core:relatesToProperty [ rdf:type ?c4_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t_peak) > xsd:integer(?t3))
+                    FILTER (xsd:float(?v_peak2) >= xsd:float(?c18_threshold))
+
+                    ?sensor8 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v ;
+                        Sensors:hasTimestampUTC ?t ;
+                        saref-core:relatesToProperty [ rdf:type ?c8_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t) > xsd:integer(?t_peak))
+                }
+                GROUP BY ?sensor8 ?c8_prop ?model ?activityType ?t_peak ?c4_prop ?patient ?c8_threshold
+            }
+        }
+    }
+
+    UNION
+
+    {
+        SELECT * WHERE {
+            FILTER (xsd:float(?avgV1) >= xsd:float(?c8_threshold))
+            {
+                SELECT (AVG(?v) as ?avgV1) ?sensor8 ?c8_prop ?model ?activityType ?t_peak ?c4_prop ?patient ?c8_threshold
+                WHERE {
+                    ?model rdf:type ActivityRecognition:ActivityRecognitionModel ;
+                           <https://w3id.org/eep#implements> [
+                               rdf:type ActivityRecognition:Configuration ;
+                               KBActivityRecognition:containsRule ?a
+                           ] .
+                    ?a rdf:type KBActivityRecognition:ActivityRule ;
+                       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+                       KBActivityRecognition:onTimeWindow ?timeWindow ;
+                       KBActivityRecognition:hasCondition [
+                           rdf:type KBActivityRecognition:OrCondition ;
+                           KBActivityRecognition:firstCondition ?c2 ;
+                           KBActivityRecognition:secondCondition ?c3
+                       ] .
+
+                    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+
+                    ?patient MonitoredPerson:hasIndoorLocation ?room .
+
+                    ?c2 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c4 ;
+                        KBActivityRecognition:secondCondition ?c8 .
+
+                    ?c4 rdf:type KBActivityRecognition:OrCondition ;
+                        KBActivityRecognition:firstCondition ?c10 ;
+                        KBActivityRecognition:secondCondition ?c12 ;
+                        Sensors:analyseStateOf [ rdf:type ?c4_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c4_prop ] .
+                    ?c4_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c4_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c8 rdf:type KBActivityRecognition:MeanThreshold ;
+                        KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                        saref-core:hasValue ?c8_threshold ;
+                        Sensors:analyseStateOf [ rdf:type ?c8_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c8_prop ] .
+                    ?c8_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c8_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c10 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c14 ;
+                        KBActivityRecognition:secondCondition ?c18 .
+
+                    ?c12 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c16 ;
+                        KBActivityRecognition:secondCondition ?c18b .
+
+                    ?c14 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c15 ;
+                        KBActivityRecognition:secondCondition ?c15 .
+
+                    ?c15 rdf:type KBActivityRecognition:SlopeThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c15_threshold .
+
+                    ?c16 rdf:type KBActivityRecognition:SlopeThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c16_threshold .
+
+                    ?c18 rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c18_threshold .
+
+                    ?c18b rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c18b_threshold .
+
+                    ?sensor8 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c8_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c8_analyzed ] .
+
+                    ?sensor4 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c4_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c4_analyzed ] .
+
+
+                    ?sensor4 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v1 ;
+                        Sensors:hasTimestampUTC ?t1 ;
+                        saref-core:relatesToProperty [ rdf:type ?c4_prop ]
+                    ] .
+                    ?sensor4 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v2 ;
+                        Sensors:hasTimestampUTC ?t2 ;
+                        saref-core:relatesToProperty [ rdf:type ?c4_prop ]
+                    ] .
+
+                    BIND ((xsd:integer(?t2) - xsd:integer(?t1)) AS ?t_diff)
+                    FILTER (xsd:integer(?t_diff) > 0)
+
+                    BIND (((xsd:float(?v2) - xsd:float(?v1)) / (xsd:float(?t_diff) / "60000"^^xsd:float)) AS ?slope1)
+                    FILTER (xsd:float(?slope1) >= xsd:float(?c16_threshold))
+
+                    ?sensor4 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v_peak1 ;
+                        Sensors:hasTimestampUTC ?t_peak ;
+                        saref-core:relatesToProperty [ rdf:type ?c4_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t_peak) > xsd:integer(?t2))
+                    FILTER (xsd:float(?v_peak1) >= xsd:float(?c18b_threshold))
+
+                    ?sensor8 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v ;
+                        Sensors:hasTimestampUTC ?t ;
+                        saref-core:relatesToProperty [ rdf:type ?c8_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t) > xsd:integer(?t_peak))
+                }
+                GROUP BY ?sensor8 ?c8_prop ?model ?activityType ?t_peak ?c4_prop ?patient ?c8_threshold
+            }
+        }
+    }
+
+    UNION
+
+    {
+        SELECT * WHERE {
+            FILTER (xsd:float(?avgV1) < xsd:float(?c9_threshold))
+            {
+                SELECT (AVG(?v) as ?avgV1) ?sensor9 ?c9_prop ?model ?activityType ?t_peak ?c4_prop ?patient ?c9_threshold
+                WHERE {
+                    ?model rdf:type ActivityRecognition:ActivityRecognitionModel ;
+                           <https://w3id.org/eep#implements> [
+                               rdf:type ActivityRecognition:Configuration ;
+                               KBActivityRecognition:containsRule ?a
+                           ] .
+                    ?a rdf:type KBActivityRecognition:ActivityRule ;
+                       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+                       KBActivityRecognition:onTimeWindow ?timeWindow ;
+                       KBActivityRecognition:hasCondition [
+                           rdf:type KBActivityRecognition:OrCondition ;
+                           KBActivityRecognition:firstCondition ?c2 ;
+                           KBActivityRecognition:secondCondition ?c3
+                       ] .
+
+                    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+
+                    ?patient MonitoredPerson:hasIndoorLocation ?room .
+
+                    ?c3 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c5 ;
+                        KBActivityRecognition:secondCondition ?c9 .
+
+                    ?c5 rdf:type KBActivityRecognition:OrCondition ;
+                        KBActivityRecognition:firstCondition ?c11 ;
+                        KBActivityRecognition:secondCondition ?c13 ;
+                        Sensors:analyseStateOf [ rdf:type ?c5_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c5_prop ] .
+                    ?c5_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c5_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c9 rdf:type KBActivityRecognition:MeanThreshold ;
+                        KBActivityRecognition:isMinimumThreshold "false"^^xsd:boolean ;
+                        saref-core:hasValue ?c9_threshold ;
+                        Sensors:analyseStateOf [ rdf:type ?c9_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c9_prop ] .
+                    ?c9_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c9_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c11 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c14b ;
+                        KBActivityRecognition:secondCondition ?c19 .
+
+                    ?c13 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c17 ;
+                        KBActivityRecognition:secondCondition ?c19b .
+
+                    ?c14b rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c15b ;
+                        KBActivityRecognition:secondCondition ?c15b .
+
+                    ?c15b rdf:type KBActivityRecognition:SlopeThreshold ;
+                          KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                          saref-core:hasValue ?c15b_threshold .
+
+                    ?c17 rdf:type KBActivityRecognition:SlopeThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c17_threshold .
+
+                    ?c19 rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c19_threshold .
+
+                    ?c19b rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c19b_threshold .
+
+                    ?sensor9 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c9_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c9_analyzed ] .
+
+                    ?sensor5 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c5_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c5_analyzed ] .
+
+
+                    ?sensor5 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v1 ;
+                        Sensors:hasTimestampUTC ?t1 ;
+                        saref-core:relatesToProperty [ rdf:type ?c5_prop ]
+                    ] .
+                    ?sensor5 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v2 ;
+                        Sensors:hasTimestampUTC ?t2 ;
+                        saref-core:relatesToProperty [ rdf:type ?c5_prop ]
+                    ] .
+
+                    BIND ((xsd:integer(?t2) - xsd:integer(?t1)) AS ?t_diff)
+                    FILTER (xsd:integer(?t_diff) > 0)
+
+                    BIND (((xsd:float(?v2) - xsd:float(?v1)) / (xsd:float(?t_diff) / "60000"^^xsd:float)) AS ?slope4)
+                    FILTER (xsd:float(?slope4) >= xsd:float(?c17_threshold))
+
+                    ?sensor5 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v_peak3 ;
+                        Sensors:hasTimestampUTC ?t_peak ;
+                        saref-core:relatesToProperty [ rdf:type ?c5_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t_peak) > xsd:integer(?t2))
+                    FILTER (xsd:float(?v_peak3) >= xsd:float(?c19b_threshold))
+
+                    ?sensor9 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v ;
+                        Sensors:hasTimestampUTC ?t ;
+                        saref-core:relatesToProperty [ rdf:type ?c9_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t) > xsd:integer(?t_peak))
+                }
+                GROUP BY ?sensor9 ?c9_prop ?model ?activityType ?t_peak ?c5_prop ?patient ?c9_threshold
+            }
+        }
+    }
+
+    UNION
+
+    {
+        SELECT * WHERE {
+            FILTER (xsd:float(?avgV1) < xsd:float(?c9_threshold))
+            {
+                SELECT (AVG(?v) as ?avgV1) ?sensor9 ?c9_prop ?model ?activityType ?t_peak ?c5_prop ?patient ?c9_threshold
+                WHERE {
+                    ?model rdf:type ActivityRecognition:ActivityRecognitionModel ;
+                           <https://w3id.org/eep#implements> [
+                               rdf:type ActivityRecognition:Configuration ;
+                               KBActivityRecognition:containsRule ?a
+                           ] .
+                    ?a rdf:type KBActivityRecognition:ActivityRule ;
+                       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+                       KBActivityRecognition:onTimeWindow ?timeWindow ;
+                       KBActivityRecognition:hasCondition [
+                           rdf:type KBActivityRecognition:OrCondition ;
+                           KBActivityRecognition:firstCondition ?c2 ;
+                           KBActivityRecognition:secondCondition ?c3
+                       ] .
+
+                    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+
+                    ?patient MonitoredPerson:hasIndoorLocation ?room .
+
+                    ?c3 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c5 ;
+                        KBActivityRecognition:secondCondition ?c9 .
+
+                    ?c5 rdf:type KBActivityRecognition:OrCondition ;
+                        KBActivityRecognition:firstCondition ?c11 ;
+                        KBActivityRecognition:secondCondition ?c13 ;
+                        Sensors:analyseStateOf [ rdf:type ?c5_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c5_prop ] .
+                    ?c5_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c5_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c9 rdf:type KBActivityRecognition:MeanThreshold ;
+                        KBActivityRecognition:isMinimumThreshold "false"^^xsd:boolean ;
+                        saref-core:hasValue ?c9_threshold ;
+                        Sensors:analyseStateOf [ rdf:type ?c9_analyzed ] ;
+                        KBActivityRecognition:forProperty [ rdf:type ?c9_prop ] .
+                    ?c9_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+                    ?c9_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+                    ?c11 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c14b ;
+                        KBActivityRecognition:secondCondition ?c19 .
+
+                    ?c13 rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c17 ;
+                        KBActivityRecognition:secondCondition ?c19b .
+
+                    ?c14b rdf:type KBActivityRecognition:TimeOrderedCondition ;
+                        KBActivityRecognition:firstCondition ?c15b ;
+                        KBActivityRecognition:secondCondition ?c15b .
+
+                    ?c15b rdf:type KBActivityRecognition:SlopeThreshold ;
+                          KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                          saref-core:hasValue ?c15b_threshold .
+
+                    ?c17 rdf:type KBActivityRecognition:SlopeThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c17_threshold .
+
+                    ?c19 rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c19_threshold .
+
+                    ?c19b rdf:type KBActivityRecognition:RegularThreshold ;
+                         KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+                         saref-core:hasValue ?c19b_threshold .
+
+                    ?sensor9 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c9_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c9_analyzed ] .
+
+                    ?sensor5 rdf:type saref-core:Device ;
+                            saref-core:measuresProperty [ rdf:type ?c5_prop ] ;
+                            Sensors:isRelevantTo ?room ;
+                            Sensors:analyseStateOf [ rdf:type ?c5_analyzed ] .
+
+
+                    ?sensor5 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v1 ;
+                        Sensors:hasTimestampUTC ?t1 ;
+                        saref-core:relatesToProperty [ rdf:type ?c5_prop ]
+                    ] .
+                    ?sensor5 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v2 ;
+                        Sensors:hasTimestampUTC ?t2 ;
+                        saref-core:relatesToProperty [ rdf:type ?c5_prop ]
+                    ] .
+                    ?sensor5 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v3 ;
+                        Sensors:hasTimestampUTC ?t3 ;
+                        saref-core:relatesToProperty [ rdf:type ?c5_prop ]
+                    ] .
+
+                    BIND ((xsd:integer(?t2) - xsd:integer(?t1)) AS ?t_diff1)
+                    BIND ((xsd:integer(?t3) - xsd:integer(?t2)) AS ?t_diff2)
+                    FILTER (xsd:integer(?t_diff1) > 0)
+                    FILTER (xsd:integer(?t_diff2) > 0)
+
+                    BIND (((xsd:float(?v2) - xsd:float(?v1)) / (xsd:float(?t_diff1) / "60000"^^xsd:float)) AS ?slope5)
+                    BIND (((xsd:float(?v3) - xsd:float(?v2)) / (xsd:float(?t_diff2) / "60000"^^xsd:float)) AS ?slope6)
+                    FILTER (xsd:float(?slope5) >= xsd:float(?c15b_threshold))
+                    FILTER (xsd:float(?slope6) >= xsd:float(?c15b_threshold))
+
+                    ?sensor5 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v_peak4 ;
+                        Sensors:hasTimestampUTC ?t_peak ;
+                        saref-core:relatesToProperty [ rdf:type ?c5_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t_peak) > xsd:integer(?t3))
+                    FILTER (xsd:float(?v_peak4) >= xsd:float(?c19_threshold))
+
+                    ?sensor9 saref-core:makesMeasurement [
+                        saref-core:hasValue ?v ;
+                        Sensors:hasTimestampUTC ?t ;
+                        saref-core:relatesToProperty [ rdf:type ?c9_prop ]
+                    ] .
+                    FILTER (xsd:integer(?t) > xsd:integer(?t_peak))
+                }
+                GROUP BY ?sensor9 ?c9_prop ?model ?activityType ?t_peak ?c5_prop ?patient ?c9_threshold
+            }
+        }
+    }
+}

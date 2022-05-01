@@ -1,0 +1,42 @@
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sd-query: <http://idlab.ugent.be/sensdesc/query#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+sd-query:prefixes-activity-toileting
+	rdf:type owl:Ontology ;
+	sh:declare [ sh:prefix "xsd" ; sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "saref-core" ; sh:namespace "https://saref.etsi.org/core/"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "ActivityRecognition" ; sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "KBActivityRecognition" ; sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/"^^xsd:anyURI ] .
+
+sd-query:pattern
+    rdf:type sd:QueryPattern ;
+    sh:prefixes sd-query:prefixes-activity-toileting ;
+    sh:construct """
+        CONSTRUCT {
+            _:p a KBActivityRecognition:RoutineActivityPrediction ;
+                ActivityRecognition:forActivity [ a ?activityType ] ;
+                ActivityRecognition:activityPredictionMadeFor ?patient ;
+                ActivityRecognition:predictedBy ?model ;
+                saref-core:hasTimestamp ?now ;
+                KBActivityRecognition:detectedBySensor ?sensor .
+        }
+        FROM NAMED WINDOW :win ON <http://protego.ilabt.imec.be/idlab.homelab> [RANGE PT30S SLIDE PT10S]
+        WHERE {
+            BIND (NOW() as ?now)
+            WINDOW :win {
+                ?sensor saref-core:makesMeasurement [
+                    saref-core:hasValue ?v ;
+                    saref-core:hasTimestamp ?t ;
+                    saref-core:relatesToProperty ?prop_o
+                ] .
+                FILTER (xsd:float(?v) > xsd:float(?threshold))
+            }
+        }
+        ORDER BY DESC(?t)
+        LIMIT 1
+        """ .

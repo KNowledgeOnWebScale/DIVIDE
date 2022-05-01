@@ -1,0 +1,90 @@
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sd-query: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+PREFIX ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/>
+PREFIX MonitoredPerson: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/>
+PREFIX Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/>
+PREFIX SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/>
+PREFIX SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/>
+PREFIX Homelab: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/>
+PREFIX HomelabWearable: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearable/Homelab/>
+PREFIX KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/>
+
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX saref4ehaw: <https://saref.etsi.org/saref4ehaw/>
+PREFIX saref4bldg: <https://saref.etsi.org/saref4bldg/>
+PREFIX saref4wear: <https://saref.etsi.org/saref4wear/>
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+CONSTRUCT {
+    _:p rdf:type ActivityRecognition:ActivityPrediction ;
+        ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+        ActivityRecognition:activityPredictionMadeFor ?patient ;
+        ActivityRecognition:predictedBy ?model ;
+        saref-core:hasTimestamp ?now .
+}
+FROM <http://localhost:8176/local_context.ttl>
+FROM <http://localhost:8176/ontology/ActivityRecognition.ttl>
+FROM <http://localhost:8176/ontology/MonitoredPerson.ttl>
+FROM <http://localhost:8176/ontology/Sensors.ttl>
+FROM <http://localhost:8176/ontology/SensorsAndActuators.ttl>
+FROM <http://localhost:8176/ontology/SensorsAndWearables.ttl>
+FROM <http://localhost:8176/ontology/KBActivityRecognition.ttl>
+FROM <http://localhost:8176/ontology/_Homelab_tbox.ttl>
+FROM <http://localhost:8176/ontology/_HomelabWearable_tbox.ttl>
+FROM <http://localhost:8176/ontology/affectedBy.ttl>
+FROM <http://localhost:8176/ontology/eep.ttl>
+FROM <http://localhost:8176/ontology/cpannotationschema.ttl>
+FROM <http://localhost:8176/ontology/saref.ttl>
+FROM <http://localhost:8176/ontology/saref4bldg.ttl>
+FROM <http://localhost:8176/ontology/saref4ehaw.ttl>
+FROM <http://localhost:8176/ontology/saref4wear.ttl>
+FROM STREAM <http://protego.ilabt.imec.be/idlab.homelab> [RANGE 60s STEP 10s]
+WHERE {
+    BIND (NOW() as ?now)
+
+    ?sensor saref-core:makesMeasurement [
+        saref-core:hasValue ?v ;
+        saref-core:hasTimestamp ?t ;
+        saref-core:relatesToProperty ?prop_o
+    ] .
+
+    ?model rdf:type ActivityRecognition:ActivityRecognitionModel ;
+           <https://w3id.org/eep#implements> [
+               rdf:type ActivityRecognition:Configuration ;
+               KBActivityRecognition:containsRule ?a
+           ] .
+    ?a rdf:type KBActivityRecognition:ActivityRule ;
+       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+       KBActivityRecognition:hasCondition [
+           rdf:type KBActivityRecognition:RegularThreshold ;
+           KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+           saref-core:hasValue ?threshold ;
+           Sensors:analyseStateOf [ rdf:type ?analyzed ] ;
+           KBActivityRecognition:forProperty [ rdf:type ?prop ]
+       ] .
+
+    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+
+    FILTER (xsd:float(?v) > xsd:float(?threshold))
+
+    ?sensor rdf:type saref-core:Device ;
+            saref-core:measuresProperty ?prop_o ;
+            Sensors:isRelevantTo ?room ;
+            Sensors:analyseStateOf [ rdf:type ?analyzed ] .
+    ?prop_o rdf:type ?prop .
+
+    ?prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+    ?analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+    ?patient MonitoredPerson:hasIndoorLocation ?room .
+}

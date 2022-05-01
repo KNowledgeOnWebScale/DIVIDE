@@ -1,0 +1,141 @@
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sd-query: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+PREFIX ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/>
+PREFIX MonitoredPerson: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/>
+PREFIX Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/>
+PREFIX SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/>
+PREFIX SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/>
+PREFIX Homelab: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/>
+PREFIX HomelabWearable: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearable/Homelab/>
+PREFIX KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/>
+
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX saref4ehaw: <https://saref.etsi.org/saref4ehaw/>
+PREFIX saref4bldg: <https://saref.etsi.org/saref4bldg/>
+PREFIX saref4wear: <https://saref.etsi.org/saref4wear/>
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+CONSTRUCT {
+    _:p rdf:type ActivityRecognition:ActivityPrediction ;
+        ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+        ActivityRecognition:activityPredictionMadeFor ?patient ;
+        ActivityRecognition:predictedBy ?model ;
+        saref-core:hasTimestamp ?now .
+}
+FROM <http://localhost:8176/local_context.ttl>
+FROM <http://localhost:8176/ontology/ActivityRecognition.ttl>
+FROM <http://localhost:8176/ontology/MonitoredPerson.ttl>
+FROM <http://localhost:8176/ontology/Sensors.ttl>
+FROM <http://localhost:8176/ontology/SensorsAndActuators.ttl>
+FROM <http://localhost:8176/ontology/SensorsAndWearables.ttl>
+FROM <http://localhost:8176/ontology/KBActivityRecognition.ttl>
+FROM <http://localhost:8176/ontology/_Homelab_tbox.ttl>
+FROM <http://localhost:8176/ontology/_HomelabWearable_tbox.ttl>
+FROM <http://localhost:8176/ontology/affectedBy.ttl>
+FROM <http://localhost:8176/ontology/eep.ttl>
+FROM <http://localhost:8176/ontology/cpannotationschema.ttl>
+FROM <http://localhost:8176/ontology/saref.ttl>
+FROM <http://localhost:8176/ontology/saref4bldg.ttl>
+FROM <http://localhost:8176/ontology/saref4ehaw.ttl>
+FROM <http://localhost:8176/ontology/saref4wear.ttl>
+FROM STREAM <http://protego.ilabt.imec.be/idlab.homelab> [RANGE 30s STEP 10s]
+WHERE {
+    ?model rdf:type ActivityRecognition:ActivityRecognitionModel ;
+           <https://w3id.org/eep#implements> [
+               rdf:type ActivityRecognition:Configuration ;
+               KBActivityRecognition:containsRule ?a
+           ] .
+    ?a rdf:type KBActivityRecognition:ActivityRule ;
+       ActivityRecognition:forActivity [ rdf:type ?activityType ] ;
+       KBActivityRecognition:hasCondition [
+           rdf:type KBActivityRecognition:AndCondition ;
+           KBActivityRecognition:firstCondition ?c1 ;
+           KBActivityRecognition:secondCondition ?c2
+       ] .
+
+    ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
+
+    ?patient MonitoredPerson:hasIndoorLocation ?room .
+
+    ?c1 rdf:type KBActivityRecognition:RegularThreshold ;
+        KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+        saref-core:hasValue ?c1_threshold ;
+        Sensors:analyseStateOf [ rdf:type ?c1_analyzed ] ;
+        KBActivityRecognition:forProperty [ rdf:type ?c1_prop ] .
+    ?c1_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+    ?c1_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+    ?c2 rdf:type KBActivityRecognition:MeanVarianceThreshold ;
+        KBActivityRecognition:isMinimumThreshold "true"^^xsd:boolean ;
+        saref-core:hasValue ?c2_threshold ;
+        Sensors:analyseStateOf [ rdf:type ?c2_analyzed ] ;
+        KBActivityRecognition:forProperty [ rdf:type ?c2_prop ] .
+    ?c2_prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
+    ?c2_analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
+
+    ?sensor1 rdf:type saref-core:Device ;
+             saref-core:measuresProperty ?c1_prop_o ;
+             Sensors:isRelevantTo ?room ;
+             Sensors:analyseStateOf [ rdf:type ?c1_analyzed ] .
+    ?c1_prop_o rdf:type ?c1_prop .
+
+    ?sensor2 rdf:type saref-core:Device ;
+             saref-core:measuresProperty [
+                 rdf:type ?c2_prop ;
+                 SensorsAndWearables:hasAxis [ rdf:type SensorsAndWearables:XAxis ]
+             ] ;
+             Sensors:isRelevantTo ?room ;
+             Sensors:analyseStateOf [ rdf:type ?c2_analyzed ] .
+
+
+
+    BIND (NOW() AS ?now)
+
+    ?sensor1 saref-core:makesMeasurement [
+        saref-core:hasValue ?v1 ;
+        saref-core:relatesToProperty ?c1_prop_o
+    ] .
+    FILTER (xsd:float(?v1) >= xsd:float(?c1_threshold))
+
+    {
+        SELECT ?sensor2 (AVG(?var) AS ?ai)
+        {
+            SELECT ?sensor2 ?p (IF(?count=1, -1, (?sx / ?count)) AS ?var)
+            WHERE {
+                SELECT ?sensor2 ?p (SUM(?x) AS ?sx) ?count
+                WHERE {
+                    SELECT ?sensor2 ?p ?v (xsd:float(?v) AS ?ni) ?mean (xsd:float(?ni - ?mean) AS ?nmean)
+                           (((?nmean) * (?nmean)) AS ?x) ?count
+                    WHERE {
+                        ?sensor2 saref-core:makesMeasurement [
+                            saref-core:hasValue ?v ;
+                            saref-core:relatesToProperty ?p
+                        ] .
+                        {
+                           SELECT ?sensor2 ?p (AVG(?v2) AS ?mean) (COUNT(?sensor2) as ?count)
+                           WHERE {
+                               ?sensor2 saref-core:makesMeasurement [
+                                   saref-core:hasValue ?v2 ;
+                                   saref-core:relatesToProperty ?p
+                               ] .
+                           }
+                           GROUP BY ?sensor2 ?p
+                        }
+                    }
+                } GROUP BY ?sensor2 ?p ?count
+            }
+        }
+        GROUP BY ?sensor2
+    }
+    FILTER (xsd:float(?ai) >= xsd:float(?c2_threshold))
+}

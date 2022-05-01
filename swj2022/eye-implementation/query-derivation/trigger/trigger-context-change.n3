@@ -1,0 +1,3 @@
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+
+_:trigger sd:windowParameterSubstitutionTrigger sd:ContextChange .

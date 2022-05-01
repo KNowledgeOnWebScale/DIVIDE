@@ -1,0 +1,1553 @@
+@prefix : <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ns: <http://creativecommons.org/ns#> .
+@prefix eep: <https://w3id.org/eep#> .
+@prefix ns1: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix schema: <http://schema.org/> .
+@prefix Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/> .
+@prefix saref-core: <https://saref.etsi.org/core/> .
+@prefix saref4bldg: <https://saref.etsi.org/saref4bldg/> .
+@prefix saref4ehaw: <https://saref.etsi.org/saref4ehaw/> .
+@prefix cpannotationschema: <http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#> .
+@prefix ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> .
+@prefix SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/> .
+@prefix SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
+@base <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> .
+
+<https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> rdf:type owl:Ontology .
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#duration
+xsd:duration rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/containsRule
+:containsRule rdf:type owl:ObjectProperty ;
+              rdfs:domain ActivityRecognition:Configuration ;
+              rdfs:range :Rule .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/doesNotHaveActivityInRoutine
+:doesNotHaveActivityInRoutine rdf:type owl:ObjectProperty ;
+                              rdfs:subPropertyOf owl:topObjectProperty ;
+                              rdfs:range saref4ehaw:Activity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/elseResultCondition
+:elseResultCondition rdf:type owl:ObjectProperty ;
+                     rdfs:range :Condition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/firstCondition
+:firstCondition rdf:type owl:ObjectProperty ;
+                rdfs:range :Condition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/forProperty
+:forProperty rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             rdfs:domain :Condition ;
+             rdfs:range saref-core:Property .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/hasCondition
+:hasCondition rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdfs:range :Condition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/ifResultCondition
+:ifResultCondition rdf:type owl:ObjectProperty ;
+                   rdfs:range :Condition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/isIncludedIn
+:isIncludedIn rdf:type owl:ObjectProperty ;
+              owl:inverseOf saref-core:consistsOf .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/secondCondition
+:secondCondition rdf:type owl:ObjectProperty ;
+                 rdfs:range :Condition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasLocation
+<https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasLocation> owl:propertyChainAxiom ( :isIncludedIn
+                                                                                             <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasLocation>
+                                                                                           ) .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/Sensors/isRelevantTo
+Sensors:isRelevantTo owl:propertyChainAxiom ( Sensors:analyseStateOf
+                                              <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasLocation>
+                                            ) .
+
+
+###  https://saref.etsi.org/core/consistsOf
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/isMinimumThreshold
+:isMinimumThreshold rdf:type owl:DatatypeProperty ;
+                    rdfs:subPropertyOf owl:topDataProperty ;
+                    rdfs:domain :Threshold ;
+                    rdfs:range xsd:boolean .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/onTimeWindow
+:onTimeWindow rdf:type owl:DatatypeProperty ;
+              rdfs:domain :ActivityRule ;
+              rdfs:range xsd:duration .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BrushingTeeth
+ActivityRecognition:BrushingTeeth rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CookingFoodOven
+ActivityRecognition:CookingFoodOven rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CookingFoodStovetop
+ActivityRecognition:CookingFoodStovetop rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrinkPreparation
+ActivityRecognition:DrinkPreparation rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Eating
+ActivityRecognition:Eating rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PreparingHotMeal
+ActivityRecognition:PreparingHotMeal rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Showering
+ActivityRecognition:Showering rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Sleeping
+ActivityRecognition:Sleeping rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Toileting
+ActivityRecognition:Toileting rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/UsingMobilePhone
+ActivityRecognition:UsingMobilePhone rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WatchingTVActively
+ActivityRecognition:WatchingTVActively rdfs:subClassOf :DetectableActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/ActivityRule
+:ActivityRule rdf:type owl:Class ;
+              rdfs:subClassOf :Rule .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/AnalyzableForCondition
+:AnalyzableForCondition rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/AndCondition
+:AndCondition rdf:type owl:Class ;
+              rdfs:subClassOf :Condition ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasCondition ;
+                                owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :Condition
+                              ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/BrushingTeethActivityPrediction
+:BrushingTeethActivityPrediction rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty ActivityRecognition:forActivity ;
+                                                                              owl:someValuesFrom ActivityRecognition:BrushingTeeth
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/Condition
+:Condition rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/ConditionableProperty
+:ConditionableProperty rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/CookingFoodOvenActivityPrediction
+:CookingFoodOvenActivityPrediction rdf:type owl:Class ;
+                                   owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                              [ rdf:type owl:Restriction ;
+                                                                                owl:onProperty ActivityRecognition:forActivity ;
+                                                                                owl:someValuesFrom ActivityRecognition:CookingFoodOven
+                                                                              ]
+                                                                            ) ;
+                                                         rdf:type owl:Class
+                                                       ] ;
+                                   rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/CookingFoodStovetopActivityPrediction
+:CookingFoodStovetopActivityPrediction rdf:type owl:Class ;
+                                       owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                                  [ rdf:type owl:Restriction ;
+                                                                                    owl:onProperty ActivityRecognition:forActivity ;
+                                                                                    owl:someValuesFrom ActivityRecognition:CookingFoodStovetop
+                                                                                  ]
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] ;
+                                       rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/DetectableActivity
+:DetectableActivity rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/DrinkPreparationActivityPrediction
+:DrinkPreparationActivityPrediction rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty ActivityRecognition:forActivity ;
+                                                                                 owl:someValuesFrom ActivityRecognition:DrinkPreparation
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/EatingActivityPrediction
+:EatingActivityPrediction rdf:type owl:Class ;
+                          owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                     [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty ActivityRecognition:forActivity ;
+                                                                       owl:someValuesFrom ActivityRecognition:Eating
+                                                                     ]
+                                                                   ) ;
+                                                rdf:type owl:Class
+                                              ] ;
+                          rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/IfElseCondition
+:IfElseCondition rdf:type owl:Class ;
+                 rdfs:subClassOf :Condition ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :elseResultCondition ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :Condition
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasCondition ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :Condition
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :ifResultCondition ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :Condition
+                                 ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/MatchingValue
+:MatchingValue rdf:type owl:Class ;
+               rdfs:subClassOf :ValueCondition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/MeanThreshold
+:MeanThreshold rdf:type owl:Class ;
+               rdfs:subClassOf :Threshold .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/MeanVarianceThreshold
+:MeanVarianceThreshold rdf:type owl:Class ;
+                       rdfs:subClassOf :Threshold ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :forProperty ;
+                                         owl:allValuesFrom <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DProperty>
+                                       ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineActivityPrediction
+:NonRoutineActivityPrediction rdf:type owl:Class ;
+                              rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineBrushingTeethActivityPrediction
+:NonRoutineBrushingTeethActivityPrediction rdf:type owl:Class ;
+                                           owl:equivalentClass [ owl:intersectionOf ( :BrushingTeethActivityPrediction
+                                                                                      :NonRoutineActivityPrediction
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ,
+                                                               [ owl:intersectionOf ( :BrushingTeethActivityPrediction
+                                                                                      [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                        owl:someValuesFrom :UserWithoutBrushingTeethRoutine
+                                                                                      ]
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ;
+                                           rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineCookingFoodOvenActivityPrediction
+:NonRoutineCookingFoodOvenActivityPrediction rdf:type owl:Class ;
+                                             owl:equivalentClass [ owl:intersectionOf ( :CookingFoodOvenActivityPrediction
+                                                                                        :NonRoutineActivityPrediction
+                                                                                      ) ;
+                                                                   rdf:type owl:Class
+                                                                 ] ,
+                                                                 [ owl:intersectionOf ( :CookingFoodOvenActivityPrediction
+                                                                                        [ rdf:type owl:Restriction ;
+                                                                                          owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                          owl:someValuesFrom :UserWithoutCookingFoodOvenRoutine
+                                                                                        ]
+                                                                                      ) ;
+                                                                   rdf:type owl:Class
+                                                                 ] ;
+                                             rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineCookingFoodStovetopActivityPrediction
+:NonRoutineCookingFoodStovetopActivityPrediction rdf:type owl:Class ;
+                                                 owl:equivalentClass [ owl:intersectionOf ( :CookingFoodStovetopActivityPrediction
+                                                                                            :NonRoutineActivityPrediction
+                                                                                          ) ;
+                                                                       rdf:type owl:Class
+                                                                     ] ,
+                                                                     [ owl:intersectionOf ( :CookingFoodStovetopActivityPrediction
+                                                                                            [ rdf:type owl:Restriction ;
+                                                                                              owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                              owl:someValuesFrom :UserWithoutCookingFoodStovetopRoutine
+                                                                                            ]
+                                                                                          ) ;
+                                                                       rdf:type owl:Class
+                                                                     ] ;
+                                                 rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineDrinkPreparationActivityPrediction
+:NonRoutineDrinkPreparationActivityPrediction rdf:type owl:Class ;
+                                              owl:equivalentClass [ owl:intersectionOf ( :DrinkPreparationActivityPrediction
+                                                                                         :NonRoutineActivityPrediction
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ,
+                                                                  [ owl:intersectionOf ( :DrinkPreparationActivityPrediction
+                                                                                         [ rdf:type owl:Restriction ;
+                                                                                           owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                           owl:someValuesFrom :UserWithoutDrinkPreparationRoutine
+                                                                                         ]
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ;
+                                              rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineEatingActivityPrediction
+:NonRoutineEatingActivityPrediction rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( :EatingActivityPrediction
+                                                                               :NonRoutineActivityPrediction
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ,
+                                                        [ owl:intersectionOf ( :EatingActivityPrediction
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                 owl:someValuesFrom :UserWithoutEatingRoutine
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutinePreparingHotMealActivityPrediction
+:NonRoutinePreparingHotMealActivityPrediction rdf:type owl:Class ;
+                                              owl:equivalentClass [ owl:intersectionOf ( :NonRoutineActivityPrediction
+                                                                                         :PreparingHotMealActivityPrediction
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ,
+                                                                  [ owl:intersectionOf ( :PreparingHotMealActivityPrediction
+                                                                                         [ rdf:type owl:Restriction ;
+                                                                                           owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                           owl:someValuesFrom :UserWithoutPreparingHotMealRoutine
+                                                                                         ]
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ;
+                                              rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineShoweringActivityPrediction
+:NonRoutineShoweringActivityPrediction rdf:type owl:Class ;
+                                       owl:equivalentClass [ owl:intersectionOf ( :NonRoutineActivityPrediction
+                                                                                  :ShoweringActivityPrediction
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] ,
+                                                           [ owl:intersectionOf ( :ShoweringActivityPrediction
+                                                                                  [ rdf:type owl:Restriction ;
+                                                                                    owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                    owl:someValuesFrom :UserWithoutShoweringRoutine
+                                                                                  ]
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] ;
+                                       rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineSleepingActivityPrediction
+:NonRoutineSleepingActivityPrediction rdf:type owl:Class ;
+                                      owl:equivalentClass [ owl:intersectionOf ( :NonRoutineActivityPrediction
+                                                                                 :SleepingActivityPrediction
+                                                                               ) ;
+                                                            rdf:type owl:Class
+                                                          ] ,
+                                                          [ owl:intersectionOf ( :SleepingActivityPrediction
+                                                                                 [ rdf:type owl:Restriction ;
+                                                                                   owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                   owl:someValuesFrom :UserWithoutSleepingRoutine
+                                                                                 ]
+                                                                               ) ;
+                                                            rdf:type owl:Class
+                                                          ] ;
+                                      rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineToiletingActivityPrediction
+:NonRoutineToiletingActivityPrediction rdf:type owl:Class ;
+                                       owl:equivalentClass [ owl:intersectionOf ( :NonRoutineActivityPrediction
+                                                                                  :ToiletingActivityPrediction
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] ,
+                                                           [ owl:intersectionOf ( :ToiletingActivityPrediction
+                                                                                  [ rdf:type owl:Restriction ;
+                                                                                    owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                    owl:someValuesFrom :UserWithoutToiletingRoutine
+                                                                                  ]
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] ;
+                                       rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineUsingMobilePhoneActivityPrediction
+:NonRoutineUsingMobilePhoneActivityPrediction rdf:type owl:Class ;
+                                              owl:equivalentClass [ owl:intersectionOf ( :NonRoutineActivityPrediction
+                                                                                         :UsingMobilePhoneActivityPrediction
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ,
+                                                                  [ owl:intersectionOf ( :UsingMobilePhoneActivityPrediction
+                                                                                         [ rdf:type owl:Restriction ;
+                                                                                           owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                           owl:someValuesFrom :UserWithoutUsingMobilePhoneRoutine
+                                                                                         ]
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ;
+                                              rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/NonRoutineWatchingTVActivelyActivityPrediction
+:NonRoutineWatchingTVActivelyActivityPrediction rdf:type owl:Class ;
+                                                owl:equivalentClass [ owl:intersectionOf ( :NonRoutineActivityPrediction
+                                                                                           :WatchingTVActivelyActivityPrediction
+                                                                                         ) ;
+                                                                      rdf:type owl:Class
+                                                                    ] ,
+                                                                    [ owl:intersectionOf ( :WatchingTVActivelyActivityPrediction
+                                                                                           [ rdf:type owl:Restriction ;
+                                                                                             owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                             owl:someValuesFrom :UserWithoutWatchingTVActivelyRoutine
+                                                                                           ]
+                                                                                         ) ;
+                                                                      rdf:type owl:Class
+                                                                    ] ;
+                                                rdfs:subClassOf :NonRoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/OrCondition
+:OrCondition rdf:type owl:Class ;
+             rdfs:subClassOf :Condition ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasCondition ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Condition
+                             ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/PreparingHotMealActivityPrediction
+:PreparingHotMealActivityPrediction rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty ActivityRecognition:forActivity ;
+                                                                                 owl:someValuesFrom ActivityRecognition:PreparingHotMeal
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RegularThreshold
+:RegularThreshold rdf:type owl:Class ;
+                  rdfs:subClassOf :Threshold .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineActivityPrediction
+:RoutineActivityPrediction rdf:type owl:Class ;
+                           rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineBrushingTeethActivityPrediction
+:RoutineBrushingTeethActivityPrediction rdf:type owl:Class ;
+                                        owl:equivalentClass [ owl:intersectionOf ( :BrushingTeethActivityPrediction
+                                                                                   :RoutineActivityPrediction
+                                                                                 ) ;
+                                                              rdf:type owl:Class
+                                                            ] ,
+                                                            [ owl:intersectionOf ( :BrushingTeethActivityPrediction
+                                                                                   [ rdf:type owl:Restriction ;
+                                                                                     owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                     owl:someValuesFrom :UserWithBrushingTeethRoutine
+                                                                                   ]
+                                                                                 ) ;
+                                                              rdf:type owl:Class
+                                                            ] ;
+                                        rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineCookingFoodOvenActivityPrediction
+:RoutineCookingFoodOvenActivityPrediction rdf:type owl:Class ;
+                                          owl:equivalentClass [ owl:intersectionOf ( :CookingFoodOvenActivityPrediction
+                                                                                     :RoutineActivityPrediction
+                                                                                   ) ;
+                                                                rdf:type owl:Class
+                                                              ] ,
+                                                              [ owl:intersectionOf ( :CookingFoodOvenActivityPrediction
+                                                                                     [ rdf:type owl:Restriction ;
+                                                                                       owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                       owl:someValuesFrom :UserWithCookingFoodOvenRoutine
+                                                                                     ]
+                                                                                   ) ;
+                                                                rdf:type owl:Class
+                                                              ] ;
+                                          rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineCookingFoodStovetopActivityPrediction
+:RoutineCookingFoodStovetopActivityPrediction rdf:type owl:Class ;
+                                              owl:equivalentClass [ owl:intersectionOf ( :CookingFoodStovetopActivityPrediction
+                                                                                         :RoutineActivityPrediction
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ,
+                                                                  [ owl:intersectionOf ( :CookingFoodStovetopActivityPrediction
+                                                                                         [ rdf:type owl:Restriction ;
+                                                                                           owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                           owl:someValuesFrom :UserWithCookingFoodStovetopRoutine
+                                                                                         ]
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ;
+                                              rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineDrinkPreparationActivityPrediction
+:RoutineDrinkPreparationActivityPrediction rdf:type owl:Class ;
+                                           owl:equivalentClass [ owl:intersectionOf ( :DrinkPreparationActivityPrediction
+                                                                                      :RoutineActivityPrediction
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ,
+                                                               [ owl:intersectionOf ( :DrinkPreparationActivityPrediction
+                                                                                      [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                        owl:someValuesFrom :UserWithDrinkPreparationRoutine
+                                                                                      ]
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ;
+                                           rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineEatingActivityPrediction
+:RoutineEatingActivityPrediction rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( :EatingActivityPrediction
+                                                                            :RoutineActivityPrediction
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ,
+                                                     [ owl:intersectionOf ( :EatingActivityPrediction
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                              owl:someValuesFrom :UserWithEatingRoutine
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutinePreparingHotMealActivityPrediction
+:RoutinePreparingHotMealActivityPrediction rdf:type owl:Class ;
+                                           owl:equivalentClass [ owl:intersectionOf ( :PreparingHotMealActivityPrediction
+                                                                                      :RoutineActivityPrediction
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ,
+                                                               [ owl:intersectionOf ( :PreparingHotMealActivityPrediction
+                                                                                      [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                        owl:someValuesFrom :UserWithPreparingHotMealRoutine
+                                                                                      ]
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ;
+                                           rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineShoweringActivityPrediction
+:RoutineShoweringActivityPrediction rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( :RoutineActivityPrediction
+                                                                               :ShoweringActivityPrediction
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ,
+                                                        [ owl:intersectionOf ( :ShoweringActivityPrediction
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                 owl:someValuesFrom :UserWithShoweringRoutine
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineSleepingActivityPrediction
+:RoutineSleepingActivityPrediction rdf:type owl:Class ;
+                                   owl:equivalentClass [ owl:intersectionOf ( :RoutineActivityPrediction
+                                                                              :SleepingActivityPrediction
+                                                                            ) ;
+                                                         rdf:type owl:Class
+                                                       ] ,
+                                                       [ owl:intersectionOf ( :SleepingActivityPrediction
+                                                                              [ rdf:type owl:Restriction ;
+                                                                                owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                owl:someValuesFrom :UserWithSleepingRoutine
+                                                                              ]
+                                                                            ) ;
+                                                         rdf:type owl:Class
+                                                       ] ;
+                                   rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineToiletingActivityPrediction
+:RoutineToiletingActivityPrediction rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( :RoutineActivityPrediction
+                                                                               :ToiletingActivityPrediction
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ,
+                                                        [ owl:intersectionOf ( :ToiletingActivityPrediction
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                 owl:someValuesFrom :UserWithToiletingRoutine
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineUsingMobilePhoneActivityPrediction
+:RoutineUsingMobilePhoneActivityPrediction rdf:type owl:Class ;
+                                           owl:equivalentClass [ owl:intersectionOf ( :RoutineActivityPrediction
+                                                                                      :UsingMobilePhoneActivityPrediction
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ,
+                                                               [ owl:intersectionOf ( :UsingMobilePhoneActivityPrediction
+                                                                                      [ rdf:type owl:Restriction ;
+                                                                                        owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                        owl:someValuesFrom :UserWithUsingMobilePhoneRoutine
+                                                                                      ]
+                                                                                    ) ;
+                                                                 rdf:type owl:Class
+                                                               ] ;
+                                           rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/RoutineWatchingTVActivelyActivityPrediction
+:RoutineWatchingTVActivelyActivityPrediction rdf:type owl:Class ;
+                                             owl:equivalentClass [ owl:intersectionOf ( :RoutineActivityPrediction
+                                                                                        :WatchingTVActivelyActivityPrediction
+                                                                                      ) ;
+                                                                   rdf:type owl:Class
+                                                                 ] ,
+                                                                 [ owl:intersectionOf ( :WatchingTVActivelyActivityPrediction
+                                                                                        [ rdf:type owl:Restriction ;
+                                                                                          owl:onProperty ActivityRecognition:activityPredictionMadeFor ;
+                                                                                          owl:someValuesFrom :UserWithWatchingTVActivelyRoutine
+                                                                                        ]
+                                                                                      ) ;
+                                                                   rdf:type owl:Class
+                                                                 ] ;
+                                             rdfs:subClassOf :RoutineActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/Rule
+:Rule rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/ShoweringActivityPrediction
+:ShoweringActivityPrediction rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty ActivityRecognition:forActivity ;
+                                                                          owl:someValuesFrom ActivityRecognition:Showering
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/SleepingActivityPrediction
+:SleepingActivityPrediction rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty ActivityRecognition:forActivity ;
+                                                                         owl:someValuesFrom ActivityRecognition:Sleeping
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] ;
+                            rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/SlopeThreshold
+:SlopeThreshold rdf:type owl:Class ;
+                rdfs:subClassOf :Threshold .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/Threshold
+:Threshold rdf:type owl:Class ;
+           rdfs:subClassOf :ValueCondition ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :isMinimumThreshold ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:boolean
+                           ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/TimeOrderedCondition
+:TimeOrderedCondition rdf:type owl:Class ;
+                      rdfs:subClassOf :Condition ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :firstCondition ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :Condition
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :secondCondition ;
+                                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :Condition
+                                      ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/ToiletingActivityPrediction
+:ToiletingActivityPrediction rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty ActivityRecognition:forActivity ;
+                                                                          owl:someValuesFrom ActivityRecognition:Toileting
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithBrushingTeethRoutine
+:UserWithBrushingTeethRoutine rdf:type owl:Class ;
+                              owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                         [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                           owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                     [ rdf:type owl:Restriction ;
+                                                                                                                       owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                       owl:someValuesFrom ActivityRecognition:BrushingTeeth
+                                                                                                                     ]
+                                                                                                                   ) ;
+                                                                                                rdf:type owl:Class
+                                                                                              ]
+                                                                         ]
+                                                                       ) ;
+                                                    rdf:type owl:Class
+                                                  ] ;
+                              rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithCookingFoodOvenRoutine
+:UserWithCookingFoodOvenRoutine rdf:type owl:Class ;
+                                owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                           [ rdf:type owl:Restriction ;
+                                                                             owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                             owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                                         owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                         owl:someValuesFrom ActivityRecognition:CookingFoodOven
+                                                                                                                       ]
+                                                                                                                     ) ;
+                                                                                                  rdf:type owl:Class
+                                                                                                ]
+                                                                           ]
+                                                                         ) ;
+                                                      rdf:type owl:Class
+                                                    ] ;
+                                rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithCookingFoodStovetopRoutine
+:UserWithCookingFoodStovetopRoutine rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                                 owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                           [ rdf:type owl:Restriction ;
+                                                                                                                             owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                             owl:someValuesFrom ActivityRecognition:CookingFoodStovetop
+                                                                                                                           ]
+                                                                                                                         ) ;
+                                                                                                      rdf:type owl:Class
+                                                                                                    ]
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithDrinkPreparationRoutine
+:UserWithDrinkPreparationRoutine rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                        [ rdf:type owl:Restriction ;
+                                                                                                                          owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                          owl:someValuesFrom ActivityRecognition:DrinkPreparation
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithEatingRoutine
+:UserWithEatingRoutine rdf:type owl:Class ;
+                       owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                    owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                              [ rdf:type owl:Restriction ;
+                                                                                                                owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                owl:someValuesFrom ActivityRecognition:Eating
+                                                                                                              ]
+                                                                                                            ) ;
+                                                                                         rdf:type owl:Class
+                                                                                       ]
+                                                                  ]
+                                                                ) ;
+                                             rdf:type owl:Class
+                                           ] ;
+                       rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithPreparingHotMealRoutine
+:UserWithPreparingHotMealRoutine rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                        [ rdf:type owl:Restriction ;
+                                                                                                                          owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                          owl:someValuesFrom ActivityRecognition:PreparingHotMeal
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithShoweringRoutine
+:UserWithShoweringRoutine rdf:type owl:Class ;
+                          owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                     [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                       owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                 [ rdf:type owl:Restriction ;
+                                                                                                                   owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                   owl:someValuesFrom ActivityRecognition:Showering
+                                                                                                                 ]
+                                                                                                               ) ;
+                                                                                            rdf:type owl:Class
+                                                                                          ]
+                                                                     ]
+                                                                   ) ;
+                                                rdf:type owl:Class
+                                              ] ;
+                          rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithSleepingRoutine
+:UserWithSleepingRoutine rdf:type owl:Class ;
+                         owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                      owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                [ rdf:type owl:Restriction ;
+                                                                                                                  owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                  owl:someValuesFrom ActivityRecognition:Sleeping
+                                                                                                                ]
+                                                                                                              ) ;
+                                                                                           rdf:type owl:Class
+                                                                                         ]
+                                                                    ]
+                                                                  ) ;
+                                               rdf:type owl:Class
+                                             ] ;
+                         rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithToiletingRoutine
+:UserWithToiletingRoutine rdf:type owl:Class ;
+                          owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                     [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                       owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                 [ rdf:type owl:Restriction ;
+                                                                                                                   owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                   owl:someValuesFrom ActivityRecognition:Toileting
+                                                                                                                 ]
+                                                                                                               ) ;
+                                                                                            rdf:type owl:Class
+                                                                                          ]
+                                                                     ]
+                                                                   ) ;
+                                                rdf:type owl:Class
+                                              ] ;
+                          rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithUsingMobilePhoneRoutine
+:UserWithUsingMobilePhoneRoutine rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                        [ rdf:type owl:Restriction ;
+                                                                                                                          owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                          owl:someValuesFrom ActivityRecognition:UsingMobilePhone
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithWatchingTVActivelyRoutine
+:UserWithWatchingTVActivelyRoutine rdf:type owl:Class ;
+                                   owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                              [ rdf:type owl:Restriction ;
+                                                                                owl:onProperty <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine> ;
+                                                                                owl:someValuesFrom [ owl:intersectionOf ( ActivityRecognition:Routine
+                                                                                                                          [ rdf:type owl:Restriction ;
+                                                                                                                            owl:onProperty ActivityRecognition:consistsOf ;
+                                                                                                                            owl:someValuesFrom ActivityRecognition:WatchingTVActively
+                                                                                                                          ]
+                                                                                                                        ) ;
+                                                                                                     rdf:type owl:Class
+                                                                                                   ]
+                                                                              ]
+                                                                            ) ;
+                                                         rdf:type owl:Class
+                                                       ] ;
+                                   rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutBrushingTeethRoutine
+:UserWithoutBrushingTeethRoutine rdf:type owl:Class ;
+                                 owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                              owl:someValuesFrom ActivityRecognition:BrushingTeeth
+                                                                            ]
+                                                                          ) ;
+                                                       rdf:type owl:Class
+                                                     ] ;
+                                 rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutCookingFoodOvenRoutine
+:UserWithoutCookingFoodOvenRoutine rdf:type owl:Class ;
+                                   owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                              [ rdf:type owl:Restriction ;
+                                                                                owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                                owl:someValuesFrom ActivityRecognition:CookingFoodOven
+                                                                              ]
+                                                                            ) ;
+                                                         rdf:type owl:Class
+                                                       ] ;
+                                   rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutCookingFoodStovetopRoutine
+:UserWithoutCookingFoodStovetopRoutine rdf:type owl:Class ;
+                                       owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                                  [ rdf:type owl:Restriction ;
+                                                                                    owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                                    owl:someValuesFrom ActivityRecognition:CookingFoodStovetop
+                                                                                  ]
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] ;
+                                       rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutDrinkPreparationRoutine
+:UserWithoutDrinkPreparationRoutine rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                                 owl:someValuesFrom ActivityRecognition:DrinkPreparation
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutEatingRoutine
+:UserWithoutEatingRoutine rdf:type owl:Class ;
+                          owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                     [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                       owl:someValuesFrom ActivityRecognition:Eating
+                                                                     ]
+                                                                   ) ;
+                                                rdf:type owl:Class
+                                              ] ;
+                          rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutPreparingHotMealRoutine
+:UserWithoutPreparingHotMealRoutine rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                                 owl:someValuesFrom ActivityRecognition:PreparingHotMeal
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutShoweringRoutine
+:UserWithoutShoweringRoutine rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                          owl:someValuesFrom ActivityRecognition:Showering
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutSleepingRoutine
+:UserWithoutSleepingRoutine rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                         owl:someValuesFrom ActivityRecognition:Sleeping
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] ;
+                            rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutToiletingRoutine
+:UserWithoutToiletingRoutine rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                          owl:someValuesFrom ActivityRecognition:Toileting
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutUsingMobilePhoneRoutine
+:UserWithoutUsingMobilePhoneRoutine rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                                 owl:someValuesFrom ActivityRecognition:UsingMobilePhone
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UserWithoutWatchingTVActivelyRoutine
+:UserWithoutWatchingTVActivelyRoutine rdf:type owl:Class ;
+                                      owl:equivalentClass [ owl:intersectionOf ( saref4ehaw:User
+                                                                                 [ rdf:type owl:Restriction ;
+                                                                                   owl:onProperty :doesNotHaveActivityInRoutine ;
+                                                                                   owl:someValuesFrom ActivityRecognition:WatchingTVActively
+                                                                                 ]
+                                                                               ) ;
+                                                            rdf:type owl:Class
+                                                          ] ;
+                                      rdfs:subClassOf saref4ehaw:User .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/UsingMobilePhoneActivityPrediction
+:UsingMobilePhoneActivityPrediction rdf:type owl:Class ;
+                                    owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty ActivityRecognition:forActivity ;
+                                                                                 owl:someValuesFrom ActivityRecognition:UsingMobilePhone
+                                                                               ]
+                                                                             ) ;
+                                                          rdf:type owl:Class
+                                                        ] ;
+                                    rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/ValueCondition
+:ValueCondition rdf:type owl:Class ;
+                rdfs:subClassOf :Condition ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty saref-core:hasValue ;
+                                  owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/WatchingTVActivelyActivityPrediction
+:WatchingTVActivelyActivityPrediction rdf:type owl:Class ;
+                                      owl:equivalentClass [ owl:intersectionOf ( ActivityRecognition:ActivityPrediction
+                                                                                 [ rdf:type owl:Restriction ;
+                                                                                   owl:onProperty ActivityRecognition:forActivity ;
+                                                                                   owl:someValuesFrom ActivityRecognition:WatchingTVActively
+                                                                                 ]
+                                                                               ) ;
+                                                            rdf:type owl:Class
+                                                          ] ;
+                                      rdfs:subClassOf ActivityRecognition:ActivityPrediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/AtmosphericPressure
+SensorsAndActuators:AtmosphericPressure rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Blind
+SensorsAndActuators:Blind rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Button
+SensorsAndActuators:Button rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/CO2
+SensorsAndActuators:CO2 rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Dimmer
+SensorsAndActuators:Dimmer rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/ElectricalCooker
+SensorsAndActuators:ElectricalCooker rdfs:subClassOf :AnalyzableForCondition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/EnergyConsumption
+SensorsAndActuators:EnergyConsumption rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Fridge
+SensorsAndActuators:Fridge rdfs:subClassOf :AnalyzableForCondition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/IndoorTemperature
+SensorsAndActuators:IndoorTemperature rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Light
+SensorsAndActuators:Light rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/LightSwitch
+SensorsAndActuators:LightSwitch rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Loudness
+SensorsAndActuators:Loudness rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Motion
+SensorsAndActuators:Motion rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/OrientationDeviation
+SensorsAndActuators:OrientationDeviation rdf:type owl:Class ;
+                                         rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Oven
+SensorsAndActuators:Oven rdfs:subClassOf :AnalyzableForCondition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/PeopleNumber
+SensorsAndActuators:PeopleNumber rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/PeoplePresencee
+SensorsAndActuators:PeoplePresencee rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Positioning
+SensorsAndActuators:Positioning rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/RelativeHumidity
+SensorsAndActuators:RelativeHumidity rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Relay
+SensorsAndActuators:Relay rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Room
+SensorsAndActuators:BathRoom rdfs:subClassOf :AnalyzableForCondition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/VOC
+SensorsAndActuators:VOC rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/VentilationLevel
+SensorsAndActuators:VentilationLevel rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/WaterRunning
+SensorsAndActuators:WaterRunning rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Amplitude
+SensorsAndWearables:Amplitude rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ApplicationUsage
+SensorsAndWearables:ApplicationUsage rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/BloodPressure
+SensorsAndWearables:BloodPressure rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/BloodVolumePulse
+SensorsAndWearables:BloodVolumePulse rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Frequency
+SensorsAndWearables:Frequency rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Gravity
+SensorsAndWearables:Gravity rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/HeartRate
+SensorsAndWearables:HeartRate rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/InterBeatInterval
+SensorsAndWearables:InterBeatInterval rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/KeyStrokes
+SensorsAndWearables:KeyStrokes rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Light
+SensorsAndWearables:Light rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/LinearAcceleration
+SensorsAndWearables:LinearAcceleration rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/MagneticFieldStrength
+SensorsAndWearables:MagneticFieldStrength rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/OrientationDeviation
+SensorsAndWearables:OrientationDeviation rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Proximity
+SensorsAndWearables:Proximity rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Rotation
+SensorsAndWearables:Rotation rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SPO2
+SensorsAndWearables:SPO2 rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/ScreenUsage
+SensorsAndWearables:ScreenUsage rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SkinConductance
+SensorsAndWearables:SkinConductance rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SkinTemperature
+SensorsAndWearables:SkinTemperature rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/SmartphoneAcceleration
+SensorsAndWearables:SmartphoneAcceleration rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/StepCount
+SensorsAndWearables:StepCount rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/StepCounter
+SensorsAndWearables:StepCounter rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/WearableAcceleration
+SensorsAndWearables:WearableAcceleration rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/Weight
+SensorsAndWearables:Weight rdfs:subClassOf :ConditionableProperty .
+
+
+###  https://saref.etsi.org/saref4bldg/Pump
+saref4bldg:Pump rdf:type owl:Class ;
+                rdfs:subClassOf :AnalyzableForCondition .
+
+
+###  https://saref.etsi.org/saref4bldg/Room
+saref4bldg:Room rdf:type owl:Class .
+
+
+###  https://saref.etsi.org/saref4ehaw/Patient
+saref4ehaw:Patient rdfs:subClassOf :AnalyzableForCondition .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/KBActivityRecognitionModel
+:KBActivityRecognitionModel rdf:type owl:NamedIndividual ,
+                                     ActivityRecognition:ActivityRecognitionModel ;
+                            eep:implements :KBActivityRecognitionModelConfig1 .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/KBActivityRecognitionModelConfig1
+:KBActivityRecognitionModelConfig1 rdf:type owl:NamedIndividual ,
+                                            ActivityRecognition:Configuration ;
+                                   :containsRule :brushing_teeth_rule ,
+                                                 :showering_rule ,
+                                                 :toileting_rule ;
+                                   terms:created "2022-01-04T17:00:00"^^xsd:dateTime .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_BrushingTeeth
+:_BrushingTeeth rdf:type owl:NamedIndividual ,
+                         ActivityRecognition:BrushingTeeth .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_EnergyConsumption
+:_EnergyConsumption rdf:type owl:NamedIndividual ,
+                             SensorsAndActuators:EnergyConsumption .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Patient
+:_Patient rdf:type owl:NamedIndividual ,
+                   saref4ehaw:Patient .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Positioning
+:_Positioning rdf:type owl:NamedIndividual ,
+                       SensorsAndActuators:Positioning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Pump
+:_Pump rdf:type owl:NamedIndividual ,
+                saref4bldg:Pump .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_RelativeHumidity
+:_RelativeHumidity rdf:type owl:NamedIndividual ,
+                            SensorsAndActuators:RelativeHumidity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_BathRoom
+:_BathRoom rdf:type owl:NamedIndividual ,
+                SensorsAndActuators:BathRoom .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Showering
+:_Showering rdf:type owl:NamedIndividual ,
+                     ActivityRecognition:Showering .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Toileting
+:_Toileting rdf:type owl:NamedIndividual ,
+                     ActivityRecognition:Toileting .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_WaterRunning
+:_WaterRunning rdf:type owl:NamedIndividual ,
+                        SensorsAndActuators:WaterRunning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_WearableAcceleration
+:_WearableAcceleration rdf:type owl:NamedIndividual ,
+                                SensorsAndWearables:WearableAcceleration .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/brushing_teeth_condition01
+:brushing_teeth_condition01 rdf:type owl:NamedIndividual ,
+                                     :AndCondition ;
+                            :firstCondition :brushing_teeth_condition02 ;
+                            :secondCondition :brushing_teeth_condition03 .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/brushing_teeth_condition02
+:brushing_teeth_condition02 rdf:type owl:NamedIndividual ,
+                                     :RegularThreshold ;
+                            :forProperty :_WaterRunning ;
+                            Sensors:analyseStateOf :_BathRoom ;
+                            :isMinimumThreshold "true"^^xsd:boolean ;
+                            saref-core:hasValue "1.0E-5"^^xsd:float .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/brushing_teeth_condition03
+:brushing_teeth_condition03 rdf:type owl:NamedIndividual ,
+                                     :MeanVarianceThreshold ;
+                            :forProperty :_WearableAcceleration ;
+                            Sensors:analyseStateOf :_Patient ;
+                            :isMinimumThreshold "true"^^xsd:boolean ;
+                            saref-core:hasValue "30.0"^^xsd:float .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/brushing_teeth_rule
+:brushing_teeth_rule rdf:type owl:NamedIndividual ,
+                              :ActivityRule ;
+                     ActivityRecognition:forActivity :_BrushingTeeth ;
+                     :hasCondition :brushing_teeth_condition01 .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/showering_condition01
+:showering_condition01 rdf:type owl:NamedIndividual ,
+                                :RegularThreshold ;
+                       :forProperty :_RelativeHumidity ;
+                       Sensors:analyseStateOf :_BathRoom ;
+                       :isMinimumThreshold "true"^^xsd:boolean ;
+                       saref-core:hasValue "57.0"^^xsd:float .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/showering_rule
+:showering_rule rdf:type owl:NamedIndividual ,
+                         :ActivityRule ;
+                ActivityRecognition:forActivity :_Showering ;
+                :hasCondition :showering_condition01 .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/toileting_condition01
+:toileting_condition01 rdf:type owl:NamedIndividual ,
+                                :RegularThreshold ;
+                       :forProperty :_EnergyConsumption ;
+                       Sensors:analyseStateOf :_Pump ;
+                       :isMinimumThreshold "true"^^xsd:boolean ;
+                       saref-core:hasValue "1.0E-5"^^xsd:float .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/toileting_rule
+:toileting_rule rdf:type owl:NamedIndividual ,
+                         :ActivityRule ;
+                ActivityRecognition:forActivity :_Toileting ;
+                :hasCondition :toileting_condition01 .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

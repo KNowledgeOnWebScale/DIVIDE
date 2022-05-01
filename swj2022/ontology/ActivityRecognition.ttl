@@ -1,0 +1,1372 @@
+@prefix : <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ns: <http://creativecommons.org/ns#> .
+@prefix ns1: <http://www.w3.org/2003/06/sw-vocab-status/ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix cpannotationschema: <http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#> .
+@base <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> .
+
+<https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> rdf:type owl:Ontology ;
+                                                              dc:creator "Bram Steenwinckel, Mathias De Brouwer, Femke Ongenae" ;
+                                                              terms:publisher "IDLab - imec- Ghent University" ;
+                                                              rdfs:comment "This Ontology descirbes the different concepts within the DAHCCC ontology to link human activities and postures together with activity recognition concepts." ;
+                                                              rdfs:label "The DAHCC Activity Recognition Ontology" ;
+                                                              owl:versionInfo "0.0.1" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/publisher
+terms:publisher rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/activityPredictionMadeFor
+:activityPredictionMadeFor rdf:type owl:ObjectProperty ;
+                           rdfs:subPropertyOf :predictionMadeFor ;
+                           rdfs:domain :ActivityPrediction ;
+                           rdfs:range <https://saref.etsi.org/saref4ehaw/HealthActor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/analyzeProperty
+:analyzeProperty rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Model ;
+                 rdfs:range <https://saref.etsi.org/core/Property> ;
+                 rdfs:label "analyze property" .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/consistsOf
+:consistsOf rdf:type owl:ObjectProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/forActivity
+:forActivity rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty ;
+             rdfs:range <https://saref.etsi.org/saref4ehaw/Activity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/hasCause
+:hasCause rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :hasExplanation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/hasExplanation
+:hasExplanation rdf:type owl:ObjectProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/isBasedOn
+:isBasedOn rdf:type owl:ObjectProperty ;
+           rdfs:domain :Prediction ;
+           rdfs:label "is based on" .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/nextActivity
+:nextActivity rdf:type owl:ObjectProperty ;
+              owl:inverseOf :previousActivity ;
+              rdfs:domain <https://saref.etsi.org/saref4ehaw/Activity> ;
+              rdfs:range <https://saref.etsi.org/saref4ehaw/Activity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/predictedBy
+:predictedBy rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf <https://w3id.org/eep#madeBy> ;
+             owl:inverseOf :predicts ;
+             rdfs:range :Model ;
+             rdfs:label "predicted by" .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/predictionMadeFor
+:predictionMadeFor rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf owl:topObjectProperty ;
+                   rdfs:domain :Prediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/predicts
+:predicts rdf:type owl:ObjectProperty ;
+          rdfs:domain :Model ;
+          rdfs:label "predicts" .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/previousActivity
+:previousActivity rdf:type owl:ObjectProperty ;
+                  rdfs:domain <https://saref.etsi.org/saref4ehaw/Activity> ;
+                  rdfs:range <https://saref.etsi.org/saref4ehaw/Activity> .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/activityEnd
+:activityEnd rdf:type owl:DatatypeProperty ;
+             rdfs:domain <https://saref.etsi.org/saref4ehaw/Activity> ;
+             rdfs:range xsd:dateTime .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/activityStart
+:activityStart rdf:type owl:DatatypeProperty ;
+               rdfs:domain <https://saref.etsi.org/saref4ehaw/Activity> ;
+               rdfs:range xsd:dateTime .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/timeOfPrediction
+:timeOfPrediction rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Prediction ;
+                  rdfs:range xsd:dateTime .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ActiveActivity
+:ActiveActivity rdf:type owl:Class ;
+                rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Activity> ;
+                rdfs:comment "Activity which is performed actively by a person." .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ActivityPrediction
+:ActivityPrediction rdf:type owl:Class ;
+                    rdfs:subClassOf :Prediction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ActivityRecognitionModel
+:ActivityRecognitionModel rdf:type owl:Class ;
+                          rdfs:subClassOf :Model ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty :predicts ;
+                                            owl:allValuesFrom <https://saref.etsi.org/saref4ehaw/Activity>
+                                          ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/AdjustingLightLevels
+:AdjustingLightLevels rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Ambulation
+:Ambulation rdf:type owl:Class ;
+            rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Anomaly
+:Anomaly rdf:type owl:Class ;
+         rdfs:subClassOf :Prediction ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasExplanation ;
+                           owl:someValuesFrom :Cause
+                         ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/AtomicHomeActivities
+:AtomicHomeActivities rdf:type owl:Class ;
+                      rdfs:subClassOf :ActiveActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BackgroundActivity
+:BackgroundActivity rdf:type owl:Class ;
+                    rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Activity> ;
+                    rdfs:comment "Activity which is started by a person, but runs in the background." .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Bathing
+:Bathing rdf:type owl:Class ;
+         rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Bending
+:Bending rdf:type owl:Class ;
+         rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BendingOver
+:BendingOver rdf:type owl:Class ;
+             rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BreakRoutine
+:BreakRoutine rdf:type owl:Class ;
+              rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BrowingInternetOnComputer
+:BrowingInternetOnComputer rdf:type owl:Class ;
+                           rdfs:subClassOf :UsingComputer .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BrowsingInternetOnMobilePhone
+:BrowsingInternetOnMobilePhone rdf:type owl:Class ;
+                               rdfs:subClassOf :UsingMobilePhone .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BrushingHair
+:BrushingHair rdf:type owl:Class ;
+              rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BrushingTeeth
+:BrushingTeeth rdf:type owl:Class ;
+               rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Cause
+:Cause rdf:type owl:Class ;
+       rdfs:subClassOf :Explanation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CausingDestruction
+:CausingDestruction rdf:type owl:Class ;
+                    rdfs:subClassOf :HomeEnvironmentManagement .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ChangingLinen
+:ChangingLinen rdf:type owl:Class ;
+               rdfs:subClassOf :ActiveActivity ,
+                               :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ChargingDevices
+:ChargingDevices rdf:type owl:Class ;
+                 rdfs:subClassOf :OtherActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Cleaning
+:Cleaning rdf:type owl:Class ;
+          rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CleaningInBackground
+:CleaningInBackground rdf:type owl:Class ;
+                      rdfs:subClassOf :BackgroundActivity ,
+                                      :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CleaningWindows
+:CleaningWindows rdf:type owl:Class ;
+                 rdfs:subClassOf :ActiveActivity ,
+                                 :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Configuration
+:Configuration rdf:type owl:Class ;
+               rdfs:subClassOf <https://w3id.org/eep#Procedure> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CookingFoodOven
+:CookingFoodOven rdf:type owl:Class ;
+                 rdfs:subClassOf :ActiveActivity ,
+                                 :Preparation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CookingFoodStovetop
+:CookingFoodStovetop rdf:type owl:Class ;
+                     rdfs:subClassOf :ActiveActivity ,
+                                     :Preparation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Cosmetics
+:Cosmetics rdf:type owl:Class ;
+           rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Crawling
+:Crawling rdf:type owl:Class ;
+          rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CupBoardInteraction
+:CupBoardInteraction rdf:type owl:Class ;
+                     rdfs:subClassOf :AtomicHomeActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CupboardClose
+:CupboardClose rdf:type owl:Class ;
+               rdfs:subClassOf :CupBoardInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CupboardOpen
+:CupboardOpen rdf:type owl:Class ;
+              rdfs:subClassOf :CupBoardInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/CuttingNails
+:CuttingNails rdf:type owl:Class ;
+              rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Dancing
+:Dancing rdf:type owl:Class ;
+         rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Decorating
+:Decorating rdf:type owl:Class ;
+            rdfs:subClassOf :HomeEnvironmentManagement .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DinnerRoutine
+:DinnerRoutine rdf:type owl:Class ;
+               rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DishwasherOnInBackground
+:DishwasherOnInBackground rdf:type owl:Class ;
+                          rdfs:subClassOf :BackgroundActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Dishwashing
+:Dishwashing rdf:type owl:Class ;
+             rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DoorClose
+:DoorClose rdf:type owl:Class ;
+           rdfs:subClassOf :DoorInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DoorInteraction
+:DoorInteraction rdf:type owl:Class ;
+                 rdfs:subClassOf :AtomicHomeActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DoorOpen
+:DoorOpen rdf:type owl:Class ;
+          rdfs:subClassOf :DoorInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DoorWalkThrough
+:DoorWalkThrough rdf:type owl:Class ;
+                 rdfs:subClassOf :DoorInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrawClose
+:DrawClose rdf:type owl:Class ;
+           rdfs:subClassOf :DrawInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrawInteraction
+:DrawInteraction rdf:type owl:Class ;
+                 rdfs:subClassOf :AtomicHomeActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrawOpen
+:DrawOpen rdf:type owl:Class ;
+          rdfs:subClassOf :DrawInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrinkPreparation
+:DrinkPreparation rdf:type owl:Class ;
+                  rdfs:subClassOf :ActiveActivity ,
+                                  <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Drinking
+:Drinking rdf:type owl:Class ;
+          rdfs:subClassOf :ActiveActivity ,
+                          <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrinkingAlcohol
+:DrinkingAlcohol rdf:type owl:Class ;
+                 rdfs:subClassOf :Drinking .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrinkingBeverage
+:DrinkingBeverage rdf:type owl:Class ;
+                  rdfs:subClassOf :Drinking .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DrinkingWater
+:DrinkingWater rdf:type owl:Class ;
+               rdfs:subClassOf :Drinking .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DryerOnInBackround
+:DryerOnInBackround rdf:type owl:Class ;
+                    rdfs:subClassOf :BackgroundActivity ,
+                                    :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DryingBody
+:DryingBody rdf:type owl:Class ;
+            rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DryingDishes
+:DryingDishes rdf:type owl:Class ;
+              rdfs:subClassOf :ActiveActivity ,
+                              :Dishwashing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/DryingHair
+:DryingHair rdf:type owl:Class ;
+            rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Dusting
+:Dusting rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Eating
+:Eating rdf:type owl:Class ;
+        rdfs:subClassOf :ActiveActivity ,
+                        <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/EatingMeal
+:EatingMeal rdf:type owl:Class ;
+            rdfs:subClassOf :Eating .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/EatingSnack
+:EatingSnack rdf:type owl:Class ;
+             rdfs:subClassOf :Eating .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ElectricAppliance
+:ElectricAppliance rdf:type owl:Class ;
+                   rdfs:subClassOf :AtomicHomeActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/EmailOnComputer
+:EmailOnComputer rdf:type owl:Class ;
+                 rdfs:subClassOf :UsingComputer .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/EmailOnMobilePhone
+:EmailOnMobilePhone rdf:type owl:Class ;
+                    rdfs:subClassOf :UsingMobilePhone .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/EnduranceeTraining
+:EnduranceeTraining rdf:type owl:Class ;
+                    rdfs:subClassOf :Exercising .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/EveningRoutine
+:EveningRoutine rdf:type owl:Class ;
+                rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ExerciseRoutine
+:ExerciseRoutine rdf:type owl:Class ;
+                 rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Exercising
+:Exercising rdf:type owl:Class ;
+            rdfs:subClassOf :ActiveActivity ,
+                            <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Explanation
+:Explanation rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/FlexibilityTraining
+:FlexibilityTraining rdf:type owl:Class ;
+                     rdfs:subClassOf :Exercising .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Flossing
+:Flossing rdf:type owl:Class ;
+          rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Gardening
+:Gardening rdf:type owl:Class ;
+           rdfs:subClassOf :Yardwork .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/GettingDressed
+:GettingDressed rdf:type owl:Class ;
+                rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/GettingReadyToSleep
+:GettingReadyToSleep rdf:type owl:Class ;
+                     rdfs:subClassOf :Sleeping .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/GettingUndressed
+:GettingUndressed rdf:type owl:Class ;
+                  rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Grooming
+:Grooming rdf:type owl:Class ;
+          rdfs:subClassOf :ActiveActivity ,
+                          <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/HandWashing
+:HandWashing rdf:type owl:Class ;
+             rdfs:subClassOf :ActiveActivity ,
+                             :Dishwashing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/HangingLaundry
+:HangingLaundry rdf:type owl:Class ;
+                rdfs:subClassOf :ActiveActivity ,
+                                :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Healthcare
+:Healthcare rdf:type owl:Class ;
+            rdfs:subClassOf :ActiveActivity ,
+                            <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/HomeEnvironmentManagement
+:HomeEnvironmentManagement rdf:type owl:Class ;
+                           rdfs:subClassOf :ActiveActivity ,
+                                           <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Hygiene
+:Hygiene rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/InformationInteraction
+:InformationInteraction rdf:type owl:Class ;
+                        rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Intellectual
+:Intellectual rdf:type owl:Class ;
+              rdfs:subClassOf :Working .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Ironing
+:Ironing rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Jogging
+:Jogging rdf:type owl:Class ;
+         rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Jumping
+:Jumping rdf:type owl:Class ;
+         rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KneelToStand
+:KneelToStand rdf:type owl:Class ;
+              rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Kneeling
+:Kneeling rdf:type owl:Class ;
+          rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Knitting
+:Knitting rdf:type owl:Class ;
+          rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Laundry
+:Laundry rdf:type owl:Class ;
+         rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Leisure
+:Leisure rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LieToSit
+:LieToSit rdf:type owl:Class ;
+          rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LieToStand
+:LieToStand rdf:type owl:Class ;
+            rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Lifestyle
+:Lifestyle rdf:type owl:Class ;
+           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :consistsOf ;
+                             owl:someValuesFrom :Routine
+                           ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ListeningMusicInBackground
+:ListeningMusicInBackground rdf:type owl:Class ;
+                            rdfs:subClassOf :BackgroundActivity ,
+                                            :InformationInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LoadingDishwasher
+:LoadingDishwasher rdf:type owl:Class ;
+                   rdfs:subClassOf :ActiveActivity ,
+                                   :Dishwashing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LoadingDryer
+:LoadingDryer rdf:type owl:Class ;
+              rdfs:subClassOf :ActiveActivity ,
+                              :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LoadingWashingMachine
+:LoadingWashingMachine rdf:type owl:Class ;
+                       rdfs:subClassOf :ActiveActivity ,
+                                       :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LunchRoutine
+:LunchRoutine rdf:type owl:Class ;
+              rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LyingDown
+:LyingDown rdf:type owl:Class ;
+           rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/LyingStill
+:LyingStill rdf:type owl:Class ;
+            rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/MakingBed
+:MakingBed rdf:type owl:Class ;
+           rdfs:subClassOf :ActiveActivity ,
+                           :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Meditating
+:Meditating rdf:type owl:Class ;
+            rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Model
+:Model rdf:type owl:Class ;
+       rdfs:subClassOf <https://w3id.org/eep#Executor> ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty <https://w3id.org/eep#implements> ;
+                         owl:someValuesFrom :Configuration
+                       ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Mopping
+:Mopping rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/MorningRoutine
+:MorningRoutine rdf:type owl:Class ;
+                rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/MovingFurniture
+:MovingFurniture rdf:type owl:Class ;
+                 rdfs:subClassOf :HomeEnvironmentManagement .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/MovingLawn
+:MovingLawn rdf:type owl:Class ;
+            rdfs:subClassOf :Yardwork .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Napping
+:Napping rdf:type owl:Class ;
+         rdfs:subClassOf :Sleeping .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectDrop
+:ObjectDrop rdf:type owl:Class ;
+            rdfs:subClassOf :ObjectInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectEmpty
+:ObjectEmpty rdf:type owl:Class ;
+             rdfs:subClassOf :ObjectInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectFill
+:ObjectFill rdf:type owl:Class ;
+            rdfs:subClassOf :ObjectInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectHold
+:ObjectHold rdf:type owl:Class ;
+            rdfs:subClassOf :ObjectInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectInteraction
+:ObjectInteraction rdf:type owl:Class ;
+                   rdfs:subClassOf :AtomicHomeActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectPickUp
+:ObjectPickUp rdf:type owl:Class ;
+              rdfs:subClassOf :ObjectInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectPutDown
+:ObjectPutDown rdf:type owl:Class ;
+               rdfs:subClassOf :ObjectInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ObjectUse
+:ObjectUse rdf:type owl:Class ;
+           rdfs:subClassOf :ObjectInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Organizing
+:Organizing rdf:type owl:Class ;
+            rdfs:subClassOf :ActiveActivity ,
+                            :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/OtherActivities
+:OtherActivities rdf:type owl:Class ;
+                 rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Activity> ;
+                 rdfs:comment "Study related activities" .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PersonalAlarmCall
+:PersonalAlarmCall rdf:type owl:Class ;
+                   rdfs:subClassOf :SocialInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PetActivity
+:PetActivity rdf:type owl:Class ;
+             rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PhysicalWork
+:PhysicalWork rdf:type owl:Class ;
+              rdfs:subClassOf :Working .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Pivoting
+:Pivoting rdf:type owl:Class ;
+          rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PlayingGames
+:PlayingGames rdf:type owl:Class ;
+              rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PlayingMusic
+:PlayingMusic rdf:type owl:Class ;
+              rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PlayngChildren
+:PlayngChildren rdf:type owl:Class ;
+                rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PolishingFloor
+:PolishingFloor rdf:type owl:Class ;
+                rdfs:subClassOf :ActiveActivity ,
+                                :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PolishingFurniture
+:PolishingFurniture rdf:type owl:Class ;
+                    rdfs:subClassOf :ActiveActivity ,
+                                    :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Praying
+:Praying rdf:type owl:Class ;
+         rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Prediction
+:Prediction rdf:type owl:Class ;
+            rdfs:subClassOf <https://w3id.org/eep#Execution> ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasExplanation ;
+                              owl:someValuesFrom :Explanation
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <https://w3id.org/eep#madeBy> ;
+                              owl:someValuesFrom :Model
+                            ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Preparation
+:Preparation rdf:type owl:Class ;
+             rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PreparingHotMeal
+:PreparingHotMeal rdf:type owl:Class ;
+                  rdfs:subClassOf :PreparingMeal .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PreparingLaundryForWashing
+:PreparingLaundryForWashing rdf:type owl:Class ;
+                            rdfs:subClassOf :ActiveActivity ,
+                                            :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PreparingMeal
+:PreparingMeal rdf:type owl:Class ;
+               rdfs:subClassOf :ActiveActivity ,
+                               :Preparation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PreparingMealInBackground
+:PreparingMealInBackground rdf:type owl:Class ;
+                           rdfs:subClassOf :BackgroundActivity ,
+                                           :Preparation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PreparingSnacks
+:PreparingSnacks rdf:type owl:Class ;
+                 rdfs:subClassOf :ActiveActivity ,
+                                 :Preparation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PuttingAwayDishes
+:PuttingAwayDishes rdf:type owl:Class ;
+                   rdfs:subClassOf :ActiveActivity ,
+                                   :Dishwashing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PuttingAwayLaundry
+:PuttingAwayLaundry rdf:type owl:Class ;
+                    rdfs:subClassOf :ActiveActivity ,
+                                    :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PuttingAwayShopping
+:PuttingAwayShopping rdf:type owl:Class ;
+                     rdfs:subClassOf :HomeEnvironmentManagement .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PuttingOnSensors
+:PuttingOnSensors rdf:type owl:Class ;
+                  rdfs:subClassOf :OtherActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PuttingShoesOn
+:PuttingShoesOn rdf:type owl:Class ;
+                rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/PuttingThingsAway
+:PuttingThingsAway rdf:type owl:Class ;
+                   rdfs:subClassOf :ActiveActivity ,
+                                   :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ReadingPrintedMaterial
+:ReadingPrintedMaterial rdf:type owl:Class ;
+                        rdfs:subClassOf :ActiveActivity ,
+                                        :InformationInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ReceiveVisitors
+:ReceiveVisitors rdf:type owl:Class ;
+                 rdfs:subClassOf :SocialInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Recycling
+:Recycling rdf:type owl:Class ;
+           rdfs:subClassOf :ActiveActivity ,
+                           :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/RehabilitationExercise
+:RehabilitationExercise rdf:type owl:Class ;
+                        rdfs:subClassOf :Exercising .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Relaxing
+:Relaxing rdf:type owl:Class ;
+          rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Rinsing
+:Rinsing rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         :Dishwashing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/RoomTransition
+:RoomTransition rdf:type owl:Class ;
+                rdfs:subClassOf :AtomicHomeActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Routine
+:Routine rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :consistsOf ;
+                           owl:someValuesFrom <https://saref.etsi.org/saref4ehaw/Activity>
+                         ] .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Running
+:Running rdf:type owl:Class ;
+         rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ScrubbingFloor
+:ScrubbingFloor rdf:type owl:Class ;
+                rdfs:subClassOf :ActiveActivity ,
+                                :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SearchingItem
+:SearchingItem rdf:type owl:Class ;
+               rdfs:subClassOf :HomeEnvironmentManagement .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Serving
+:Serving rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         :Preparation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Sewing
+:Sewing rdf:type owl:Class ;
+        rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Shaving
+:Shaving rdf:type owl:Class ;
+         rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Showering
+:Showering rdf:type owl:Class ;
+           rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Singing
+:Singing rdf:type owl:Class ;
+         rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SitToLie
+:SitToLie rdf:type owl:Class ;
+          rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SitToStand
+:SitToStand rdf:type owl:Class ;
+            rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SitToWalk
+:SitToWalk rdf:type owl:Class ;
+           rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Sitting
+:Sitting rdf:type owl:Class ;
+         rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SittingChair
+:SittingChair rdf:type owl:Class ;
+              rdfs:subClassOf :Sitting .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SittingDown
+:SittingDown rdf:type owl:Class ;
+             rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SittingFloor
+:SittingFloor rdf:type owl:Class ;
+              rdfs:subClassOf :Sitting .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SleepRoutine
+:SleepRoutine rdf:type owl:Class ;
+              rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Sleeping
+:Sleeping rdf:type owl:Class ;
+          rdfs:subClassOf :ActiveActivity ,
+                          <https://saref.etsi.org/saref4ehaw/NocturnalActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SleepingDeeply
+:SleepingDeeply rdf:type owl:Class ;
+                rdfs:subClassOf :Sleeping .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SoakingDishes
+:SoakingDishes rdf:type owl:Class ;
+               rdfs:subClassOf :ActiveActivity ,
+                               :Dishwashing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SocialInteraction
+:SocialInteraction rdf:type owl:Class ;
+                   rdfs:subClassOf :ActiveActivity ,
+                                   <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SocialMedia
+:SocialMedia rdf:type owl:Class ;
+             rdfs:subClassOf :SocialInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Squatting
+:Squatting rdf:type owl:Class ;
+           rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StandToKneel
+:StandToKneel rdf:type owl:Class ;
+              rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StandToLie
+:StandToLie rdf:type owl:Class ;
+            rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StandToSit
+:StandToSit rdf:type owl:Class ;
+            rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Standing
+:Standing rdf:type owl:Class ;
+          rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StandingStill
+:StandingStill rdf:type owl:Class ;
+               rdfs:subClassOf :Standing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StandingUnquiet
+:StandingUnquiet rdf:type owl:Class ;
+                 rdfs:subClassOf :Standing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StandingUp
+:StandingUp rdf:type owl:Class ;
+            rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Straightening
+:Straightening rdf:type owl:Class ;
+               rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StrengthTraining
+:StrengthTraining rdf:type owl:Class ;
+                  rdfs:subClassOf :Exercising .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Stretching
+:Stretching rdf:type owl:Class ;
+            rdfs:subClassOf :Exercising .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/StudyRelated
+:StudyRelated rdf:type owl:Class ;
+              rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Sweeping
+:Sweeping rdf:type owl:Class ;
+          rdfs:subClassOf :ActiveActivity ,
+                          :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SwitchLightOff
+:SwitchLightOff rdf:type owl:Class ;
+                rdfs:subClassOf :AdjustingLightLevels .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SwitchLightOn
+:SwitchLightOn rdf:type owl:Class ;
+               rdfs:subClassOf :AdjustingLightLevels .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SwitchOff
+:SwitchOff rdf:type owl:Class ;
+           rdfs:subClassOf :ElectricAppliance .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/SwitchOn
+:SwitchOn rdf:type owl:Class ;
+          rdfs:subClassOf :ElectricAppliance .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TakingMedication
+:TakingMedication rdf:type owl:Class ;
+                  rdfs:subClassOf :Healthcare .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TakingOffSensors
+:TakingOffSensors rdf:type owl:Class ;
+                  rdfs:subClassOf :OtherActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TakingOutTrash
+:TakingOutTrash rdf:type owl:Class ;
+                rdfs:subClassOf :ActiveActivity ,
+                                :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TakingShoesOff
+:TakingShoesOff rdf:type owl:Class ;
+                rdfs:subClassOf :Grooming .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TakingVitamins
+:TakingVitamins rdf:type owl:Class ;
+                rdfs:subClassOf :Healthcare .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TalkinToYourself
+:TalkinToYourself rdf:type owl:Class ;
+                  rdfs:subClassOf :Talking .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Talking
+:Talking rdf:type owl:Class ;
+         rdfs:subClassOf :SocialInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TalkingOnPhone
+:TalkingOnPhone rdf:type owl:Class ;
+                rdfs:subClassOf :Talking .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TalkingToSomeone
+:TalkingToSomeone rdf:type owl:Class ;
+                  rdfs:subClassOf :Talking .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Texting
+:Texting rdf:type owl:Class ;
+         rdfs:subClassOf :UsingMobilePhone .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ThrowingSomethingAway
+:ThrowingSomethingAway rdf:type owl:Class ;
+                       rdfs:subClassOf :ActiveActivity ,
+                                       :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/ToiletRoutine
+:ToiletRoutine rdf:type owl:Class ;
+               rdfs:subClassOf :Routine .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Toileting
+:Toileting rdf:type owl:Class ;
+           rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Transition
+:Transition rdf:type owl:Class ;
+            rdfs:subClassOf <https://saref.etsi.org/saref4ehaw/Posture> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/TreatingWounds
+:TreatingWounds rdf:type owl:Class ;
+                rdfs:subClassOf :Healthcare .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Turning
+:Turning rdf:type owl:Class ;
+         rdfs:subClassOf :Transition .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/UnloadingDishwasher
+:UnloadingDishwasher rdf:type owl:Class ;
+                     rdfs:subClassOf :ActiveActivity ,
+                                     :Dishwashing .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/UnloadingDryer
+:UnloadingDryer rdf:type owl:Class ;
+                rdfs:subClassOf :ActiveActivity ,
+                                :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/UnloadingWashingMachine
+:UnloadingWashingMachine rdf:type owl:Class ;
+                         rdfs:subClassOf :ActiveActivity ,
+                                         :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Usage
+:Usage rdf:type owl:Class ;
+       rdfs:subClassOf :ElectricAppliance .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/UsingComputer
+:UsingComputer rdf:type owl:Class ;
+               rdfs:subClassOf :ActiveActivity ,
+                               :InformationInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/UsingMobilePhone
+:UsingMobilePhone rdf:type owl:Class ;
+                  rdfs:subClassOf :ActiveActivity .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/UsingPrinter
+:UsingPrinter rdf:type owl:Class ;
+              rdfs:subClassOf :ActiveActivity ,
+                              :InformationInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Vacuuming
+:Vacuuming rdf:type owl:Class ;
+           rdfs:subClassOf :ActiveActivity ,
+                           :Cleaning .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/VideoCalling
+:VideoCalling rdf:type owl:Class ;
+              rdfs:subClassOf :SocialInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WakingUp
+:WakingUp rdf:type owl:Class ;
+          rdfs:subClassOf :Sleeping .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Walking
+:Walking rdf:type owl:Class ;
+         rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WalkingCarryingLoad
+:WalkingCarryingLoad rdf:type owl:Class ;
+                     rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WalkingDownStairs
+:WalkingDownStairs rdf:type owl:Class ;
+                   rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WalkingUpStairs
+:WalkingUpStairs rdf:type owl:Class ;
+                 rdfs:subClassOf :Ambulation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WarmingFoodMicrowave
+:WarmingFoodMicrowave rdf:type owl:Class ;
+                      rdfs:subClassOf :ActiveActivity ,
+                                      :Preparation .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WashingFace
+:WashingFace rdf:type owl:Class ;
+             rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WashingHands
+:WashingHands rdf:type owl:Class ;
+              rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WashingMachineOnInBackground
+:WashingMachineOnInBackground rdf:type owl:Class ;
+                              rdfs:subClassOf :BackgroundActivity ,
+                                              :Laundry .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WatchingTVActively
+:WatchingTVActively rdf:type owl:Class ;
+                    rdfs:subClassOf :ActiveActivity ,
+                                    :InformationInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WatchingTVInBackground
+:WatchingTVInBackground rdf:type owl:Class ;
+                        rdfs:subClassOf :BackgroundActivity ,
+                                        :InformationInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WaterPlants
+:WaterPlants rdf:type owl:Class ;
+             rdfs:subClassOf :HomeEnvironmentManagement .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WearingDeodorant
+:WearingDeodorant rdf:type owl:Class ;
+                  rdfs:subClassOf :Hygiene .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WindowClose
+:WindowClose rdf:type owl:Class ;
+             rdfs:subClassOf :WindowInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WindowInteraction
+:WindowInteraction rdf:type owl:Class ;
+                   rdfs:subClassOf :AtomicHomeActivities .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WindowOpen
+:WindowOpen rdf:type owl:Class ;
+            rdfs:subClassOf :WindowInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Working
+:Working rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/WorkingOnHobby
+:WorkingOnHobby rdf:type owl:Class ;
+                rdfs:subClassOf :Leisure .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Writing
+:Writing rdf:type owl:Class ;
+         rdfs:subClassOf :ActiveActivity ,
+                         :InformationInteraction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Yardwork
+:Yardwork rdf:type owl:Class ;
+          rdfs:subClassOf :ActiveActivity ,
+                          <https://saref.etsi.org/saref4ehaw/DailyActivity> .
+
+
+###  https://saref.etsi.org/saref4ehaw/Habit
+<https://saref.etsi.org/saref4ehaw/Habit> rdfs:subClassOf :Lifestyle .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

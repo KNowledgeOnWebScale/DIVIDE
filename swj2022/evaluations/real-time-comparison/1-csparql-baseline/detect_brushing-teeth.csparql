@@ -1,0 +1,77 @@
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sd-query: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+
+PREFIX ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/>
+PREFIX MonitoredPerson: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/>
+PREFIX Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/>
+PREFIX SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/>
+PREFIX SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/>
+PREFIX Homelab: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/>
+PREFIX HomelabWearable: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearable/Homelab/>
+PREFIX KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/>
+
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX saref4ehaw: <https://saref.etsi.org/saref4ehaw/>
+PREFIX saref4bldg: <https://saref.etsi.org/saref4bldg/>
+PREFIX saref4wear: <https://saref.etsi.org/saref4wear/>
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+CONSTRUCT {
+    _:p a KBActivityRecognition:RoutineActivityPrediction ;
+        ActivityRecognition:forActivity [ a <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/BrushingTeeth> ] ;
+        ActivityRecognition:activityPredictionMadeFor <http://protego.ilabt.imec.be/idlab.homelab/patients/patient157> ;
+        ActivityRecognition:predictedBy <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/KBActivityRecognitionModel> ;
+        saref-core:hasTimestamp ?now .
+}
+FROM STREAM <http://protego.ilabt.imec.be/idlab.homelab> [RANGE 30s STEP 10s]
+WHERE {
+    BIND (NOW() AS ?now)
+
+    <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/water.pi.bathroom> saref-core:makesMeasurement [
+        saref-core:hasValue ?v1 ;
+        saref-core:relatesToProperty <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/environment.waterRunning::bool>
+    ] .
+    FILTER (xsd:float(?v1) >= xsd:float("1.0E-5"^^xsd:float))
+
+    {
+        SELECT ?sensor2 (AVG(?var) AS ?ai)
+        {
+            SELECT ?sensor2 ?p (IF(?count=1, -1, (?sx / ?count)) AS ?var)
+            WHERE {
+                SELECT ?sensor2 ?p (SUM(?x) AS ?sx) ?count
+                WHERE {
+                    SELECT ?sensor2 ?p ?v (xsd:float(?v) AS ?ni) ?mean (xsd:float(?ni - ?mean) AS ?nmean) (((?nmean) * (?nmean)) AS ?x) ?count
+                    WHERE {
+                        ?sensor2 saref-core:makesMeasurement [
+                            saref-core:hasValue ?v ;
+                            saref-core:relatesToProperty ?p
+                        ] .
+                        {
+                            SELECT (<https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> AS ?sensor2)
+                                   ?p (AVG(?v2) AS ?mean) (COUNT(?v2) as ?count)
+                            WHERE {
+                                <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> saref-core:makesMeasurement [
+                                    saref-core:hasValue ?v2 ;
+                                    saref-core:relatesToProperty ?p
+                                ] .
+                            }
+                            GROUP BY (<https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> AS ?sensor2) ?p
+                        }
+                    }
+                } GROUP BY ?sensor2 ?p ?count
+            }
+        }
+        GROUP BY ?sensor2
+    }
+    FILTER (xsd:float(?ai) >= xsd:float("30.0"^^xsd:float))
+}
+LIMIT 1

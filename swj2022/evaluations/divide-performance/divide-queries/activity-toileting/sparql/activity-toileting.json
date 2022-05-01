@@ -1,0 +1,26 @@
+{
+  "streamWindows": [
+    {
+      "streamIri": "http://protego.ilabt.imec.be/idlab.homelab",
+      "windowDefinition": "RANGE PT?{range}S STEP PT?{slide}S",
+      "defaultWindowParameterValues": {
+        "?range": "60",
+        "?slide": "10"
+      }
+    }
+  ],
+  "streamQuery": "stream-query.sparql",
+  "finalQuery": "final-query.sparql",
+  "solutionModifier": "ORDER BY DESC(?t) LIMIT 1",
+  "streamToFinalQueryVariableMapping": {
+    "?activityType": "?activityType",
+    "?patient": "?patient",
+    "?model": "?model",
+    "?sensor": "?sensor"
+  },
+  "contextEnrichment": {
+    "queries": [],
+    "doReasoning": true,
+    "executeOnOntologyTriples": true
+  }
+}

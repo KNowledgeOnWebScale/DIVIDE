@@ -1,0 +1,92 @@
+#Processed by EYE v20.0703.0848 josd
+#eye divide-queries/activity-toileting-showering/query-pattern.n3 /home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/activity-toileting-showering/extracted-queries.n3 /home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/activity-toileting-showering/extracted-window-parameters.n3 query-derivation/query-input-variable-substitution-rules.n3 query-derivation/query-input-variable-substitution-supported-datatypes.n3 --query query-derivation/query-input-variable-substitution-goal.n3 --nope
+
+@prefix sd: <http://idlab.ugent.be/sensdesc#>.
+@prefix sd-query: <http://idlab.ugent.be/sensdesc/query#>.
+@prefix sh: <http://www.w3.org/ns/shacl#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix : <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/>.
+@prefix dc: <http://purl.org/dc/elements/1.1/>.
+@prefix ns: <http://creativecommons.org/ns#>.
+@prefix eep: <https://w3id.org/eep#>.
+@prefix ns1: <http://www.w3.org/2003/06/sw-vocab-status/ns#>.
+@prefix xml: <http://www.w3.org/XML/1998/namespace>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix vann: <http://purl.org/vocab/vann/>.
+@prefix terms: <http://purl.org/dc/terms/>.
+@prefix schema: <http://schema.org/>.
+@prefix Sensors: <https://dahcc.idlab.ugent.be/Ontology/Sensors/>.
+@prefix saref-core: <https://saref.etsi.org/core/>.
+@prefix saref4bldg: <https://saref.etsi.org/saref4bldg/>.
+@prefix saref4ehaw: <https://saref.etsi.org/saref4ehaw/>.
+@prefix cpannotationschema: <http://www.ontologydesignpatterns.org/schemas/cpannotationschema.owl#>.
+@prefix ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/>.
+@prefix SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/>.
+@prefix SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/>.
+@prefix ns2: <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/>.
+@prefix ns3: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/>.
+@prefix idlab: <http://protego.ilabt.imec.be/idlab.homelab/>.
+@prefix dogont: <http://elite.polito.it/ontologies/dogont.owl#>.
+@prefix dashboard: <http://dynamicdashboard.ilabt.imec.be/broker/ontologies/dashboard#>.
+@prefix ns4: <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/>.
+@prefix ns5: <https://w3id.org/affectedBy#>.
+@prefix owl2xml: <http://www.w3.org/2006/12/owl2-xml#>.
+@prefix voaf: <http://purl.org/vocommons/voaf#>.
+@prefix s4envi: <https://saref.etsi.org/saref4envi/>.
+@prefix ssn-system: <http://www.w3.org/ns/ssn/systems/>.
+@prefix ns6: <https://saref.etsi.org/saref4wear/>.
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
+@prefix ns7: <http://www.w3.org/XML/1998/namespace/>.
+@prefix geosp: <http://www.opengis.net/ont/geosparql#>.
+@prefix s4city: <https://saref.etsi.org/saref4city/>.
+@prefix s4syst: <https://saref.etsi.org/saref4syst/>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix ns8: <https://github.ugent.be/darndt/SRWithEye/example#>.
+@prefix ns9: <http://eulersharp.sourceforge.net/.well-known/genid/myVariables>.
+@prefix ns10: <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/preprocessing/ex#>.
+@prefix time: <http://www.w3.org/2006/time#>.
+@prefix ssn: <http://www.w3.org/ns/ssn/>.
+@prefix sosa: <http://www.w3.org/ns/sosa/>.
+@prefix patients: <http://protego.ilabt.imec.be/idlab.homelab/patients/>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix sd-window: <http://idlab.ugent.be/sensdesc/window#>.
+
+sd-query:prefixes-activity-toileting a owl:Ontology.
+sd-query:prefixes-activity-toileting sh:declare _:bn_1.
+_:bn_1 sh:prefix "xsd".
+_:bn_1 sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI.
+sd-query:prefixes-activity-toileting sh:declare _:bn_2.
+_:bn_2 sh:prefix "saref-core".
+_:bn_2 sh:namespace "https://saref.etsi.org/core/"^^xsd:anyURI.
+sd-query:prefixes-activity-toileting sh:declare _:bn_3.
+_:bn_3 sh:prefix "ActivityRecognition".
+_:bn_3 sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/"^^xsd:anyURI.
+sd-query:prefixes-activity-toileting sh:declare _:bn_4.
+_:bn_4 sh:prefix "KBActivityRecognition".
+_:bn_4 sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/"^^xsd:anyURI.
+_:sk_40 a sd:Query.
+_:sk_40 sd:queryBody " CONSTRUCT { _:p a KBActivityRecognition:RoutineActivityPrediction ; ActivityRecognition:forActivity [ a <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Showering> ] ; ActivityRecognition:activityPredictionMadeFor <http://protego.ilabt.imec.be/idlab.homelab/patients/patient157> ; ActivityRecognition:predictedBy <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/KBActivityRecognitionModel> ; saref-core:hasTimestamp ?now ; KBActivityRecognition:detectedBySensor <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/70:ee:50:67:3e:78> . } FROM NAMED WINDOW :win ON <http://protego.ilabt.imec.be/idlab.homelab> [RANGE PT30S SLIDE PT10S] WHERE { BIND (NOW() as ?now) WINDOW :win { <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/70:ee:50:67:3e:78> saref-core:makesMeasurement [ saref-core:hasValue ?v ; saref-core:hasTimestamp ?t ; saref-core:relatesToProperty <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/org.dyamand.types.common.RelativeHumidity> ] . FILTER (xsd:float(?v) > xsd:float(\"57.0\"^^xsd:float)) } } ORDER BY DESC(?t) LIMIT 1 ".
+_:sk_40 sh:prefixes sd-query:prefixes-activity-toileting.
+_:sk_40 sd:pattern sd-query:pattern.
+_:sk_41 a sd:Query.
+_:sk_41 sd:queryBody " CONSTRUCT { _:p a KBActivityRecognition:RoutineActivityPrediction ; ActivityRecognition:forActivity [ a <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Toileting> ] ; ActivityRecognition:activityPredictionMadeFor <http://protego.ilabt.imec.be/idlab.homelab/patients/patient157> ; ActivityRecognition:predictedBy <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/KBActivityRecognitionModel> ; saref-core:hasTimestamp ?now ; KBActivityRecognition:detectedBySensor <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/velbus.C6.EnergyMeter1> . } FROM NAMED WINDOW :win ON <http://protego.ilabt.imec.be/idlab.homelab> [RANGE PT30S SLIDE PT10S] WHERE { BIND (NOW() as ?now) WINDOW :win { <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/velbus.C6.EnergyMeter1> saref-core:makesMeasurement [ saref-core:hasValue ?v ; saref-core:hasTimestamp ?t ; saref-core:relatesToProperty <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/energy.consumption> ] . FILTER (xsd:float(?v) > xsd:float(\"1.0E-5\"^^xsd:float)) } } ORDER BY DESC(?t) LIMIT 1 ".
+_:sk_41 sh:prefixes sd-query:prefixes-activity-toileting.
+_:sk_41 sd:pattern sd-query:pattern.
+_:sk_40 sd:staticWindowParameters ().
+_:sk_41 sd:staticWindowParameters ().
+_:sk_40 sd:dynamicWindowParameters ().
+_:sk_41 sd:dynamicWindowParameters ().
+
+#2022-05-01T12:05:00.921Z in=50 out=25 ent=276 step=448 brake=11 inf=1589479 sec=0.227 inf/sec=7002110
+#ENDS
+

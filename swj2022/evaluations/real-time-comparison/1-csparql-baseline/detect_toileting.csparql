@@ -1,0 +1,24 @@
+PREFIX ActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/>
+PREFIX KBActivityRecognition: <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/>
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+    _:p a KBActivityRecognition:RoutineActivityPrediction ;
+        ActivityRecognition:forActivity [ a <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Toileting> ] ;
+        ActivityRecognition:activityPredictionMadeFor <http://protego.ilabt.imec.be/idlab.homelab/patient157> ;
+        ActivityRecognition:predictedBy <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/KBActivityRecognitionModel> ;
+        saref-core:hasTimestamp ?now .
+}
+FROM STREAM <http://protego.ilabt.imec.be/idlab.homelab> [RANGE 60s STEP 10s]
+WHERE {
+    BIND (NOW() as ?now)
+    <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/velbus.C6.EnergyMeter1> saref-core:makesMeasurement [
+        saref-core:hasValue ?v ;
+        saref-core:hasTimestamp ?t ;
+        saref-core:relatesToProperty <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/energy.consumption>
+    ] .
+    FILTER (xsd:float(?v) > xsd:float("1.0E-5"^^xsd:float))
+}
+ORDER BY DESC(?t)
+LIMIT 1
