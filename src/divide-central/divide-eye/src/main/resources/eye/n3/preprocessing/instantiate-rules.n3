@@ -1,0 +1,217 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+Prefix var: <http://eulersharp.sourceforge.net/.well-known/genid/myVariables>
+Prefix : <ex#>
+
+#with this file we produce a new version of the ontology including additional rules for rdfs/owl-concepts
+
+
+###########################
+#rules for rdfs:subclass
+#########################
+{ 
+?C rdfs:subClassOf ?D.
+}=> {{?x a ?C} => {?x a ?D}.}.
+		
+
+
+
+#############################
+#  "range-rules" 
+#############################
+{?P rdfs:range ?C.}=>{{?X ?P ?Y} => {?Y a ?C}.}.
+
+
+#############################
+# Adding "inverse of" rules
+#############################
+
+{?P owl:inverseOf ?Q.}=>{
+{ ?S ?P ?O} => {?O ?Q ?S}. 
+{ ?S ?Q ?O} => {?O ?P ?S}.
+}.
+
+
+#######################################
+# Intersection rules
+#######################################
+{?C owl:intersectionOf ?L. ?D list:in ?L} => {{?X a ?C.}=>{?X a ?D}}.
+
+{?C owl:intersectionOf ?L.  ?S e:findall ({var:x a ?Y.} {?Y list:in ?L} ?gl). ?gl log:conjunction ?l. 
+} => {?l => {var:x a ?C}.}.
+
+
+#########################################
+# OWL equivalent class
+#########################################
+
+{?A owl:equivalentClass ?B. } => {{?X a ?A}=>{?X a ?B}. {?X a ?B} => {?X a ?A}}.
+
+
+######################################################
+# OWL some values from
+####################################################
+
+{?C owl:someValuesFrom ?Y. ?C owl:onProperty ?P. } => {{?U ?P ?V. ?V a ?Y} => {?U a ?C}}.
+{?C owl:someValuesFrom owl:Thing. ?C owl:onProperty ?P. } => {{?U ?P ?V}=>{?U a ?C}}.
+
+
+####################################################
+# rdfs subproperty
+######################################################
+
+{?P rdfs:subPropertyOf ?Q. } => {{?S ?P ?O.}=>{?S ?Q ?O}}.
+
+
+#########################################################
+# OWL all different
+#######################################################
+
+
+
+########################################################
+# OWL all disjoint
+########################################################
+
+
+{?X a owl:AllDisjointClasses. ?X owl:members ?L. ?C list:in ?L. ?D list:in ?L. ?C log:notEqualTo ?D. } =>{{?I a ?C. ?I a ?D}=> false}.
+
+
+##############################################################
+# OWL all disjoint properties
+##############################################################
+
+
+{?X a owl:AllDisjointProperties. ?X owl:members ?L. ?P list:in ?L. ?Q list:in ?L. ?P log:notEqualTo ?Q. } =>{{?S ?P ?O. ?S ?Q ?O} => false}.
+
+##############################################################
+# OWL allValuesFrom
+#############################################################
+
+{?C owl:allValuesFrom ?Y. ?C owl:onProperty ?P. } => {{?U a ?C. ?U ?P ?V}=>{?V a ?Y}}.
+
+#############################################################
+# OWL assymetric property
+#############################################################
+
+{?P a owl:AsymmetricProperty. } => {{?S ?P ?O. ?O ?P ?S}=>false}.
+
+#######################################################
+# OWL complementof
+#####################################################
+
+
+{?C owl:complementOf ?D. } =>{{?X a ?C. ?X a ?D} => false}.
+
+###################################################
+# OWL differentFrom
+##################################################
+
+
+
+########################################################
+# OWL disjointWith
+#######################################################
+
+{?A owl:disjointWith ?B. } => {{?X a ?A. ?Y a ?B }=>{?X owl:differentFrom ?Y}}.
+{?A owl:disjointWith ?B. } => {{?X a ?A. ?X a ?B}=>false}.
+
+		
+###########################################################
+# disjointUnionOf
+#########################################################
+
+
+##################################################
+# distinct members
+##################################################
+
+######################################################
+# equivalent property
+######################################################
+{?P owl:equivalentProperty ?Q. } => {{?S ?P ?O}=>{?S ?Q ?O}. {?S ?Q ?O} => {?S ?P ?O}}.
+
+####################################################
+# functional property
+####################################################
+
+{?P a owl:FunctionalProperty. } => {{?S ?P ?X. ?S ?P ?Y}=>{?X owl:sameAs ?Y}}.
+{?P a owl:FunctionalProperty. } =>{{?S ?P ?X. ?S ?P ?Y. ?X owl:differentFrom ?Y}=> false}.
+
+############################################################
+# has value
+############################################################
+{?C owl:hasValue ?V. ?C owl:onProperty ?P. } => {{?U a ?C} => {?U ?P ?V}.{?U ?P ?V} => {?U a ?C}}.
+{?C owl:hasValue ?V. ?C owl:onProperty ?P. } => {{?X ?P ?Y. ?X a ?C. ?V owl:differentFrom ?Y}=> false}.
+
+###############################################################
+# Inverse functional property
+#############################################################
+{?P a owl:InverseFunctionalProperty. } => {{?X ?P ?O. ?Y ?P ?O}=>{?X owl:sameAs ?Y}}.
+{?P a owl:InverseFunctionalProperty. } => {{?X ?P ?O. ?Y ?P ?O. ?X owl:differentFrom ?Y}=>false}.
+
+################################################################
+# irreflexive property
+################################################################
+
+{?P a owl:IrreflexiveProperty. } => {{?X ?P ?X}=>false}.
+
+
+################################################################
+# max cardinality
+###############################################################
+{?C owl:maxCardinality 1. ?C owl:onProperty ?P. } => {{?U a ?C. ?U ?P ?Y. ?U ?P ?Z}=>{?Y owl:sameAs ?Z}}.
+{?C owl:maxCardinality 0. ?C owl:onProperty ?P. } => {{?X ?P ?Y. ?X a ?C}=> false}.
+{?C owl:maxCardinality 1. ?C owl:onProperty ?P. } => {{?X ?P ?Y. ?X ?P ?Z. ?X a ?C. ?Z owl:differentFrom ?Y}=>false}.
+
+###############################################################
+# max qualified cardinality
+###############################################################
+{?C owl:maxQualifiedCardinality 1. ?C owl:onProperty ?P. ?C owl:onClass ?D. } => {{?U a ?C. ?U ?P ?Y. ?Y a ?D. ?U ?P ?Z. ?Z a ?D}=>{?Y owl:sameAs ?Z}}.
+{?C owl:maxQualifiedCardinality 1. ?C owl:onProperty ?P. ?C owl:onClass owl:Thing. } => {{?U a ?C. ?U ?P ?Y. ?U ?P ?Z} => {?Y owl:sameAs ?Z}}. 
+{?C owl:maxQualifiedCardinality 0. ?C owl:onProperty ?P. ?C owl:onClass ?C. } => {{?U a ?C. ?U ?P ?Y. ?Y a ?C}=>false}.
+{?C owl:maxQualifiedCardinality 0. ?C owl:onProperty ?P. ?C owl:onClass owl:Thing.} =>{{ ?U a ?C. ?U ?P ?Y}=> false}.
+
+##################################################################
+# one of
+################################################################
+
+##############################################################
+# property disjoint with
+##############################################################
+
+{?P owl:propertyDisjointWith ?Q. } =>{{?X ?P ?Y. ?X ?Q ?Y}=> false}.
+
+
+#################################################################
+# same as
+###############################################################
+
+
+{?X owl:sameAs ?Y. } => {{?X ?P ?O}=>{?Y ?P ?O}}.
+{?X owl:sameAs ?Y. } => {{?S ?X ?O}=>{?S ?Y ?O}}.
+{?X owl:sameAs ?Y. } => {{?S ?P ?X}=>{?S ?P ?Y}}.
+
+
+
+###############################################################
+# Symmetric and transitive property
+##############################################################
+
+{?P a owl:SymmetricProperty. } => {{?S ?P ?O}=>{?O ?P ?S}}.
+{?P a owl:TransitiveProperty. } => {{?S ?P ?X. ?X ?P ?O.}=>{?S ?P ?O}}.
+
+####################################################################
+# union of
+###################################################################
+{?C owl:unionOf ?L. ?D list:in ?L. } => {{?X a ?D}=>{?X a ?C}}.
+
+
+####################################################################
+# property chain
+###################################################################
+{?P owl:propertyChainAxiom ( ?P1 ?P2 ) .} => {{?X ?P1 ?Y. ?Y ?P2 ?Z.}=>{?X ?P ?Z}}.

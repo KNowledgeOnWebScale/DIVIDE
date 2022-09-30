@@ -1,0 +1,249 @@
+@prefix : <http://idlab.ugent.be/sensdesc/query#> .
+
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sd-window: <http://idlab.ugent.be/sensdesc/window#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+@prefix r: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+
+# first rule to start substitution
+# -> for both the context change & monitor window parameter substitution trigger
+#################################################################################
+
+{
+    ?q rdf:type sd:Query ;
+       sd:queryBody ?qb ;
+       sd:dynamicWindowParameters ?wp ;
+       sh:prefixes ?prefixes .
+
+    ?st sd:windowParameterSubstitutionTrigger sd:ContextChange .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?q ;
+        sd:queryBody ?qb ;
+        sd:windowParameters ?wp ;
+        sh:prefixes ?prefixes .
+} .
+
+{
+    ?q rdf:type sd:Query ;
+       sd:queryBody ?qb ;
+       sh:prefixes ?prefixes ;
+       sd:pattern ?p .
+    ?p sd:correctedWindowParameters ?wp .
+
+    ?st sd:windowParameterSubstitutionTrigger sd:Monitor .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?q ;
+        sd:queryBody ?qb ;
+        sd:windowParameters ?wp ;
+        sh:prefixes ?prefixes .
+} .
+
+
+# rules to substitute literals (object of log:rawType property is rdfs:Literal)
+################################################################################
+
+# rule to substitute xsd:duration strings
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingWindowParameters) list:append ?vs .
+    ?v sd-window:type xsd:duration ;
+       sd-window:value ?value ;
+       sd-window:variable ?variable .
+
+    ("?{" ?variable "}") string:concatenation ?variable_new .
+    (?s ?variable_new ?value) string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:windowParameters ?remainingWindowParameters ;
+        sh:prefixes ?prefixes .
+} .
+
+# rules to set units for numbers with a defined unit type (seconds, minutes or hours)
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:windowParameters ?windowParameters .
+
+    ?windowParameters list:first ?param .
+    ?param sd-window:type time:seconds .
+}
+=>
+{
+    ?param sd-window:unit "S" .
+} .
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:windowParameters ?windowParameters .
+
+    ?windowParameters list:first ?param .
+    ?param sd-window:type time:minutes .
+}
+=>
+{
+    ?param sd-window:unit "M" .
+} .
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:windowParameters ?windowParameters .
+
+    ?windowParameters list:first ?param .
+    ?param sd-window:type time:hours .
+}
+=>
+{
+    ?param sd-window:unit "H" .
+} .
+
+# rule to substitute numbers with a given unit (seconds, minutes, or hours)
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingWindowParameters) list:append ?vs .
+    ?v sd-window:unit ?unit ;
+       sd-window:value ?value ;
+       sd-window:variable ?variable .
+
+    ("?{" ?variable "}") string:concatenation ?variable_new .
+    ("PT" ?value ?unit) string:concatenation ?value_new .
+    (?s ?variable_new ?value_new) string:replace ?s_replaced .
+    ?s_replaced string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:windowParameters ?remainingWindowParameters ;
+        sh:prefixes ?prefixes .
+} .
+
+
+# rule to handle input variables that do not occur in the stream window definitions
+####################################################################################
+
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+
+    ?vs list:first ?v .
+    ((?v) ?remainingWindowParameters) list:append ?vs .
+    ?v sd-window:variable ?variable .
+
+    (?variable "?" "") string:replace ?variable_name .
+    ("\\?\\{" ?variable_name "\\}") string:concatenation ?variable_escaped .
+    ?s string:notMatches ?variable_escaped .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:windowParameters ?remainingWindowParameters ;
+        sh:prefixes ?prefixes .
+} .
+
+
+# final formatting rules
+#########################
+
+# replace newlines by spaces
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+
+    ?vs math:memberCount 0 .
+
+    (?s "\n" " ") string:replace ?s_new .
+    ?s_new string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_new ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+} .
+
+# trim double spaces
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+
+    ?vs math:memberCount 0 .
+
+    (?s "  " " ") string:replace ?s_new .
+    ?s_new string:notEqualIgnoringCase ?s .
+}
+=>
+{
+    _:x rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_new ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+} .
+
+# retrieve instantiated SHACL queries (only the preprocessed ones)
+{
+    ?iq rdf:type sd:InstantiatedQuery ;
+        sd:originalQuery ?origq ;
+        sd:queryBody ?s_replaced ;
+        sd:windowParameters ?vs ;
+        sh:prefixes ?prefixes .
+
+    ?vs math:memberCount 0 .
+
+    ?s_replaced string:notMatches "\\s\\s" .
+    ?s_replaced string:notMatches "\n" .
+}
+=>
+{
+    ?iq rdf:type sd:SubstitutedQuery ;
+        sd:queryBody ?s_replaced ;
+        sh:prefixes ?prefixes .
+} .

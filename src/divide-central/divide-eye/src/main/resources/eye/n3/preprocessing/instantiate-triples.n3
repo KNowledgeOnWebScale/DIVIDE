@@ -1,0 +1,200 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+Prefix var: <http://eulersharp.sourceforge.net/.well-known/genid/myVariables>
+Prefix : <ex#>
+
+#with this file we produce a new version of the ontology including additional rules for rdfs/owl-concepts
+
+
+###########################
+#rules for rdfs:subclass
+#########################
+
+
+# for pure reasoning this rule is not really necessary. It is just useful for the case that someone for example wants to specifically know all subclasses of a certain class.
+{?C rdfs:subClassOf ?D. ?D rdfs:subClassOf ?E} => {?C rdfs:subClassOf ?E}.
+{?C rdfs:subClassOf ?D. ?P rdfs:domain ?C} => {?P rdfs:domain ?D}.
+{?C rdfs:subClassOf ?D. ?P rdfs:range ?C} => {?P rdfs:range ?D}.
+		
+
+
+
+#############################
+#  "range-rules" 
+#############################
+
+
+#############################
+# Adding "inverse of" rules
+#############################
+
+{?P owl:inverseOf ?Q.}=>{
+?Q owl:inverseOf ?P
+}.
+
+
+#######################################
+# Intersection rules
+#######################################
+{?C owl:intersectionOf ?L. ?D list:in ?L} => {?C rdfs:subClassOf ?D}.
+
+
+
+#########################################
+# OWL equivalent class
+#########################################
+
+{?A owl:equivalentClass ?B} => {?B owl:equivalentClass ?A}.
+{?A owl:equivalentClass ?B. ?B owl:equivalentClass ?C} => {?A owl:equivalentClass ?C}.
+{?A owl:equivalentClass ?B} => {?A rdfs:subClassOf ?B. ?B rdfs:subClassOf ?A}.
+{?A rdfs:subClassOf ?B. ?B rdfs:subClassOf ?A} => {?A owl:equivalentClass ?B}.
+
+
+######################################################
+# OWL some values from
+####################################################
+
+{?C owl:someValuesFrom ?Y. ?C owl:onProperty ?P. ?D owl:someValuesFrom ?Z. ?D owl:onProperty ?P. ?Y rdfs:subClassOf ?Z} => {?C rdfs:subClassOf ?D}.
+{?C owl:someValuesFrom ?Y. ?C owl:onProperty ?P. ?D owl:someValuesFrom ?Y. ?D owl:onProperty ?Q. ?P rdfs:subPropertyOf ?Q} => {?C rdfs:subClassOf ?D}.
+
+
+####################################################
+# rdfs subproperty
+######################################################
+
+{?P rdfs:subPropertyOf ?Q. ?Q rdfs:subPropertyOf ?R} => {?P rdfs:subPropertyOf ?R}.
+{?P rdfs:subPropertyOf ?Q. ?Q rdfs:domain ?C} => {?P rdfs:domain ?C}.
+{?P rdfs:subPropertyOf ?Q. ?Q rdfs:range ?C} => {?P rdfs:range ?C}.
+
+
+#########################################################
+# OWL all different
+#######################################################
+
+#open for later
+{?A a owl:AllDifferent. ?A owl:members ?L. ?X list:in ?L. ?Y list:in ?L. ?X log:notEqualTo ?Y. ?X owl:sameAs ?Y} => false.
+{?A a owl:AllDifferent. ?A owl:distinctMembers ?L. ?X list:in ?L. ?Y list:in ?L. ?X log:notEqualTo ?Y. ?X owl:sameAs ?Y} => false.
+
+
+########################################################
+# OWL all disjoint
+########################################################
+
+
+
+
+##############################################################
+# OWL all disjoint properties
+##############################################################
+
+
+##############################################################
+# OWL allValuesFrom
+#############################################################
+
+{?C owl:allValuesFrom ?Y. ?C owl:onProperty ?P. ?D owl:allValuesFrom ?Z. ?D owl:onProperty ?P. ?Y rdfs:subClassOf ?Z} => {?C rdfs:subClassOf ?D}.
+{?C owl:allValuesFrom ?Y. ?C owl:onProperty ?P. ?D owl:allValuesFrom ?Y. ?D owl:onProperty ?Q. ?P rdfs:subPropertyOf ?Q} => {?D rdfs:subClassOf ?C}.
+
+#############################################################
+# OWL assymetric property
+#############################################################
+
+
+#######################################################
+# OWL complementof
+#####################################################
+
+
+{?C owl:complementOf ?D} => {?D owl:complementOf ?C}.
+{?C owl:complementOf ?D} => {?D owl:disjointWith ?C}.
+
+###################################################
+# OWL differentFrom
+##################################################
+
+
+{?A owl:differentFrom ?B} => {?B owl:differentFrom ?A}.
+
+########################################################
+# OWL disjointWith
+#######################################################
+
+		
+###########################################################
+# disjointUnionOf
+#########################################################
+
+{?C owl:disjointUnionOf ?L. ?A list:in ?L. ?B list:in ?L. ?A log:notEqualTo ?B} => {?A owl:disjointWith ?B. ?C owl:unionOf ?L}.
+
+##################################################
+# distinct members
+##################################################
+{?A owl:distinctMembers ?L. ?X list:in ?L. ?Y list:in ?L. ?X log:notEqualTo ?Y} => {?X owl:differentFrom ?Y}.
+
+######################################################
+# equivalent property
+######################################################
+{?P owl:equivalentProperty ?Q} => {?Q owl:equivalentProperty ?P}.
+{?P owl:equivalentProperty ?Q. ?Q owl:equivalentProperty ?R} => {?P owl:equivalentProperty ?R}.
+{?P owl:equivalentProperty ?Q} => {?P rdfs:subPropertyOf ?Q. ?Q rdfs:subPropertyOf ?P}.
+{?P rdfs:subPropertyOf ?Q. ?Q rdfs:subPropertyOf ?P} => {?P owl:equivalentProperty ?Q}.
+
+####################################################
+# functional property
+####################################################
+
+
+############################################################
+# has value
+############################################################
+{?C owl:hasValue ?V. ?C owl:onProperty ?P. ?D owl:hasValue ?V. ?D owl:onProperty ?Q. ?P rdfs:subPropertyOf ?Q} => {?C rdfs:subClassOf ?D}.
+
+###############################################################
+# Inverse functional property
+#############################################################
+
+################################################################
+# irreflexive property
+################################################################
+
+
+
+################################################################
+# max cardinality
+###############################################################
+
+###############################################################
+# max qualified cardinality
+###############################################################
+
+##################################################################
+# one of
+################################################################
+{?C owl:oneOf ?L. ?X list:in ?L} => {?X a ?C}.
+
+##############################################################
+# property disjoint with
+##############################################################
+
+
+#################################################################
+# same as
+###############################################################
+
+{?X owl:sameAs ?Y} => {?Y owl:sameAs ?X}.
+{?X owl:sameAs ?Y. ?Y owl:sameAs ?Z} => {?X owl:sameAs ?Z}.
+{?X owl:sameAs ?Y. ?X owl:differentFrom ?Y} => false.
+
+
+###############################################################
+# Symmetric and transitive property
+##############################################################
+
+####################################################################
+# union of
+###################################################################
+{?C owl:unionOf ?L. ?D list:in ?L } => {?D rdfs:subClassOf ?C}.		

@@ -1,0 +1,11 @@
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sd-query: <http://idlab.ugent.be/sensdesc/query#>
+
+INSERT {
+    sd-query:pattern sd:windowParameters () .
+}
+WHERE {
+    FILTER NOT EXISTS {
+        sd-query:pattern sd:windowParameters ?wp .
+    }
+}

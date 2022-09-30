@@ -1,0 +1,29 @@
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+@prefix r: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+# extract query from proof
+# -> including input variables and the static window parameters
+{
+    ?x a r:Inference ;
+       r:gives ?graph .
+    ?graph log:includes {
+        ?q a sd:Query .
+        ?q sd:inputVariables ?iv .
+        ?q sd:windowParameters ?wp .
+        ?q sd:pattern ?p .
+    } .
+}
+=>
+{
+    ?x a sd:Query .
+    ?x sd:inputVariables ?iv .
+    ?x sd:staticWindowParameters ?wp .
+    ?x sd:pattern ?p .
+} .
