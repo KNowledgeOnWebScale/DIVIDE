@@ -1,6 +1,6 @@
-# Context-aware & privacy-preserving homecare monitoring through adaptive query derivation for IoT data streams with DIVIDE
+# Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design
 
-This folder contains the ontology data related to the paper "Context-aware & privacy-preserving homecare monitoring through adaptive query derivation for IoT data streams with DIVIDE", which is submitted to the Special Issue on Semantic Web Meets Health Data Management of the Semantic Web Journal.
+This folder contains the ontology data related to the paper "Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design", which is submitted to the Special Issue on Semantic Web Meets Health Data Management of the Semantic Web Journal.
 
 ## Contents
 
@@ -8,8 +8,8 @@ In the paper, DIVIDE is explained through a running homecare monitoring example.
 
 The Activity Recognition ontology contains two parts:
 
-- A snapshot of the [DAHCC ontology](https://github.com/predict-idlab/DAHCC-Sources). This ontology contains definitions to perform Data Analytics in Health and Connected Care. The files used for this paper are:
-  - The general ontology files included in the `Ontology` folder of the DAHCC GitHub repo. Note that this folder contains the RDF/Turtle representation of these ontology files.
+- A snapshot of the [DAHCC ontology](https://github.com/predict-idlab/DAHCC-Sources). This ontology contains definitions to perform Data Analytics in Health and Connected Care. More information about the DAHCC ontology is available via [this website](https://dahcc.idlab.ugent.be) The files used for this paper are:
+  - The general ontology files included in the `Ontology` folder of the DAHCC GitHub repo. Note that the current repository contains the RDF/Turtle representation of these ontology files.
   - The TBox definitions extracted from the `_Homelab.owl` and `_HomelabWearable.owl` files in the `instantiated_examples` folder of the DAHCC GitHub repo (in RDF/Turtle format).
   - All imports of the `imports` folder of the DAHCC GitHub repo that are being (indirectly) imported by any of the other included DAHCC files.
 - The additional ontology file [`KBActivityRecognition.ttl`](KBActivityRecognition.ttl) that represents all extra definitions related to the knowledge-driven activity recognition.
