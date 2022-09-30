@@ -1,0 +1,55 @@
+@prefix : <http://idlab.ugent.be/sensdesc#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+:DefaultSupportedDataTypesList :contains (xsd:float
+                                          xsd:nonPositiveInteger
+                                          xsd:negativeInteger
+                                          xsd:long
+                                          xsd:int
+                                          xsd:short
+                                          xsd:byte
+                                          xsd:language
+                                          xsd:duration
+                                          xsd:dateTime
+                                          xsd:time
+                                          xsd:anyURI
+                                          xsd:date
+                                          xsd:nonNegativeInteger
+                                          xsd:unsignedLong
+                                          xsd:unsignedInt
+                                          xsd:unsignedShort
+                                          xsd:unsignedByte
+                                          xsd:positiveInteger
+                                          xsd:gYearMonth
+                                          xsd:gYear
+                                          xsd:gMonthDay
+                                          xsd:gDay
+                                          xsd:gMonth
+                                          xsd:hexBinary
+                                          xsd:base64Binary
+                                          xsd:QName
+                                          xsd:NOTATION
+                                          xsd:normalizedString
+                                          xsd:token
+                                          xsd:NMTOKEN
+                                          xsd:NMTOKENS
+                                          xsd:Name
+                                          xsd:NCName
+                                          xsd:ID
+                                          xsd:IDREF
+                                          xsd:IDREFS
+                                          xsd:ENTITY
+                                          xsd:ENTITIES) .
+
+:ExtraSupportedDataTypesList :contains () .
+
+{
+    :DefaultSupportedDataTypesList :contains ?a .
+    :ExtraSupportedDataTypesList :contains ?b .
+    (?a ?b) list:append ?c .
+}
+=>
+{
+    :SupportedDataTypesList :contains ?c .
+} .

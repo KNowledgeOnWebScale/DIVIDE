@@ -1,0 +1,44 @@
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+@prefix r: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix string: <http://www.w3.org/2000/10/swap/string#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+# extract dynamic window parameters associated to queries occurring in proof (rule 1)
+# -> also extract all triples with a window parameter as subject (rule 2)
+{
+    ?x a r:Inference ;
+       r:gives ?graph .
+    ?graph log:includes {
+        ?q a sd:Query .
+        ?q sd:inputVariables ?v .
+        ?q sd:pattern ?p .
+    } .
+
+    ?p sd:windowParameters ?windowParameters .
+}
+=>
+{
+    ?x sd:dynamicWindowParameters ?windowParameters .
+} .
+{
+    ?x a r:Inference ;
+       r:gives ?graph .
+    ?graph log:includes {
+        ?q a sd:Query .
+        ?q sd:inputVariables ?iv .
+        ?q sd:pattern ?p .
+    } .
+
+    ?p sd:windowParameters ?wp .
+    ?item list:in ?wp .
+    ?item ?property ?object .
+}
+=>
+{
+    ?item ?property ?object .
+} .

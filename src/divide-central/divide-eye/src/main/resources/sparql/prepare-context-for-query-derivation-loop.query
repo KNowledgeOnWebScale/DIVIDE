@@ -1,0 +1,21 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sd: <http://idlab.ugent.be/sensdesc#>
+PREFIX sd-query: <http://idlab.ugent.be/sensdesc/query#>
+PREFIX sd-window: <http://idlab.ugent.be/sensdesc/window#>
+
+DELETE {
+    sd-query:pattern sd:windowParameters ?wps ;
+                     sd-window:parameter ?wp .
+}
+INSERT {
+    sd-query:pattern sd:windowParameters [ rdf:first ?wp ;
+                                           rdf:rest ?wps ] .
+}
+WHERE {
+    SELECT ?wps ?wp
+    WHERE {
+        sd-query:pattern sd:windowParameters ?wps ;
+                         sd-window:parameter ?wp .
+    }
+    LIMIT 1
+}
