@@ -8,7 +8,7 @@ In the paper, DIVIDE is explained through a running homecare monitoring example.
 
 The Activity Recognition ontology contains two parts:
 
-- A snapshot of the [DAHCC ontology](https://github.com/predict-idlab/DAHCC-Sources). This ontology contains definitions to perform Data Analytics in Health and Connected Care. More information about the DAHCC ontology is available via [this website](https://dahcc.idlab.ugent.be) The files used for this paper are:
+- A snapshot of the [DAHCC ontology](https://github.com/predict-idlab/DAHCC-Sources). This ontology contains definitions to perform Data Analytics in Health and Connected Care. More information about the DAHCC ontology is available via [this website](https://dahcc.idlab.ugent.be). The files used for this paper are:
   - The general ontology files included in the `Ontology` folder of the DAHCC GitHub repo. Note that the current repository contains the RDF/Turtle representation of these ontology files.
   - The TBox definitions extracted from the `_Homelab.owl` and `_HomelabWearable.owl` files in the `instantiated_examples` folder of the DAHCC GitHub repo (in RDF/Turtle format).
   - All imports of the `imports` folder of the DAHCC GitHub repo that are being (indirectly) imported by any of the other included DAHCC files.
