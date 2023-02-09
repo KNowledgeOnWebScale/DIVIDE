@@ -12,7 +12,7 @@ Note that the DIVIDE query for the showering activity (used in the real-time com
 
 The [`configuration`](configuration) subfolder contains the configuration files to run this evaluation. Note that these configuration files expect the ontology & query files to be in the correct subdirectories, relative to the location of the directory that contains these configuration files & the DIVIDE server JAR.
 
-To actually run this evaluation, we have run the DIVIDE server JAR with the given configuration files (properties JSON file and components CSV file) and then fed the evaluation's [`context.ttl`](../context.ttl) file to the `homelab_patient` ABox of the Knowledge Base server. More details about how to do this are given in the general README.md file of the [DIVIDE source code folder](../../../src/divide-central) of this repository.
+To actually run this evaluation, we have run the DIVIDE server JAR with the given configuration files (properties JSON file and components CSV file) and then fed the evaluation's [`context.ttl`](../context.ttl) file to the `homelab_patient` ABox of the Knowledge Base server. More details about how to do this are given in the general README.md file of the [DIVIDE source code folder](../../../src) of this repository.
 
 ## Contact
  
