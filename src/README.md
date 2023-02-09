@@ -1,0 +1,1 @@
+This readme file will still be updated with a detailed example on how to run DIVIDE.

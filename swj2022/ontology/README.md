@@ -1,6 +1,6 @@
 # Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design
 
-This folder contains the ontology data related to the paper "Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design", which is submitted to the Special Issue on Semantic Web Meets Health Data Management of the Semantic Web Journal.
+This folder contains the ontology data related to the paper "Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design", which is published the Special Issue on Semantic Web Meets Health Data Management of the Semantic Web Journal.
 
 ## Contents
 

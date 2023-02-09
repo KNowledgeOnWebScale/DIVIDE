@@ -1,0 +1,50 @@
+{
+  "server": {
+    "host": "localhost",
+    "port":{
+      "divide": 8342,
+      "kb": 8343
+    }
+  },
+  "divide": {
+    "kb": {
+      "type": "Jena",
+      "baseIri": "http://protego.ilabt.imec.be/idlab.homelab/"
+    },
+    "ontology": {
+      "dir": "definitions/ontology/",
+      "files": [
+        "KBActivityRecognition.ttl",
+        "ActivityRecognition.ttl",
+        "MonitoredPerson.ttl",
+        "Sensors.ttl",
+        "SensorsAndActuators.ttl",
+        "SensorsAndWearables.ttl",
+        "_Homelab_tbox.ttl",
+        "_HomelabWearable_tbox.ttl",
+        "imports/eep.ttl",
+        "imports/affectedBy.ttl",
+        "imports/cpannotationschema.ttl",
+        "imports/saref.ttl",
+        "imports/saref4bldg.ttl",
+        "imports/saref4ehaw.ttl",
+        "imports/saref4wear.ttl"
+      ]
+    },
+    "queries": {
+      "divide": [
+        "divide-queries/activity-toileting/activity-toileting.json"
+      ]
+    },
+    "reasoner": {
+      "handleTboxDefinitionsInContext": false
+    },
+    "engine": {
+      "parser": {
+        "processUnmappedVariableMatches": false,
+        "validateUnboundVariablesInRspQlQueryBody": true
+      },
+      "stopRspEngineStreamsOnContextChanges": true
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design
 
-This folder contains all supportive material related to the paper "Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design", which is submitted to the Special Issue on Semantic Web Meets Health Data Management of the Semantic Web Journal.
+This folder contains all supportive material related to the paper "Context-aware query derivation for IoT data streams with DIVIDE enabling privacy by design", which is published the Special Issue on Semantic Web Meets Health Data Management of the Semantic Web Journal.
 
 ## Contents
 
@@ -14,6 +14,7 @@ This folder contains three subfolders:
 
 Moreover, this folder contains the different versions of the paper that have been submitted to the Special Issue on Semantic Web Meets Health Data Management of the Semantic Web Journal.
 * [paper_v1_submitted_2022-05-01.pdf](paper_v1_submitted_2022-05-01.pdf): This PDF represents the original version of the paper, that was submitted on 1 May 2022. It contains additional details about the DIVIDE methodology and the use case scenario, that have been removed in the first revision of the paper.
+* [paper_v2_submitted_2022-09-30.pdf](paper_v2_submitted_2022-09-30.pdf): This PDF represents the revised version of the paper, that was submitted on 30 September 2022 and accepted on 12 January 2023.
 
 The implementation of the DIVIDE central services can be found in the [src/divide-central](../src/divide-central) folder of this repository.
 
