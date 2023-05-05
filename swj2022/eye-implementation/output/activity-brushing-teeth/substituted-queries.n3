@@ -78,6 +78,6 @@ sd-query:prefixes-activity-brushing-teeth sh:declare _:e_e_bn_4_1_1.
 _:e_e_bn_4_1_1 sh:prefix "KBActivityRecognition".
 _:e_e_bn_4_1_1 sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/"^^xsd:anyURI.
 
-#2022-05-01T12:04:34.130Z in=29 out=16 ent=34 step=22 brake=2 inf=163523 sec=0.067 inf/sec=2440642
+#2023-06-01T09:29:41.610Z in=29 out=16 ent=34 step=22 brake=2 inf=163958 sec=0.039 inf/sec=4204051
 #ENDS
 

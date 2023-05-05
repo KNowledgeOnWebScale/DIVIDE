@@ -68,6 +68,6 @@
 <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/activity-toileting-showering/proof.n3#lemma8> sd:staticWindowParameters ().
 <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/activity-toileting-showering/proof.n3#lemma8> sd:pattern sd-query:pattern.
 
-#2022-05-01T12:05:00.029Z in=4640 out=8 ent=8 step=2 brake=1 inf=4839707 sec=0.421 inf/sec=11495741
+#2023-06-01T09:28:11.878Z in=4640 out=8 ent=8 step=2 brake=1 inf=4840785 sec=0.327 inf/sec=14803624
 #ENDS
 

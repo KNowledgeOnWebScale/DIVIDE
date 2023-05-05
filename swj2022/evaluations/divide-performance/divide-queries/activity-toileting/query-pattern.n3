@@ -31,7 +31,8 @@ sd-query:pattern
             WINDOW :win {
                 ?sensor saref-core:makesMeasurement [
                     saref-core:hasValue ?v ;
-                    saref-core:hasTimestamp ?t
+                    saref-core:hasTimestamp ?t ;
+                    saref-core:relatesToProperty ?prop_o
                 ] .
                 FILTER (xsd:float(?v) > xsd:float(?threshold))
             }

@@ -25,7 +25,7 @@ public class JsonComponentEntryParser {
      * @return a parsed component entry of which the gettable fields can
      *         directly be used as input for the registration of components in a
      *         DIVIDE engine using the {@link IDivideEngine#registerComponent(
-     *         List, RspQueryLanguage, String)} method
+     *         String, List, RspQueryLanguage, int)} method
      * @throws ComponentEntryParserException if the specified component configuration is
      *                                       not in the required JSON format
      */
@@ -57,15 +57,12 @@ public class JsonComponentEntryParser {
                 ComponentEntryParser.parseRspEngineQueryLanguage(
                         jsonComponentEntry.getRspEngine().getQueryLanguage());
 
-        // parse RSP engine registration URL
-        String rspEngineUrl = jsonComponentEntry.getRspEngine().getUrl();
-        ComponentEntryParser.validateRspEngineUrl(rspEngineUrl);
-
         // if no errors, then return new component entry
         return new ComponentEntry(
+                jsonComponentEntry.getIpAddress(),
                 contextIris,
                 rspQueryLanguage,
-                rspEngineUrl);
+                jsonComponentEntry.getRspEngine().getServerPort());
     }
 
 }

@@ -5,12 +5,24 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class JsonComponentEntry {
 
+    private String ipAddress;
     private List<String> contextIris;
     private RspEngineEntry rspEngine;
 
-    public JsonComponentEntry(List<String> contextIris, RspEngineEntry rspEngine) {
+    public JsonComponentEntry(String ipAddress,
+                              List<String> contextIris,
+                              RspEngineEntry rspEngine) {
+        this.ipAddress = ipAddress;
         this.contextIris = contextIris;
         this.rspEngine = rspEngine;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     public List<String> getContextIris() {
@@ -30,21 +42,22 @@ public class JsonComponentEntry {
     }
 
     public boolean validateIfNonNull() {
-        return contextIris != null &&
+        return ipAddress != null &&
+                contextIris != null &&
                 rspEngine != null &&
                 rspEngine.queryLanguage != null &&
-                rspEngine.url != null;
+                rspEngine.serverPort != 0;
     }
 
     static class RspEngineEntry {
 
-        public RspEngineEntry(String queryLanguage, String url) {
+        public RspEngineEntry(String queryLanguage, int serverPort) {
             this.queryLanguage = queryLanguage;
-            this.url = url;
+            this.serverPort = serverPort;
         }
 
         private String queryLanguage;
-        private String url;
+        private int serverPort;
 
         public String getQueryLanguage() {
             return queryLanguage;
@@ -54,12 +67,12 @@ public class JsonComponentEntry {
             this.queryLanguage = queryLanguage;
         }
 
-        public String getUrl() {
-            return url;
+        public int getServerPort() {
+            return serverPort;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
+        public void setServerPort(int serverPort) {
+            this.serverPort = serverPort;
         }
 
     }

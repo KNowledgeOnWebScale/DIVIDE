@@ -64,6 +64,6 @@
 <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/activity-brushing-teeth/proof.n3#lemma3> sd:staticWindowParameters ().
 <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/activity-brushing-teeth/proof.n3#lemma3> sd:pattern sd-query:pattern.
 
-#2022-05-01T12:04:33.025Z in=4433 out=4 ent=4 step=1 brake=1 inf=4712358 sec=0.432 inf/sec=10908236
+#2023-06-01T09:29:40.962Z in=4447 out=4 ent=4 step=1 brake=1 inf=4721535 sec=0.324 inf/sec=14572639
 #ENDS
 

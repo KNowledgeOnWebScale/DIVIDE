@@ -79,6 +79,6 @@ _:e_bn_4_1 sh:prefix "KBActivityRecognition".
 _:e_bn_4_1 sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/"^^xsd:anyURI.
 _:sk_0 sd:staticWindowParameters ().
 
-#2022-05-01T12:04:33.947Z in=34 out=17 ent=36 step=24 brake=2 inf=175751 sec=0.042 inf/sec=4184548
+#2023-06-01T09:29:41.561Z in=34 out=17 ent=36 step=24 brake=2 inf=176207 sec=0.040 inf/sec=4405175
 #ENDS
 

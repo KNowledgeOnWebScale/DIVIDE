@@ -99,9 +99,10 @@ public class GeneralComponentEndpoint extends CustomEndpoint {
 
                 // register component
                 IComponent component = divideEngine.registerComponent(
+                        componentEntry.getIpAddress(),
                         new ArrayList<>(componentEntry.getContextIris()),
                         componentEntry.getRspQueryLanguage(),
-                        componentEntry.getRspEngineUrl());
+                        componentEntry.getRspEngineServerPort());
 
                 if (component != null) {
                     String message = "Component with ID " + component.getId() +

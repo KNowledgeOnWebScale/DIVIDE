@@ -5,7 +5,7 @@ import be.ugent.idlab.divide.rsp.api.IRspEngineApiManager;
 import be.ugent.idlab.divide.rsp.api.RspEngineApiNetworkException;
 import be.ugent.idlab.divide.rsp.api.RspEngineApiResponseException;
 import be.ugent.idlab.divide.rsp.engine.IRspEngine;
-import be.ugent.idlab.divide.util.LogConstants;
+import be.ugent.idlab.divide.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,7 +188,7 @@ public class RspEngineStatusHandler {
 
             } catch (DivideInvalidInputException e) {
                 // note: this will normally never occur
-                LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+                LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                         "Internal URL error within DIVIDE when trying to pause streams at for " +
                                 "RSP engine with base URL {}", rspEngine.getBaseUrl());
             }
@@ -293,7 +293,7 @@ public class RspEngineStatusHandler {
 
             } catch (DivideInvalidInputException e) {
                 // note: this will normally never occur
-                LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+                LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                         "Internal URL error within DIVIDE when trying to restart streams " +
                                 "RSP engine with base URL {}", rspEngine.getBaseUrl());
             }

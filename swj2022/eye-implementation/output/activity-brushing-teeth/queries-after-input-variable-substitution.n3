@@ -81,6 +81,6 @@ _:sk_31 sd:pattern sd-query:pattern.
 _:sk_31 sd:staticWindowParameters ().
 _:sk_31 sd:dynamicWindowParameters ().
 
-#2022-05-01T12:04:33.794Z in=45 out=19 ent=211 step=384 brake=13 inf=1575360 sec=0.230 inf/sec=6849391
+#2023-06-01T09:29:41.507Z in=45 out=19 ent=211 step=384 brake=13 inf=1573145 sec=0.184 inf/sec=8549701
 #ENDS
 

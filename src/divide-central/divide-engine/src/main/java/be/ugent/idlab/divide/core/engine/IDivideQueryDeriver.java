@@ -95,7 +95,7 @@ public interface IDivideQueryDeriver {
      * Substitutes new window parameters in a previous result of running the query derivation
      * via the {@link #deriveQueries(String, Context, String)} method.
      * These new window parameters can for example be imposed by a monitor component.
-     * This methods does not perform the actual query derivation for the {@link IDivideQuery}
+     * This method does not perform the actual query derivation for the {@link IDivideQuery}
      * with the given name, but redoes the final part of the query derivation where the
      * window parameters for this query are substituted in the derived queries. The window
      * parameters that should be used are passed to this method.

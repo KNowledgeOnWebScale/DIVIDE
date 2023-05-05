@@ -1,0 +1,42 @@
+PREFIX divide-core: <https://divide.idlab.ugent.be/meta-model/divide-core/>
+PREFIX monitoring: <https://divide.idlab.ugent.be/meta-model/monitoring/>
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+    [ a divide-core:DivideWindowParameterUpdateTask ;
+      divide-core:isTaskForDivideQueryName ?divideQueryName ;
+      divide-core:isTaskForComponentId ?componentId ;
+      divide-core:hasUpdatedQuerySlidingStepInSeconds ?maxUpdatedSlidingStep
+    ]
+}
+WHERE {
+    {
+        SELECT ?componentId ?divideQueryName
+               (MAX(?updatedSlidingStep) as ?maxUpdatedSlidingStep)
+        WHERE {
+            ?component a divide-core:DivideComponent ;
+                       divide-core:hasID ?componentId ;
+                       divide-core:hasLocalRspEngine ?rspEngine .
+            ?rspEngine divide-core:hasRegisteredQuery ?rspQuery .
+            ?rspQuery divide-core:hasCorrespondingDivideQuery ?divideQuery ;
+                      divide-core:hasAssociatedComponent ?component ;
+                      divide-core:hasQuerySlidingStepInSeconds ?querySlidingStep .
+            ?divideQuery divide-core:hasName ?divideQueryName .
+
+            ?measurement a saref-core:Measurement ;
+                         saref-core:hasValue ?maxExecutionTime ;
+                         om:hasAggregateFunction om:maximum ;
+                         saref-core:isMeasuredIn om:second-Time ;
+                         saref-core:relatesToProperty [
+                             a monitoring:RspQueryExecutionTime ] ;
+                         saref-core:isMeasurementOf ?rspQuery .
+
+            BIND(xsd:float(?querySlidingStep) - xsd:float(?maxExecutionTime) AS ?minDiff)
+            FILTER (?minDiff < 1)
+            BIND(xsd:integer(?querySlidingStep) + 1 - xsd:integer(FLOOR(?minDiff)) AS ?updatedSlidingStep)
+        }
+        GROUP BY ?componentId ?divideQueryName
+    }
+}

@@ -3,21 +3,21 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # 1. Read in all ontology files with EYE, and collect them in a single N3 file
-eye "$DIR"/../ontology/KBActivityRecognition.ttl \
-    "$DIR"/../ontology/ActivityRecognition.ttl \
-    "$DIR"/../ontology/MonitoredPerson.ttl \
-    "$DIR"/../ontology/Sensors.ttl \
-    "$DIR"/../ontology/SensorsAndActuators.ttl \
-    "$DIR"/../ontology/SensorsAndWearables.ttl \
-    "$DIR"/../ontology/_Homelab_tbox.ttl \
-    "$DIR"/../ontology/_HomelabWearable_tbox.ttl \
-    "$DIR"/../ontology/imports/affectedBy.ttl \
-    "$DIR"/../ontology/imports/cpannotationschema.ttl \
-    "$DIR"/../ontology/imports/eep.ttl \
-    "$DIR"/../ontology/imports/saref.ttl \
-    "$DIR"/../ontology/imports/saref4bldg.ttl \
-    "$DIR"/../ontology/imports/saref4ehaw.ttl \
-    "$DIR"/../ontology/imports/saref4wear.ttl \
+eye "$DIR"/../ontology/ontology-no-imports/KBActivityRecognition.ttl \
+    "$DIR"/../ontology/ontology-no-imports/ActivityRecognition.ttl \
+    "$DIR"/../ontology/ontology-no-imports/MonitoredPerson.ttl \
+    "$DIR"/../ontology/ontology-no-imports/Sensors.ttl \
+    "$DIR"/../ontology/ontology-no-imports/SensorsAndActuators.ttl \
+    "$DIR"/../ontology/ontology-no-imports/SensorsAndWearables.ttl \
+    "$DIR"/../ontology/ontology-no-imports/_Homelab_tbox.ttl \
+    "$DIR"/../ontology/ontology-no-imports/_HomelabWearable_tbox.ttl \
+    "$DIR"/../ontology/ontology-no-imports/imports/affectedBy.ttl \
+    "$DIR"/../ontology/ontology-no-imports/imports/cpannotationschema.ttl \
+    "$DIR"/../ontology/ontology-no-imports/imports/eep.ttl \
+    "$DIR"/../ontology/ontology-no-imports/imports/saref.ttl \
+    "$DIR"/../ontology/ontology-no-imports/imports/saref4bldg.ttl \
+    "$DIR"/../ontology/ontology-no-imports/imports/saref4ehaw.ttl \
+    "$DIR"/../ontology/ontology-no-imports/imports/saref4wear.ttl \
     --no-qvars --pass --nope > "$DIR"/output/ontology.n3
 
 # 2. Extract all triples from this ontology file

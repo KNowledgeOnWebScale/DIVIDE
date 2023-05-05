@@ -18,7 +18,8 @@
 @prefix SensorsAndActuators: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/> .
 @base <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/> .
 
-<https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/> rdf:type owl:Ontology .
+<https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/> rdf:type owl:Ontology ;
+                                                             owl:imports SensorsAndActuators: .
 
 #################################################################
 #    Annotation properties

@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>divide</artifactId>
-        <groupId>be.ugent.idlab</groupId>
+        <artifactId>divide-central</artifactId>
+        <groupId>be.ugent.idlab.divide</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -36,20 +36,26 @@
 
         <!-- DIVIDE engine -->
         <dependency>
-            <groupId>be.ugent.idlab</groupId>
+            <groupId>be.ugent.idlab.divide</groupId>
             <artifactId>divide-engine</artifactId>
             <version>1.0</version>
         </dependency>
         <!-- DIVIDE REST API -->
         <dependency>
-            <groupId>be.ugent.idlab</groupId>
+            <groupId>be.ugent.idlab.divide</groupId>
             <artifactId>divide-api</artifactId>
             <version>1.0</version>
         </dependency>
         <!-- DIVIDE query derivation -->
         <dependency>
-            <groupId>be.ugent.idlab</groupId>
+            <groupId>be.ugent.idlab.divide</groupId>
             <artifactId>divide-query-derivation</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- DIVIDE global monitor -->
+        <dependency>
+            <groupId>be.ugent.idlab.divide</groupId>
+            <artifactId>divide-global-monitor</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

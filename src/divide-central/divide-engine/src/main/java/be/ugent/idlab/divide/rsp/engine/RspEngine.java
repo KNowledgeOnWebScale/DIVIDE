@@ -10,18 +10,30 @@ public class RspEngine implements IRspEngine {
 
     private final RspQueryLanguage rspQueryLanguage;
     private final String baseUrl;
-    private final String registrationUrl;
-    private final String streamsUrl;
+    private final int serverPort;
     private final List<IRspQuery> registeredQueries;
+    private final String id;
 
-    public RspEngine(RspQueryLanguage rspQueryLanguage, String url) {
+    private String webSocketStreamUrl;
+
+    public RspEngine(RspQueryLanguage rspQueryLanguage,
+                     String url,
+                     int serverPort,
+                     String componentId) {
         this.rspQueryLanguage = rspQueryLanguage;
-        this.baseUrl = url;
-        String formattedBaseUrl = baseUrl.endsWith("/") ?
-                baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
-        this.registrationUrl = String.format("%s/queries", formattedBaseUrl);
-        this.streamsUrl = String.format("%s/streams", formattedBaseUrl);
+        this.baseUrl = url.endsWith("/") ?
+                url.substring(0, url.length() - 1) : url;
+        this.serverPort = serverPort;
         this.registeredQueries = new ArrayList<>();
+
+        // ID of RSP engine is identical to component ID
+        // (due to 1 on 1 mapping between component & local RSP engine)
+        this.id = componentId;
+    }
+
+    @Override
+    public synchronized String getId() {
+        return id;
     }
 
     @Override
@@ -30,18 +42,25 @@ public class RspEngine implements IRspEngine {
     }
 
     @Override
-    public String getBaseUrl() {
+    public synchronized String getBaseUrl() {
         return baseUrl;
     }
 
     @Override
-    public synchronized String getRegistrationUrl() {
-        return registrationUrl;
+    public synchronized int getServerPort() {
+        return serverPort;
     }
 
     @Override
-    public String getStreamsUrl() {
-        return streamsUrl;
+    public synchronized void setWebSocketStreamUrl(String webSocketStreamUrl) {
+        this.webSocketStreamUrl = webSocketStreamUrl.endsWith("/") ?
+                webSocketStreamUrl.substring(0, webSocketStreamUrl.length() - 1)
+                : webSocketStreamUrl;
+    }
+
+    @Override
+    public synchronized String getWebSocketStreamUrl() {
+        return webSocketStreamUrl;
     }
 
     @Override

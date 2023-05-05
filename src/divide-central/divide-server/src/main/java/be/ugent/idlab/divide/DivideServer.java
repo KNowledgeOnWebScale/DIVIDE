@@ -2,9 +2,9 @@ package be.ugent.idlab.divide;
 
 import be.ugent.idlab.divide.api.DivideApiComponentFactory;
 import be.ugent.idlab.divide.configuration.DivideConfig;
-import be.ugent.idlab.divide.configuration.DivideQueryAsRspQlOrSparqlConfig;
-import be.ugent.idlab.divide.configuration.DivideQueryConfig;
-import be.ugent.idlab.divide.configuration.IDivideQueryConfig;
+import be.ugent.idlab.divide.configuration.query.DivideQueryAsRspQlOrSparqlConfig;
+import be.ugent.idlab.divide.configuration.query.DivideQueryConfig;
+import be.ugent.idlab.divide.configuration.query.IDivideQueryConfig;
 import be.ugent.idlab.divide.core.component.IComponent;
 import be.ugent.idlab.divide.core.context.ContextEnrichment;
 import be.ugent.idlab.divide.core.engine.DivideEngineFactory;
@@ -18,9 +18,12 @@ import be.ugent.idlab.divide.core.query.parser.DivideQueryParserInput;
 import be.ugent.idlab.divide.core.query.parser.DivideQueryParserOutput;
 import be.ugent.idlab.divide.core.query.parser.InputQueryLanguage;
 import be.ugent.idlab.divide.core.query.parser.InvalidDivideQueryParserInputException;
+import be.ugent.idlab.divide.monitor.IDivideGlobalMonitor;
+import be.ugent.idlab.divide.monitor.global.GlobalMonitorFactory;
+import be.ugent.idlab.divide.monitor.global.GlobalMonitorQuery;
 import be.ugent.idlab.divide.queryderivation.DivideQueryDeriverFactory;
 import be.ugent.idlab.divide.queryderivation.DivideQueryDeriverType;
-import be.ugent.idlab.divide.util.LogConstants;
+import be.ugent.idlab.divide.util.Constants;
 import be.ugent.idlab.divide.util.component.ComponentEntry;
 import be.ugent.idlab.divide.util.component.ComponentEntryParserException;
 import be.ugent.idlab.divide.util.component.CsvComponentEntryParser;
@@ -31,12 +34,15 @@ import be.ugent.idlab.kb.jena3.KnowledgeBaseType;
 import be.ugent.idlab.util.io.IOUtilities;
 import be.ugent.idlab.util.rdf.jena3.owlapi4.JenaUtilities;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +65,7 @@ public class DivideServer {
             }
         } catch (Exception e) {
             LOGGER.error("Error during DIVIDE server lifetime", e);
+            System.exit(1);
         }
     }
 
@@ -118,9 +125,24 @@ public class DivideServer {
                 config.shouldProcessUnmappedVariableMatchesInParser(),
                 config.shouldValidateUnboundVariablesInRspQlQueryBodyInParser());
 
+        // add shutdown hook to properly stop everything when killed
+        Runtime.getRuntime().addShutdownHook(new Thread(
+                () -> {
+                    try {
+                        divideEngine.shutdown();
+                    } catch (Exception e) {
+                        LOGGER.error("Shutting down DIVIDE engine failed", e);
+                    }
+
+                    LOGGER.info("Shutting down logging manager after shutting down DIVIDE engine");
+                    LogManager.shutdown();
+
+                    System.out.println("Shutting down system now");
+                }));
+
         // initialize list of DIVIDE queries in configuration
         // (wrongly configured DIVIDE queries lead to an IllegalArgumentException)
-        LOGGER.debug(LogConstants.METRIC_MARKER, "INIT_QUERIES_START");
+        LOGGER.debug(Constants.METRIC_MARKER, "INIT_QUERIES_START");
         initializeDivideQueries(divideEngine, config.getDivideQueryPropertiesFiles());
         initializeDivideQueriesAsRspQlOrSparql(
                 divideEngine, config.getDivideQueryAsSparqlPropertiesFiles(),
@@ -128,14 +150,70 @@ public class DivideServer {
         initializeDivideQueriesAsRspQlOrSparql(
                 divideEngine, config.getDivideQueryAsRspQlPropertiesFiles(),
                 InputQueryLanguage.RSP_QL);
-        LOGGER.debug(LogConstants.METRIC_MARKER, "INIT_QUERIES_END");
+        LOGGER.debug(Constants.METRIC_MARKER, "INIT_QUERIES_END");
 
         // initialize list of components in configuration (if specified)
         // (wrongly configured components lead to an IllegalArgumentException)
         if (filePaths.length > 1) {
-            LOGGER.debug(LogConstants.METRIC_MARKER, "INIT_COMPONENTS_START");
+            LOGGER.debug(Constants.METRIC_MARKER, "INIT_COMPONENTS_START");
             initializeComponents(divideEngine, filePaths[1]);
-            LOGGER.debug(LogConstants.METRIC_MARKER, "INIT_COMPONENTS_END");
+            LOGGER.debug(Constants.METRIC_MARKER, "INIT_COMPONENTS_END");
+        }
+
+        // initialize DIVIDE central RSP engine
+        if (config.hasCentralRspEngine()) {
+            divideEngine.configureCentralRspEngine(
+                    config.getCentralRspEngineQueryLanguage(),
+                    config.getCentralRspEngineServerProtocol(),
+                    config.getCentralRspEngineServerHost(),
+                    config.getCentralRspEngineServerPort(),
+                    config.getCentralRspEngineServerWebSocketStreamPort());
+        }
+
+        // initialize DIVIDE monitor
+        if (config.shouldMonitorBeActivated()) {
+            // retrieve config information of monitor & validate
+            List<String> monitorTaskQueries = config.getMonitorTaskQueries();
+            String localMonitorJarPath = config.getLocalMonitorJarPath();
+            if (monitorTaskQueries == null || monitorTaskQueries.isEmpty()) {
+                throw new IllegalArgumentException(
+                        "List of monitor task queries should be defined and non-empty");
+            }
+            if (localMonitorJarPath == null ||
+                    localMonitorJarPath.isEmpty() || !IOUtilities.isValidFile(localMonitorJarPath)) {
+                throw new IllegalArgumentException(
+                        "Local monitor JAR path should be defined and refer to an existing file");
+            }
+
+            // read in monitor task queries
+            List<GlobalMonitorQuery> parsedMonitorTaskQueries = new ArrayList<>();
+            for (String monitorTaskQuery : monitorTaskQueries) {
+                try {
+                    String name = FilenameUtils.removeExtension(
+                            Paths.get(monitorTaskQuery).getFileName().toString()).replaceAll("_", "");
+                    String body = IOUtilities.removeWhiteSpace(
+                            IOUtilities.readFileIntoString(monitorTaskQuery));
+                    if (body == null || body.isEmpty()) {
+                        throw new IllegalArgumentException(String.format(
+                                "Monitor task query list contains empty file %s", monitorTaskQuery));
+                    }
+                    parsedMonitorTaskQueries.add(new GlobalMonitorQuery(name, body));
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(String.format(
+                            "Monitor task query list contains invalid file %s", monitorTaskQuery), e);
+                }
+            }
+
+            // retrieve IP address in IoT network of central engine device
+            String deviceNetworkIp = config.getDeviceNetworkIp();
+            if (deviceNetworkIp == null) {
+                throw new IllegalArgumentException("Device network IP is not defined");
+            }
+
+            // create a global monitor and activate the central DIVIDE monitor
+            GlobalMonitorFactory.initialize(divideEngine, parsedMonitorTaskQueries);
+            IDivideGlobalMonitor globalMonitor = GlobalMonitorFactory.getInstance();
+            divideEngine.activateMonitor(globalMonitor, localMonitorJarPath, deviceNetworkIp);
         }
 
         // create and start DIVIDE API
@@ -293,7 +371,7 @@ public class DivideServer {
                 }
 
                 // parse DIVIDE query input
-                LOGGER.debug(LogConstants.METRIC_MARKER, "QUERY_PARSING_START");
+                LOGGER.debug(Constants.METRIC_MARKER, "QUERY_PARSING_START");
                 DivideQueryParserInput divideQueryParserInput = new DivideQueryParserInput(
                         inputQueryLanguage,
                         divideQueryConfig.getStreamWindows(),
@@ -305,7 +383,7 @@ public class DivideServer {
                 DivideQueryParserOutput divideQueryParserOutput =
                         divideEngine.getQueryParser().
                                 parseDivideQuery(divideQueryParserInput);
-                LOGGER.debug(LogConstants.METRIC_MARKER, "QUERY_PARSING_END");
+                LOGGER.debug(Constants.METRIC_MARKER, "QUERY_PARSING_END");
 
                 // retrieve context enrichment
                 ContextEnrichment contextEnrichment = initializeContextEnrichment(
@@ -363,9 +441,10 @@ public class DivideServer {
             // register all components to the DIVIDE engine
             for (ComponentEntry componentEntry : componentEntries) {
                 IComponent component = divideEngine.registerComponent(
+                        componentEntry.getIpAddress(),
                         new ArrayList<>(componentEntry.getContextIris()),
                         componentEntry.getRspQueryLanguage(),
-                        componentEntry.getRspEngineUrl());
+                        componentEntry.getRspEngineServerPort());
                 if (component == null) {
                     throw new IllegalArgumentException(
                             "Components file contains invalid or duplicate entries");

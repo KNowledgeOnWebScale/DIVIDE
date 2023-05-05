@@ -1,0 +1,420 @@
+@prefix : <https://divide.idlab.ugent.be/meta-model/divide-core/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://divide.idlab.ugent.be/meta-model/divide-core/> .
+
+<https://divide.idlab.ugent.be/meta-model/divide-core/> rdf:type owl:Ontology ;
+                                                         owl:imports <https://saref.etsi.org/core/v3.1.1/> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasAssociatedComponent
+:hasAssociatedComponent rdf:type owl:ObjectProperty ;
+                        rdfs:range :DivideComponent .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasCentralRspEngine
+:hasCentralRspEngine rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf :hasRspEngine .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasCorrespondingDivideQuery
+:hasCorrespondingDivideQuery rdf:type owl:ObjectProperty ;
+                             rdfs:domain :RspQuery ;
+                             rdfs:range :DivideQuery .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasInputStream
+:hasInputStream rdf:type owl:ObjectProperty ;
+                rdfs:range :RdfStream ;
+                owl:propertyChainAxiom ( :hasInputStreamWindow
+                                         :hasInputStream
+                                       ) .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasInputStreamWindow
+:hasInputStreamWindow rdf:type owl:ObjectProperty ;
+                      rdfs:range :StreamWindow .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasLocalRspEngine
+:hasLocalRspEngine rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :hasRspEngine .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasQueryDeployment
+:hasQueryDeployment rdf:type owl:ObjectProperty ;
+                    rdfs:range :QueryDeployment .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasQueryLocation
+:hasQueryLocation rdf:type owl:ObjectProperty ;
+                  rdfs:range :QueryLocation .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasRegisteredQuery
+:hasRegisteredQuery rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :isRegisteredTo ;
+                    rdfs:domain :RspEngine ;
+                    rdfs:range :RspQuery .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasRspEngine
+:hasRspEngine rdf:type owl:ObjectProperty ;
+              rdfs:range :RspEngine .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasUpdatedQueryLocation
+:hasUpdatedQueryLocation rdf:type owl:ObjectProperty ;
+                         rdfs:domain :DivideQueryLocationUpdateTask ;
+                         rdfs:range :QueryLocation .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hosts
+:hosts rdf:type owl:ObjectProperty ;
+       owl:inverseOf :isHostedBy ;
+       rdfs:domain <https://saref.etsi.org/core/Device> .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/isHostedBy
+:isHostedBy rdf:type owl:ObjectProperty ;
+            rdfs:label "is hosted by"@en .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/isRegisteredTo
+:isRegisteredTo rdf:type owl:ObjectProperty ;
+                rdfs:domain :RspQuery ;
+                rdfs:range :RspEngine .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasID
+:hasID rdf:type owl:DatatypeProperty ;
+       rdfs:range xsd:string .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasIPAddress
+:hasIPAddress rdf:type owl:DatatypeProperty ;
+              rdfs:range xsd:string .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:range xsd:string .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasQuerySlidingStepInSeconds
+:hasQuerySlidingStepInSeconds rdf:type owl:DatatypeProperty ;
+                              rdfs:range xsd:integer .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasServerPort
+:hasServerPort rdf:type owl:DatatypeProperty ;
+               rdfs:range xsd:integer .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasStreamName
+:hasStreamName rdf:type owl:DatatypeProperty ;
+               rdfs:domain :RdfStream ;
+               rdfs:range xsd:string .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasUpdatedQuerySlidingStepInSeconds
+:hasUpdatedQuerySlidingStepInSeconds rdf:type owl:DatatypeProperty ;
+                                     rdfs:domain :DivideWindowParameterUpdateTask ;
+                                     rdfs:range xsd:integer .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasUpdatedWindowSizeInSeconds
+:hasUpdatedWindowSizeInSeconds rdf:type owl:DatatypeProperty ;
+                               rdfs:domain :DivideWindowParameterUpdateTask ;
+                               rdfs:range xsd:integer .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasWindowDefinition
+:hasWindowDefinition rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :StreamWindow ;
+                     rdfs:range xsd:string .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasWindowEndInSecondsAgo
+:hasWindowEndInSecondsAgo rdf:type owl:DatatypeProperty ;
+                          rdfs:range xsd:integer .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasWindowSizeInSeconds
+:hasWindowSizeInSeconds rdf:type owl:DatatypeProperty ;
+                        rdfs:range xsd:integer .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/hasWindowStartInSecondsAgo
+:hasWindowStartInSecondsAgo rdf:type owl:DatatypeProperty ;
+                            rdfs:range xsd:integer .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/isTaskForComponentId
+:isTaskForComponentId rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :DivideTask ;
+                      rdfs:range xsd:string .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/isTaskForDivideQueryName
+:isTaskForDivideQueryName rdf:type owl:DatatypeProperty ;
+                          rdfs:domain :DivideTask ;
+                          rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/CentralLocation
+:CentralLocation rdf:type owl:Class ;
+                 rdfs:subClassOf :QueryLocation .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/CsparqlEngine
+:CsparqlEngine rdf:type owl:Class ;
+               rdfs:subClassOf :RspEngine .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/DivideComponent
+:DivideComponent rdf:type owl:Class ;
+                 rdfs:subClassOf :DivideEntity ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :isHostedBy ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass <https://saref.etsi.org/core/Device>
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasCentralRspEngine ;
+                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :RspEngine
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasLocalRspEngine ;
+                                   owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :RspEngine
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasID ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onDataRange xsd:string
+                                 ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/DivideEngine
+:DivideEngine rdf:type owl:Class ;
+              rdfs:subClassOf :DivideEntity ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :isHostedBy ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass <https://saref.etsi.org/core/Device>
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasID ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onDataRange xsd:string
+                              ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/DivideEntity
+:DivideEntity rdf:type owl:Class .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/DivideQuery
+:DivideQuery rdf:type owl:Class ;
+             rdfs:subClassOf :DivideEntity ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasQueryDeployment ;
+                               owl:allValuesFrom :QueryDeployment
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasName ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:string
+                             ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/DivideQueryLocationUpdateTask
+:DivideQueryLocationUpdateTask rdf:type owl:Class ;
+                               rdfs:subClassOf :DivideTask ,
+                                               [ rdf:type owl:Restriction ;
+                                                 owl:onProperty :hasUpdatedQueryLocation ;
+                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                 owl:onClass :QueryLocation
+                                               ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/DivideTask
+:DivideTask rdf:type owl:Class ;
+            rdfs:subClassOf :DivideEntity ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :isTaskForComponentId ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:string
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :isTaskForDivideQueryName ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:string
+                            ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/DivideWindowParameterUpdateTask
+:DivideWindowParameterUpdateTask rdf:type owl:Class ;
+                                 rdfs:subClassOf :DivideTask ,
+                                                 [ rdf:type owl:Class ;
+                                                   owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :hasUpdatedQuerySlidingStepInSeconds ;
+                                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                   owl:onDataRange xsd:integer
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :hasUpdatedWindowSizeInSeconds ;
+                                                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                   owl:onDataRange xsd:integer
+                                                                 ]
+                                                               )
+                                                 ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/LocalLocation
+:LocalLocation rdf:type owl:Class ;
+               rdfs:subClassOf :QueryLocation .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/QueryDeployment
+:QueryDeployment rdf:type owl:Class ;
+                 rdfs:subClassOf :DivideEntity ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasQueryLocation ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :QueryLocation
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <https://saref.etsi.org/core/isAbout> ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass :DivideComponent
+                                 ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/QueryLocation
+:QueryLocation rdf:type owl:Class ;
+               rdfs:subClassOf :DivideEntity .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/RdfStream
+:RdfStream rdf:type owl:Class ;
+           rdfs:subClassOf :RspEntity ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasStreamName ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:string
+                           ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/RspEngine
+:RspEngine rdf:type owl:Class ;
+           rdfs:subClassOf :RspEntity ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasServerPort ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:integer
+                           ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/RspEntity
+:RspEntity rdf:type owl:Class .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/RspQuery
+:RspQuery rdf:type owl:Class ;
+          rdfs:subClassOf :RspEntity ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasInputStreamWindow ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :StreamWindow
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasCorrespondingDivideQuery ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :DivideQuery
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :isRegisteredTo ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass :RspEngine
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasID ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:string
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasName ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:string
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasQuerySlidingStepInSeconds ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:integer
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasWindowSizeInSeconds ;
+                            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:integer
+                          ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/StreamWindow
+:StreamWindow rdf:type owl:Class ;
+              rdfs:subClassOf :RspEntity ,
+                              [ rdf:type owl:Class ;
+                                owl:unionOf ( [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty :hasWindowEndInSecondsAgo ;
+                                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                       owl:onDataRange xsd:integer
+                                                                     ]
+                                                                     [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty :hasWindowStartInSecondsAgo ;
+                                                                       owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                       owl:onDataRange xsd:integer
+                                                                     ]
+                                                                   ) ;
+                                                rdf:type owl:Class
+                                              ]
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty :hasWindowSizeInSeconds ;
+                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                owl:onDataRange xsd:integer
+                                              ]
+                                            )
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasInputStream ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onClass :RdfStream
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasQuerySlidingStepInSeconds ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onDataRange xsd:integer
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hasWindowDefinition ;
+                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                owl:onDataRange xsd:string
+                              ] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

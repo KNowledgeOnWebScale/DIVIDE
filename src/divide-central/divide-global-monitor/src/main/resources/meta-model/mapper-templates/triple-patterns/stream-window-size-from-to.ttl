@@ -1,0 +1,3 @@
+%s
+    divide-core:hasWindowStartInSecondsAgo "%s"^^xsd:integer ;
+    divide-core:hasWindowEndInSecondsAgo "%s"^^xsd:integer .

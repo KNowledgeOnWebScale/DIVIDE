@@ -6,16 +6,23 @@ import java.util.List;
 
 public class ComponentEntry {
 
+    private final String ipAddress;
     private final List<String> contextIris;
     private final RspQueryLanguage rspQueryLanguage;
-    private final String rspEngineUrl;
+    private final int rspEngineServerPort;
 
-    public ComponentEntry(List<String> contextIris,
+    public ComponentEntry(String ipAddress,
+                          List<String> contextIris,
                           RspQueryLanguage rspQueryLanguage,
-                          String rspEngineUrl) {
+                          int rspEngineServerPort) {
+        this.ipAddress = ipAddress;
         this.contextIris = contextIris;
         this.rspQueryLanguage = rspQueryLanguage;
-        this.rspEngineUrl = rspEngineUrl;
+        this.rspEngineServerPort = rspEngineServerPort;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
     }
 
     public List<String> getContextIris() {
@@ -26,8 +33,8 @@ public class ComponentEntry {
         return rspQueryLanguage;
     }
 
-    public String getRspEngineUrl() {
-        return rspEngineUrl;
+    public int getRspEngineServerPort() {
+        return rspEngineServerPort;
     }
 
 }

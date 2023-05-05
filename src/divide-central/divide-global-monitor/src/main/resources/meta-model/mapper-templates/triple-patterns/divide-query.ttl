@@ -1,0 +1,3 @@
+%s
+    a divide-core:DivideQuery ;
+    divide-core:hasName "%s" .

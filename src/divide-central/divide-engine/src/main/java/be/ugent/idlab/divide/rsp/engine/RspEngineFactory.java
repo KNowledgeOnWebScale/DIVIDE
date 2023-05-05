@@ -12,8 +12,10 @@ public class RspEngineFactory {
      * @return newly created RSP engine
      */
     public static IRspEngine createInstance(RspQueryLanguage rspQueryLanguage,
-                                            String url) {
-        return new RspEngine(rspQueryLanguage, url);
+                                            String url,
+                                            int serverPort,
+                                            String componentId) {
+        return new RspEngine(rspQueryLanguage, url, serverPort, componentId);
     }
 
 }

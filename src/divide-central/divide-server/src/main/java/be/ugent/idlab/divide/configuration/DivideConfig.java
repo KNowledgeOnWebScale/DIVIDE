@@ -3,14 +3,11 @@ package be.ugent.idlab.divide.configuration;
 import be.ugent.idlab.divide.configuration.legacy.DivideQueryAsRspQlOrSparqlConfig;
 import be.ugent.idlab.divide.configuration.legacy.DivideQueryConfig;
 import be.ugent.idlab.divide.configuration.util.CustomJsonConfiguration;
+import be.ugent.idlab.divide.rsp.RspQueryLanguage;
 import be.ugent.idlab.kb.jena3.KnowledgeBaseType;
 import be.ugent.idlab.util.io.IOUtilities;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import org.apache.commons.configuration2.HierarchicalConfiguration;
 import org.apache.commons.configuration2.JSONConfiguration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.apache.commons.configuration2.tree.ImmutableNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -57,6 +53,19 @@ public class DivideConfig {
     private static final String DIVIDE_QUERIES_SPARQL = "divide.queries.sparql";
     private static final String DIVIDE_QUERIES_RSP_QL = "divide.queries.rspql";
 
+    private static final String MONITOR_ACTIVE = "monitor.active";
+    private static final String MONITOR_TASK_QUERIES = "monitor.task_queries";
+    private static final String MONITOR_LOCAL_MONITOR_JAR_PATH = "monitor.local_monitor_jar";
+
+    private static final String CENTRAL_RSP_ENGINE_ACTIVE = "central_rsp_engine.active";
+    private static final String CENTRAL_RSP_ENGINE_QUERY_LANGUAGE = "central_rsp_engine.query_language";
+    private static final String CENTRAL_RSP_ENGINE_SERVER_PROTOCOL = "central_rsp_engine.server.protocol";
+    private static final String CENTRAL_RSP_ENGINE_SERVER_HOST = "central_rsp_engine.server.host";
+    private static final String CENTRAL_RSP_ENGINE_SERVER_PORT = "central_rsp_engine.server.port";
+    private static final String CENTRAL_RSP_ENGINE_SERVER_WS_STREAM_PORT = "central_rsp_engine.server.ws_stream_port";
+
+    private static final String DEVICE_NETWORK_IP = "device.network_ip";
+
     private final JSONConfiguration config;
     private final String configFileDirectory;
 
@@ -79,43 +88,6 @@ public class DivideConfig {
     public static DivideConfig getInstance(String propertiesFile)
             throws ConfigurationException, FileNotFoundException {
         return new DivideConfig(propertiesFile);
-    }
-
-    public static void main(String[] args) throws Exception {
-        DivideConfig c = getInstance("divide.properties.json");
-
-        Iterator<String> i = c.config.getKeys();
-        while (i.hasNext()) {
-            String next =  i.next();
-            //System.out.println(next);
-        }
-        System.out.println("---");
-
-
-        System.out.println(c.config.getProperties("divide"));
-
-        for (HierarchicalConfiguration<ImmutableNode> stream_graph_names : c.config.configurationsAt("stream_graph_names")) {
-            System.out.println(stream_graph_names.getString("name"));
-        }
-        System.out.println(c.config.configurationsAt("stream_graph_names"));
-
-        System.out.println(c.config.getString("stream_graph_names.$0.name"));
-
-        i = c.config.getKeys("server.");
-        while (i.hasNext()) {
-            String next =  i.next();
-            //System.out.println(next);
-        }
-
-        String json = " { \"server\": {\n" +
-                "    \"host\": \"localhost\",\n" +
-                "    \"port\":{\n" +
-                "      \"divide\": 8342,\n" +
-                "      \"kb\": 8343\n" +
-                "    }\n" +
-                "  }}";
-        JsonObject x = new Gson().fromJson(json, JsonObject.class);
-        //System.out.println(x.get("server"));
     }
 
     /**
@@ -297,6 +269,95 @@ public class DivideConfig {
                             Paths.get(configFileDirectory, path).toString() : path)
                     .collect(Collectors.toList());
         }
+    }
+
+    /**
+     * @return whether the DIVIDE monitor should be active (default: false)
+     */
+    public boolean shouldMonitorBeActivated() {
+        return config.getBoolean(MONITOR_ACTIVE, false);
+    }
+
+    /**
+     * @return list of path names of files that each contain a task query for
+     *         the DIVIDE monitor (default: empty list)
+     */
+    public List<String> getMonitorTaskQueries() {
+        String[] queries = config.getStringArray(MONITOR_TASK_QUERIES);
+        if (queries == null) {
+            return new ArrayList<>();
+        } else {
+            return Arrays.stream(queries)
+                    .filter(Objects::nonNull)
+                    .map(path -> !Paths.get(path).isAbsolute() ?
+                            Paths.get(configFileDirectory, path).toString() : path)
+                    .collect(Collectors.toList());
+        }
+    }
+
+    /**
+     * @return path of JAR file that can be used to remotely deploy the local monitor
+     *         (default: null)
+     */
+    public String getLocalMonitorJarPath() {
+        return config.getString(MONITOR_LOCAL_MONITOR_JAR_PATH, null);
+    }
+
+    /**
+     * @return whether the DIVIDE engine works with a central RSP engine, allowing
+     *         queries to be moved between the local engines and this central engine
+     *         (default: false)
+     */
+    public boolean hasCentralRspEngine() {
+        return config.getBoolean(CENTRAL_RSP_ENGINE_ACTIVE, false);
+    }
+
+    /**
+     * @return {@link RspQueryLanguage} representing the query language of
+     *         the central RSP engine associated to the DIVIDE engine
+     *         (default: {@link RspQueryLanguage#RSP_QL})
+     */
+    public RspQueryLanguage getCentralRspEngineQueryLanguage() {
+        RspQueryLanguage defaultType = RspQueryLanguage.RSP_QL;
+        RspQueryLanguage configType =
+                RspQueryLanguage.fromString(config.getString(CENTRAL_RSP_ENGINE_QUERY_LANGUAGE));
+        return configType != null ? configType : defaultType;
+    }
+
+    /**
+     * @return Protocol of the API server of the central RSP engine
+     *         (default: null)
+     */
+    public String getCentralRspEngineServerProtocol() {
+        return config.getString(CENTRAL_RSP_ENGINE_SERVER_PROTOCOL, null);
+    }
+
+    /**
+     * @return Host of the API server of the central RSP engine
+     *         (default: device network IP)
+     */
+    public String getCentralRspEngineServerHost() {
+        return config.getString(CENTRAL_RSP_ENGINE_SERVER_HOST, getDeviceNetworkIp());
+    }
+
+    /**
+     * @return Port of the API server of the central RSP engine
+     *         (default: -1)
+     */
+    public int getCentralRspEngineServerPort() {
+        return config.getInt(CENTRAL_RSP_ENGINE_SERVER_PORT, -1);
+    }
+
+    /**
+     * @return Port of the WebSocket stream server of the central RSP engine
+     *         (default: -1)
+     */
+    public int getCentralRspEngineServerWebSocketStreamPort() {
+        return config.getInt(CENTRAL_RSP_ENGINE_SERVER_WS_STREAM_PORT, -1);
+    }
+
+    public String getDeviceNetworkIp() {
+        return config.getString(DEVICE_NETWORK_IP, null);
     }
 
 }

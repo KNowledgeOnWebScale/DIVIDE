@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface IRspEngine {
 
+    String getId();
+
     /**
      * @return the query language used by this RSP engine
      */
@@ -23,18 +25,11 @@ public interface IRspEngine {
      */
     String getBaseUrl();
 
-    /**
-     * @return the URL used for registering queries to this RSP engine
-     *         and unregistering queries from it
-     */
-    String getRegistrationUrl();
+    int getServerPort();
 
-    /**
-     * @return the URL used for updating the status of the streams of this
-     *         RSP engine (i.e. to update whether data is fed to the streams,
-     *         or whether this process is paused)
-     */
-    String getStreamsUrl();
+    void setWebSocketStreamUrl(String webSocketStreamUrl);
+
+    String getWebSocketStreamUrl();
 
     /**
      * @return blueprint of queries that are currently actually registered

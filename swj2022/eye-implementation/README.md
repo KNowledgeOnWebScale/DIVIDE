@@ -18,8 +18,8 @@ The comments in the script files give additional explanation on what is happenin
 
 ```
 ./ontology-preprocessing.sh
-./query-derivation.sh query-toileting-showering
-./query-derivation.sh query-brushing-teeth
+./query-derivation.sh activity-toileting-showering
+./query-derivation.sh activity-brushing-teeth
 ```
 
 ## Contact

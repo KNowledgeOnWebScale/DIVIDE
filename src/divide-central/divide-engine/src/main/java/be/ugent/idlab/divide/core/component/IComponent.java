@@ -25,6 +25,8 @@ public interface IComponent {
      */
     String getId();
 
+    String getIpAddress();
+
     /**
      * Retrieves the different context IRIs of this {@link IComponent}. This is a list
      * of all ABox IRIs in the knowledge base that represent the relevant context of

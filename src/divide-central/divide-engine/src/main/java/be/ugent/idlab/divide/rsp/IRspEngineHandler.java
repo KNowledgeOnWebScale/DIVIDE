@@ -1,5 +1,6 @@
 package be.ugent.idlab.divide.rsp;
 
+import be.ugent.idlab.divide.core.exception.DivideInvalidInputException;
 import be.ugent.idlab.divide.core.query.IDivideQuery;
 import be.ugent.idlab.divide.rsp.engine.IRspEngine;
 
@@ -14,7 +15,14 @@ public interface IRspEngineHandler {
      * Gets the wrapped RSP engine instance.
      * @return the wrapped RSP engine this object is the handler of
      */
-    IRspEngine getRspEngine();
+    IRspEngine getLocalRspEngine();
+
+    IRspEngine getCentralRspEngine();
+
+    void configureCentralRspEngine(String centralRspEngineUrl,
+                                   RspQueryLanguage centralRspEngineQueryLanguage,
+                                   String centralRspEngineWebSocketStreamUrl)
+            throws DivideInvalidInputException;
 
     /**
      * Clears list of queries that are scheduled for registration on the
@@ -69,17 +77,25 @@ public interface IRspEngineHandler {
     /**
      * Unregisters all queries from the wrapped RSP engine that are currently registered
      * via the DIVIDE query derivation.
+     * Should be called when this component is removed from the DIVIDE engine.
      */
     void unregisterAllQueries();
 
     /**
      * Unregisters the queries from the wrapped RSP engine that are currently registered
      * via the DIVIDE query derivation of the specified DIVIDE query.
+     * Should be called when the particular DIVIDE query is removed from the DIVIDE engine.
      *
      * @param query DIVIDE query of which the associated RSP engine queries need to be
      *              unregistered from the wrapped RSP engine
      */
     void unregisterAllQueriesOriginatingFromDivideQuery(IDivideQuery query);
+
+    void moveQueriesOriginatingFromDivideQueryCentrally(IDivideQuery query)
+            throws RspEngineHandlerException;
+
+    void moveQueriesOriginatingFromDivideQueryLocally(IDivideQuery query)
+            throws RspEngineHandlerException;
 
     /**
      * Enqueues a pause request for the streams of the wrapped RSP engine.

@@ -4,7 +4,7 @@ import be.ugent.idlab.divide.core.component.IComponent;
 import be.ugent.idlab.divide.core.context.Context;
 import be.ugent.idlab.divide.core.context.IContextEnricher;
 import be.ugent.idlab.divide.core.query.IDivideQuery;
-import be.ugent.idlab.divide.util.LogConstants;
+import be.ugent.idlab.divide.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,6 +93,10 @@ class SingleQueryDeriver implements Runnable {
                     divideQuery.getName(), copiedContext, component.getId());
             List<String> substitutedQueries = divideQueryDeriverResult.getSubstitutedRspQlQueries();
 
+            // save query derivation result
+            DivideQueryDeriverResultManager.getInstance().saveQueryDeriverResult(
+                    component, divideQuery, divideQueryDeriverResult);
+
             // schedule each new query for registration
             for (String query : substitutedQueries) {
                 component.getRspEngineHandler().scheduleForRegistration(query, divideQuery);
@@ -104,7 +108,7 @@ class SingleQueryDeriver implements Runnable {
                     component.getId(), copiedContext.getId());
 
         } catch (Exception e) {
-            LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                     "Error during the DIVIDE query derivation for query '{}' " +
                     "(for component with ID '{}', and context '{}')",
                     divideQuery.getName(), component.getId(), context.getId(), e);

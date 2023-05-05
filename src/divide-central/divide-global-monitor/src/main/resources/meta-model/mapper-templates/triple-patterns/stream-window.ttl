@@ -1,0 +1,9 @@
+%s
+    a divide-core:StreamWindow ;
+    divide-core:hasInputStream %s ;
+    divide-core:hasWindowDefinition "%s" ;
+    divide-core:hasQuerySlidingStepInSeconds "%s"^^xsd:integer .
+
+%s
+    a divide-core:RdfStream ;
+    divide-core:hasStreamName "%s" .

@@ -105,7 +105,7 @@ class DivideQueryGenerator {
         // loop over prefixes
         Set<Prefix> prefixesPresent = new HashSet<>();
         for (Prefix prefix : prefixes) {
-            if (Pattern.compile("(\\s|\\(|^|\\^)" + prefix.getName() + "(?!win[0-9]+\\s)")
+            if (Pattern.compile("(\\s|\\(|^|\\^)" + prefix.getName() + "(?!win\\d+\\s)")
                     .matcher(rspQlQueryBody).find()) {
                 if (":".equals(prefix.getName())) {
                     // a prefix without a name cannot be defined in SHACL, so should
@@ -118,7 +118,7 @@ class DivideQueryGenerator {
                     prefixesPresent.add(newPrefix);
 
                     // update RSP-QL query body according to new prefix
-                    Pattern replacingPattern = Pattern.compile("(\\s|\\(|^|\\^):(?!win[0-9]+\\s)");
+                    Pattern replacingPattern = Pattern.compile("(\\s|\\(|^|\\^):(?!win\\d+\\s)");
                     Matcher m = replacingPattern.matcher(rspQlQueryBody);
                     rspQlQueryBody = m.replaceAll("$1" + newPrefix.getName());
 

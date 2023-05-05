@@ -12,14 +12,17 @@ import java.util.Map;
 class Component implements IComponent {
 
     private final String id;
+    private final String ipAddress;
     private final IRspEngineHandler rspEngineHandler;
     private final List<String> contextIris;
     private final Map<String, IContextEnricher> contextEnricherMap;
 
     Component(String id,
-                     IRspEngineHandler rspEngineHandler,
-                     List<String> contextIris) {
+              String ipAddress,
+              IRspEngineHandler rspEngineHandler,
+              List<String> contextIris) {
         this.id = id;
+        this.ipAddress = ipAddress;
         this.rspEngineHandler = rspEngineHandler;
         this.contextIris = new ArrayList<>(contextIris);
         this.contextEnricherMap = new HashMap<>();
@@ -28,6 +31,11 @@ class Component implements IComponent {
     @Override
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String getIpAddress() {
+        return ipAddress;
     }
 
     @Override
@@ -54,6 +62,16 @@ class Component implements IComponent {
     @Override
     public synchronized IContextEnricher getContextEnricher(IDivideQuery divideQuery) {
         return contextEnricherMap.get(divideQuery.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Component{" +
+                "id='" + id + '\'' +
+                ", rspEngineHandler=" + rspEngineHandler +
+                ", contextIris=" + contextIris +
+                ", contextEnricherMap=" + contextEnricherMap +
+                '}';
     }
 
 }

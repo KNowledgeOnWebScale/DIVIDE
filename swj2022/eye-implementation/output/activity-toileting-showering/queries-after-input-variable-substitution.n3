@@ -87,6 +87,6 @@ _:sk_41 sd:staticWindowParameters ().
 _:sk_40 sd:dynamicWindowParameters ().
 _:sk_41 sd:dynamicWindowParameters ().
 
-#2022-05-01T12:05:00.921Z in=50 out=25 ent=276 step=448 brake=11 inf=1589479 sec=0.227 inf/sec=7002110
+#2023-06-01T09:28:12.469Z in=50 out=25 ent=276 step=448 brake=11 inf=1586230 sec=0.193 inf/sec=8218808
 #ENDS
 

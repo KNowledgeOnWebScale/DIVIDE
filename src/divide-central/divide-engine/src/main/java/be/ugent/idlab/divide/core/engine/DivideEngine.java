@@ -12,8 +12,15 @@ import be.ugent.idlab.divide.core.query.IDivideQuery;
 import be.ugent.idlab.divide.core.query.parser.DivideQueryParserFactory;
 import be.ugent.idlab.divide.core.query.parser.IDivideQueryParser;
 import be.ugent.idlab.divide.core.query.parser.InvalidDivideQueryParserInputException;
+import be.ugent.idlab.divide.monitor.DivideMonitorFactory;
+import be.ugent.idlab.divide.monitor.IDivideGlobalMonitor;
+import be.ugent.idlab.divide.monitor.IDivideMonitor;
+import be.ugent.idlab.divide.monitor.MonitorException;
+import be.ugent.idlab.divide.monitor.metamodel.DummyDivideMetaModel;
+import be.ugent.idlab.divide.monitor.metamodel.IDivideMetaModel;
+import be.ugent.idlab.divide.rsp.RspEngineHandlerException;
 import be.ugent.idlab.divide.rsp.RspQueryLanguage;
-import be.ugent.idlab.divide.util.LogConstants;
+import be.ugent.idlab.divide.util.Constants;
 import be.ugent.idlab.kb.IKnowledgeBase;
 import be.ugent.idlab.kb.exception.KnowledgeBaseOperationException;
 import be.ugent.idlab.util.rdf.jena3.owlapi4.JenaOwlApiUtilities;
@@ -30,6 +37,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -79,6 +87,10 @@ class DivideEngine implements IDivideEngine {
 
     private DivideOntology divideOntology;
 
+    private IDivideMonitor divideMonitor;
+
+    private IDivideMetaModel divideMetaModel;
+
     /**
      * Boolean representing whether the engine has been successfully initialized
      */
@@ -106,6 +118,18 @@ class DivideEngine implements IDivideEngine {
      */
     private boolean validateUnboundVariablesInRspQlQueryBodyInParser;
 
+    private final String id;
+
+    private String deviceNetworkIp;
+
+    /**
+     * Properties & guard of the central RSP engine of this DIVIDE engine
+     */
+    private String centralRspEngineUrl;
+    private RspQueryLanguage centralRspEngineQueryLanguage;
+    private String centralRspEngineWebSocketStreamUrl;
+    private final String centralRspEngineGuard = "guard";
+
     /**
      * Patterns used for preprocessing a DIVIDE query's sensor query rule
      */
@@ -129,6 +153,12 @@ class DivideEngine implements IDivideEngine {
         this.componentQueryUpdateQueueMap = new HashMap<>();
         this.componentQueryUpdateThreadMap = new HashMap<>();
         this.divideOntology = null;
+
+        // initialize ID
+        this.id = UUID.randomUUID().toString();
+
+        // initialize dummy DIVIDE meta model
+        this.divideMetaModel = new DummyDivideMetaModel();
 
         // create worker thread pool
         this.workerThreadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(100);
@@ -186,6 +216,125 @@ class DivideEngine implements IDivideEngine {
         this.initialized = true;
     }
 
+    @Override
+    public void activateMonitor(IDivideGlobalMonitor divideGlobalMonitor,
+                                String divideLocalMonitorJarPath,
+                                String deviceNetworkIp)
+            throws DivideNotInitializedException, DivideInvalidInputException, MonitorException {
+        LOGGER.info("Activating the DIVIDE Monitor");
+
+        // start a new monitor with the given parameters
+        this.divideMonitor = DivideMonitorFactory.createInstance(
+                this, divideGlobalMonitor, divideLocalMonitorJarPath, deviceNetworkIp);
+
+        // save network IP to engine
+        this.deviceNetworkIp = deviceNetworkIp;
+
+        // start DIVIDE monitor
+        this.divideMonitor.start();
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getDeviceNetworkIp() throws DivideNotInitializedException {
+        if (this.deviceNetworkIp == null) {
+            throw new DivideNotInitializedException();
+        }
+        return this.deviceNetworkIp;
+    }
+
+    @Override
+    public void onDivideMetaModelInitialized() {
+        LOGGER.info("On DIVIDE meta model initialized: DIVIDE engine can save " +
+                "DIVIDE meta model & make it up to date");
+
+        // save non-dummy meta model initialized by the DIVIDE global monitor
+        // (done only now since otherwise earlier calls to the meta model will yield
+        //  exceptions because global monitor has not yet fully started)
+        this.divideMetaModel = this.divideMonitor.getDivideMetaModel();
+
+        // register this engine to the meta model
+        this.divideMetaModel.registerEngine(this);
+
+        // register all active DIVIDE components
+        for (IComponent component : divideComponentManager.getRegisteredComponents()) {
+            this.divideMetaModel.addComponent(component);
+        }
+
+        // register all active DIVIDE queries
+        synchronized (divideQueryMap) {
+            for (IDivideQuery divideQuery : divideQueryMap.values()) {
+                this.divideMetaModel.addDivideQuery(divideQuery);
+            }
+        }
+    }
+
+    @Override
+    public IDivideMetaModel getDivideMetaModel() {
+        return this.divideMetaModel;
+    }
+
+    @Override
+    public void shutdown() throws DivideNotInitializedException {
+        LOGGER.info("Shutting down DIVIDE engine");
+
+        // remove all components & queries
+        // (also includes stopping the monitor for every component if it is active)
+        LOGGER.info("Shutdown: removing all components & unregistering all DIVIDE-originating queries from it");
+        for (IComponent registeredComponent : divideComponentManager.getRegisteredComponents()) {
+            // if removed component is not null & monitor is active,
+            // stop & remove the local monitor on that component
+            if (registeredComponent != null) {
+                LOGGER.info("Shutdown: unregister component {}", registeredComponent);
+                unregisterComponent(registeredComponent.getId(), true);
+            }
+        }
+    }
+
+    @Override
+    public void configureCentralRspEngine(RspQueryLanguage rspQueryLanguage,
+                                          String serverProtocol,
+                                          String serverHost,
+                                          int serverPort,
+                                          int webSocketServerPort)
+            throws DivideInvalidInputException, DivideInitializationException {
+        synchronized (this.centralRspEngineGuard) {
+            // only proceed if no central RSP engine has been configured yet
+            if (this.centralRspEngineUrl != null) {
+                throw new DivideInitializationException(
+                        "Central RSP engine is already configured for this DIVIDE engine");
+            }
+
+            // validate the properties of the central RSP engine
+            if (serverProtocol == null || serverHost == null
+                    || serverPort <= 0 || webSocketServerPort <= 0) {
+                throw new DivideInvalidInputException("Central RSP engine properties are invalid: " +
+                        "at least one of server protocol, server host, server port or WebSocket " +
+                        "server port is invalid");
+            }
+
+            // save the properties of the central RSP engine
+            this.centralRspEngineUrl = String.format("%s://%s:%s",
+                    serverProtocol, serverHost, serverPort);
+            this.centralRspEngineQueryLanguage = rspQueryLanguage;
+            this.centralRspEngineWebSocketStreamUrl = String.format("ws://%s:%s",
+                    serverHost, webSocketServerPort);
+
+            // configure central RSP engine to all registered components
+            for (IComponent registeredComponent :
+                    divideComponentManager.getRegisteredComponents()) {
+                registeredComponent.getRspEngineHandler().configureCentralRspEngine(
+                        this.centralRspEngineUrl,
+                        this.centralRspEngineQueryLanguage,
+                        this.centralRspEngineWebSocketStreamUrl);
+            }
+        }
+    }
+
     /**
      * Loads the ontology that needs to be used as input (TBox) for each query
      * derivation performed by the query deriver of this engine.
@@ -206,7 +355,7 @@ class DivideEngine implements IDivideEngine {
     synchronized void loadOntology(Model divideOntologyModel)
             throws DivideInvalidInputException, DivideInitializationException {
         LOGGER.info("Loading ontology...");
-        LOGGER.debug(LogConstants.METRIC_MARKER, "LOAD_ONTOLOGY_START");
+        LOGGER.debug(Constants.METRIC_MARKER, "LOAD_ONTOLOGY_START");
 
         long start = System.currentTimeMillis();
 
@@ -230,7 +379,7 @@ class DivideEngine implements IDivideEngine {
             }
         }
 
-        LOGGER.debug(LogConstants.METRIC_MARKER, "LOAD_ONTOLOGY_END");
+        LOGGER.debug(Constants.METRIC_MARKER, "LOAD_ONTOLOGY_END");
         LOGGER.info("Finished loading ontology in {} ms", System.currentTimeMillis() - start);
     }
 
@@ -271,6 +420,9 @@ class DivideEngine implements IDivideEngine {
             synchronized (divideQueryMap) {
                 divideQueryMap.put(name, divideQuery);
             }
+
+            // add DIVIDE query to DIVIDE meta model
+            this.divideMetaModel.addDivideQuery(divideQuery);
 
             // start query derivation for this DIVIDE query only,
             // for each component registered to the engine
@@ -342,6 +494,9 @@ class DivideEngine implements IDivideEngine {
             divideQuery = divideQueryMap.remove(name);
         }
         if (divideQuery != null) {
+            // remove DIVIDE query from DIVIDE meta model
+            this.divideMetaModel.removeDivideQuery(divideQuery);
+
             // unregister query at query deriver
             divideQueryDeriver.unregisterQuery(divideQuery);
 
@@ -361,7 +516,9 @@ class DivideEngine implements IDivideEngine {
             throw new DivideNotInitializedException();
         }
 
-        return divideQueryMap.values();
+        synchronized (divideQueryMap) {
+            return divideQueryMap.values();
+        }
     }
 
     @Override
@@ -374,9 +531,10 @@ class DivideEngine implements IDivideEngine {
     }
 
     @Override
-    public IComponent registerComponent(List<String> contextIris,
-                                        RspQueryLanguage rspQueryLanguage,
-                                        String rspEngineUrl)
+    public IComponent registerComponent(String ipAddress,
+                                        List<String> contextIris,
+                                        RspQueryLanguage localRspEngineQueryLanguage,
+                                        int localRspEngineServerPort)
             throws DivideNotInitializedException, DivideInvalidInputException {
         LOGGER.info("Adding new DIVIDE component...");
 
@@ -386,10 +544,23 @@ class DivideEngine implements IDivideEngine {
 
         // register new component at component manager
         IComponent component = divideComponentManager.registerComponent(
-                contextIris, rspQueryLanguage, rspEngineUrl);
+                ipAddress, contextIris, localRspEngineQueryLanguage, localRspEngineServerPort);
+
+        // if component is created, try to configure the central RSP engine if existing
+        synchronized (this.centralRspEngineGuard) {
+            if (this.centralRspEngineUrl != null) {
+                component.getRspEngineHandler().configureCentralRspEngine(
+                        this.centralRspEngineUrl,
+                        this.centralRspEngineQueryLanguage,
+                        this.centralRspEngineWebSocketStreamUrl);
+            }
+        }
 
         // if component is not zero, prepare the engine for handling query update requests
         if (component != null) {
+            // add DIVIDE component to DIVIDE meta model
+            this.divideMetaModel.addComponent(component);
+
             // create a queue for this component where query updates requests can be put
             final LinkedBlockingQueue<IDivideQueryUpdateTask> queryUpdateQueue =
                     new LinkedBlockingQueue<>();
@@ -428,6 +599,16 @@ class DivideEngine implements IDivideEngine {
                     s -> divideComponentManager.addContextIriObserver(s, component));
         }
 
+        // if component is not null & monitor is active,
+        // create & start a local monitor on that component
+        if (component != null && divideMonitor != null) {
+            try {
+                divideMonitor.addComponent(component);
+            } catch (MonitorException e) {
+                LOGGER.error("Could not add component with ID {} to DIVIDE Monitor", component.getId());
+            }
+        }
+
         return component;
     }
 
@@ -445,6 +626,9 @@ class DivideEngine implements IDivideEngine {
         // handle query update queue & thread if component ID exists and
         // is actually removed
         if (removed != null) {
+            // remove DIVIDE component from DIVIDE meta model
+            this.divideMetaModel.removeComponent(removed);
+
             // no longer keep track of query update queue
             componentQueryUpdateQueueMap.remove(id);
 
@@ -466,6 +650,16 @@ class DivideEngine implements IDivideEngine {
             //  registrations or unregistrations take place in this thread)
             if (unregisterQueries) {
                 removed.getRspEngineHandler().unregisterAllQueries();
+            }
+        }
+
+        // if removed component is not null & monitor is active,
+        // stop & remove the local monitor on that component
+        if (removed != null && divideMonitor != null) {
+            try {
+                divideMonitor.removeComponent(removed);
+            } catch (MonitorException e) {
+                LOGGER.error("Could not remove component with ID {} from DIVIDE Monitor", removed.getId());
             }
         }
     }
@@ -493,6 +687,90 @@ class DivideEngine implements IDivideEngine {
         return DivideQueryParserFactory.getInstance(
                 processUnmappedVariableMatchesInParser,
                 validateUnboundVariablesInRspQlQueryBodyInParser);
+    }
+
+    @Override
+    public void updateWindowParameters(String componentId,
+                                       String divideQueryName,
+                                       Model windowParameters) throws DivideNotInitializedException {
+        LOGGER.info("Updating window parameters for DIVIDE component with ID {} " +
+                "and DIVIDE query with name {}...", componentId, divideQueryName);
+        LOGGER.info(Constants.METRIC_MARKER,
+                "QUERY_WINDOW_PARAMETER_UPDATE_TASK_START\t{}\t{}\t{}",
+                divideQueryName, componentId, windowParameters.hashCode());
+
+        if (!initialized) {
+            throw new DivideNotInitializedException();
+        }
+
+        // retrieve registered component
+        IComponent component = divideComponentManager.getRegisteredComponentById(componentId);
+        if (component != null) {
+            // retrieve requested query
+            IDivideQuery divideQuery = divideQueryMap.get(divideQueryName);
+            if (divideQuery != null) {
+                // enqueue window parameter update task
+                enqueueSpecificDivideWindowParameterUpdateTask(
+                        component, divideQuery, windowParameters);
+            } else {
+                LOGGER.warn("Updating window parameters for DIVIDE component with ID {} " +
+                                "and DIVIDE query with name {}: query does not exist",
+                        componentId, divideQueryName);
+            }
+        } else {
+            LOGGER.warn("Updating window parameters for DIVIDE component with ID {} " +
+                            "and DIVIDE query with name {}: component does not exist",
+                    componentId, divideQueryName);
+        }
+    }
+
+    @Override
+    public void updateQueryLocation(String componentId,
+                                    String divideQueryName,
+                                    boolean moveToCentral) throws DivideNotInitializedException {
+        LOGGER.info("Updating location of queries derived from DIVIDE query " +
+                "with name {} to {} for component with ID {}...",
+                divideQueryName, moveToCentral ? "central" : "local", componentId);
+        LOGGER.info(Constants.METRIC_MARKER,
+                "QUERY_LOCATION_UPDATE_TASK_START\t{}\t{}\t{}",
+                divideQueryName, componentId, moveToCentral ? "central" : "local");
+
+        if (!initialized) {
+            throw new DivideNotInitializedException();
+        }
+
+        synchronized (this.centralRspEngineGuard) {
+            // only proceed if a central RSP engine is set to the DIVIDE engine
+            if (this.centralRspEngineUrl == null) {
+                String message = String.format("Updating location of queries derived from DIVIDE query " +
+                                "with name %s for component with ID %s is IMPOSSIBLE " +
+                                "since no central RSP engine is configured to the DIVIDE engine",
+                        divideQueryName, componentId);
+                LOGGER.warn(message);
+                throw new DivideNotInitializedException(message);
+            }
+
+            // retrieve registered component
+            IComponent component = divideComponentManager.getRegisteredComponentById(componentId);
+            if (component != null) {
+                // retrieve requested query
+                IDivideQuery divideQuery = divideQueryMap.get(divideQueryName);
+                if (divideQuery != null) {
+                    // enqueue window parameter update task
+                    enqueueQueryLocationUpdateTask(component, divideQuery, moveToCentral);
+                } else {
+                    LOGGER.warn("Updating location of queries derived from DIVIDE query " +
+                                    "with name {} to {} for component with ID {}: query does not exist",
+                            moveToCentral ? "central" : "local",
+                            componentId, divideQueryName);
+                }
+            } else {
+                LOGGER.warn("Updating location of queries derived from DIVIDE query " +
+                                "with name {} to {} for component with ID {}: component does not exist",
+                        moveToCentral ? "central" : "local",
+                        componentId, divideQueryName);
+            }
+        }
     }
 
     synchronized DivideOntology getDivideOntology() {
@@ -597,7 +875,7 @@ class DivideEngine implements IDivideEngine {
             restartQueryUpdateThreadIfNeeded(component, queue);
 
         } catch (InterruptedException ignored) {
-            LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                     "Enqueueing general DIVIDE query derivation task for component with ID '{}'" +
                             "and context ID '{}' resulted in unexpected InterruptedException",
                     component.getId(), context.getId());
@@ -642,7 +920,7 @@ class DivideEngine implements IDivideEngine {
             restartQueryUpdateThreadIfNeeded(component, queue);
 
         } catch (InterruptedException ignored) {
-            LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                     "Enqueueing specific DIVIDE query derivation task for DIVIDE query '{}'," +
                             "component with ID '{}' and context ID '{}' resulted " +
                             "in unexpected InterruptedException",
@@ -688,7 +966,7 @@ class DivideEngine implements IDivideEngine {
             restartQueryUpdateThreadIfNeeded(component, queue);
 
         } catch (InterruptedException ignored) {
-            LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                     "Enqueueing DIVIDE query removal handling task for component with ID '{}' " +
                             "and DIVIDE query '{}' resulted in unexpected InterruptedException",
                     component.getId(), divideQuery.getName());
@@ -717,7 +995,7 @@ class DivideEngine implements IDivideEngine {
             restartQueryUpdateThreadIfNeeded(component, queue);
 
         } catch (InterruptedException ignored) {
-            LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                     "Enqueueing task to update context enrichers for DIVIDE query '{}' for " +
                             "component with ID '{}' resulted in unexpected InterruptedException",
                     divideQuery.getName(), component.getId());
@@ -744,7 +1022,7 @@ class DivideEngine implements IDivideEngine {
             restartQueryUpdateThreadIfNeeded(component, queue);
 
         } catch (InterruptedException ignored) {
-            LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                     "Enqueueing task to update context enrichers for all DIVIDE queries on " +
                             "component with ID '{}' resulted in unexpected InterruptedException",
                     component.getId());
@@ -752,6 +1030,99 @@ class DivideEngine implements IDivideEngine {
             // retry if interrupted while waiting (but the queue is not bounded
             // so normally the queue put operation should not block)
             enqueueContextEnricherUpdaterTask(component);
+        }
+    }
+
+    /**
+     * Adds a task to this component's queue to update the window parameters of the
+     * RSP queries associated to the given {@link IDivideQuery} for this
+     * {@link IComponent}, according to the specified updated window parameters.
+     * This method will be (indirectly) used by the DIVIDE Monitor to update the window
+     * parameters of the active queries based on the monitoring output (without redoing
+     * the full query derivation process).
+     *
+     * @param component {@link IComponent} for which the RSP queries should be updated
+     * @param divideQuery DIVIDE query for which the query window parameter update task
+     *                    should be enqueued
+     * @param windowParameters model of the window parameters that should be used for the update
+     */
+    void enqueueSpecificDivideWindowParameterUpdateTask(IComponent component,
+                                                        IDivideQuery divideQuery,
+                                                        Model windowParameters) {
+        try {
+            LOGGER.info("Enqueueing specific DIVIDE query window parameter update task" +
+                            " for DIVIDE query '{}' and for component with ID '{}'",
+                    divideQuery.getName(), component.getId());
+
+            // retrieve component's query update request queue
+            // IMPORTANT: the queue is not cleared in this case, since this window parameter
+            //            update requires the latest query deriver result to be present and up-to-date
+            LinkedBlockingQueue<IDivideQueryUpdateTask> queue =
+                    componentQueryUpdateQueueMap.get(component.getId());
+
+            // enqueue query update request with updated window parameters in the component's queue
+            queue.put(new SpecificDivideWindowParameterUpdateTask(
+                    component, divideQuery, windowParameters));
+
+            // restart query update thread if needed
+            restartQueryUpdateThreadIfNeeded(component, queue);
+
+        } catch (InterruptedException ignored) {
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
+                    "Enqueueing specific DIVIDE query window parameter update task " +
+                            "for DIVIDE query '{}' and component with ID '{}' resulted " +
+                            "in unexpected InterruptedException",
+                    divideQuery.getName(), component.getId());
+
+            // retry if interrupted while waiting (but the queue is not bounded
+            // so normally the queue put operation should not block)
+            enqueueSpecificDivideWindowParameterUpdateTask(component, divideQuery, windowParameters);
+        }
+    }
+
+    /**
+     * Adds a task to this component's queue to update the location of the
+     * RSP queries associated to the given {@link IDivideQuery} for this
+     * {@link IComponent}, either to central or local.
+     * This method will be (indirectly) used by the DIVIDE Monitor to update the location
+     * of the active queries based on the monitoring output (without doing any other step
+     * of the actual query derivation).
+     *
+     * @param component {@link IComponent} for which the RSP queries' location should be updated
+     * @param divideQuery DIVIDE query for which the location update task should be enqueued
+     * @param moveToCentral true if the queries should be moved to the central RSP engine,
+     *                      false if they should be moved to the local component's RSP engine
+     */
+    void enqueueQueryLocationUpdateTask(IComponent component,
+                                        IDivideQuery divideQuery,
+                                        boolean moveToCentral) {
+        try {
+            LOGGER.info("Enqueueing location update task of queries derived from DIVIDE query " +
+                            "with name '{}' to {} for component with ID '{}'",
+                    divideQuery.getName(), moveToCentral ? "central" : "local", component.getId());
+
+            // retrieve component's query update request queue
+            // IMPORTANT: the queue is not cleared in this case, since this query location
+            //            update requires the latest query deriver result to be present and up-to-date
+            LinkedBlockingQueue<IDivideQueryUpdateTask> queue =
+                    componentQueryUpdateQueueMap.get(component.getId());
+
+            // enqueue query location update request in the component's queue
+            queue.put(new QueryLocationUpdateTask(component, divideQuery, moveToCentral));
+
+            // restart query update thread if needed
+            restartQueryUpdateThreadIfNeeded(component, queue);
+
+        } catch (InterruptedException ignored) {
+            LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
+                    "Enqueueing location update task of queries derived from " +
+                            "DIVIDE query '{}' to {} for component with ID '{}' resulted " +
+                            "in unexpected InterruptedException",
+                    divideQuery.getName(), moveToCentral ? "central" : "local", component.getId());
+
+            // retry if interrupted while waiting (but the queue is not bounded
+            // so normally the queue put operation should not block)
+            enqueueQueryLocationUpdateTask(component, divideQuery, moveToCentral);
         }
     }
 
@@ -1160,6 +1531,144 @@ class DivideEngine implements IDivideEngine {
                     System.currentTimeMillis() - start);
 
             return interruptedWhileWaiting || Thread.currentThread().isInterrupted();
+        }
+    }
+
+    private class SpecificDivideWindowParameterUpdateTask implements IDivideQueryUpdateTask {
+
+        private final Logger LOGGER = LoggerFactory.getLogger(
+                SpecificDivideWindowParameterUpdateTask.class.getName());
+
+        private final IComponent component;
+        private final IDivideQuery divideQuery;
+        private final Model windowParameters;
+
+        SpecificDivideWindowParameterUpdateTask(IComponent component,
+                                                IDivideQuery divideQuery,
+                                                Model windowParameters) {
+            this.component = component;
+            this.divideQuery = divideQuery;
+            this.windowParameters = windowParameters;
+        }
+
+        @Override
+        public boolean execute() {
+            LOGGER.info("Preparing specific DIVIDE query window parameter update for " +
+                            "DIVIDE query '{}' and component with ID '{}' in RSP query update thread",
+                    divideQuery.getName(), component.getId());
+
+            // run the window parameter update script for the given DIVIDE query,
+            // on a dedicated thread in the worker thread pool
+            CountDownLatch latch = new CountDownLatch(1);
+            workerThreadPool.submit(new SingleQueryWindowParameterUpdater(
+                    divideQuery, component, windowParameters, divideQueryDeriver, latch));
+
+            // keep track of whether the thread gets interrupted while waiting for
+            // the other threads to finish
+            boolean interruptedWhileWaiting = false;
+
+            // wait until the query window parameter updater threads have all finished
+            boolean queryWindowParameterUpdaterThreadsFinished = false;
+            while (!queryWindowParameterUpdaterThreadsFinished) {
+                try {
+                    LOGGER.info("Specific DIVIDE query window parameter updater for DIVIDE " +
+                                    "query '{}' and component with ID '{}': waiting for other " +
+                                    "thread to finish the individual query update",
+                            divideQuery.getName(), component.getId());
+
+                    // wait for the latch to be decremented by the the query update threads
+                    latch.await();
+
+                    // if the previous call returns, this means that the thread has finished
+                    queryWindowParameterUpdaterThreadsFinished = true;
+
+                } catch (InterruptedException e) {
+                    // interrupts of this thread should be ignored, since it is really
+                    // required to await the latch being count down to zero
+                    // (and only handle interrupt requests at the end of this method)
+                    LOGGER.info("Specific DIVIDE query window parameter updater for DIVIDE query '{}' " +
+                                    "and component with ID '{}': query update thread " +
+                                    "interrupted while waiting for other threads",
+                            divideQuery.getName(), component.getId());
+
+                    // it is however important to remember that this interruption happened
+                    // while waiting
+                    interruptedWhileWaiting = true;
+                }
+            }
+
+            if (!interruptedWhileWaiting && !Thread.currentThread().isInterrupted()) {
+                // update query registration at actual RSP engine for this DIVIDE query
+                component.getRspEngineHandler().updateRegistration(divideQuery);
+            } else {
+                LOGGER.info("Specific DIVIDE query window parameter updater for DIVIDE query '{}' " +
+                                "and component with ID '{}': not registering queries since " +
+                                "query update thread has been interrupted",
+                        divideQuery.getName(), component.getId());
+
+                // clearing registration schedule since no queries will be registered anymore
+                component.getRspEngineHandler().clearRegistrationSchedule(divideQuery);
+            }
+
+            LOGGER.info("Finished DIVIDE query window parameter updater for DIVIDE query '{}' and" +
+                            " component with ID '{}'", divideQuery.getName(), component.getId());
+            LOGGER.info(Constants.METRIC_MARKER,
+                    "QUERY_WINDOW_PARAMETER_UPDATE_TASK_END\t{}\t{}\t{}",
+                    divideQuery.getName(), component.getId(), windowParameters.hashCode());
+
+            return interruptedWhileWaiting || Thread.currentThread().isInterrupted();
+        }
+    }
+
+    private static class QueryLocationUpdateTask implements IDivideQueryUpdateTask {
+
+        private final Logger LOGGER = LoggerFactory.getLogger(
+                QueryLocationUpdateTask.class.getName());
+
+        private final IComponent component;
+        private final IDivideQuery divideQuery;
+        private final boolean moveToCentral;
+
+        QueryLocationUpdateTask(IComponent component,
+                                IDivideQuery divideQuery,
+                                boolean moveToCentral) {
+            this.component = component;
+            this.divideQuery = divideQuery;
+            this.moveToCentral = moveToCentral;
+        }
+
+        @Override
+        public boolean execute() {
+            LOGGER.info("Preparing query location update for queries derived from" +
+                            "DIVIDE query '{}' to {} for component with ID '{}' " +
+                            "in RSP query update thread", divideQuery.getName(),
+                    moveToCentral ? "central" : "local", component.getId());
+
+            try {
+                // update the location of all queries from the given DIVIDE query
+                // at the RSP engine handler of the given component
+                if (moveToCentral) {
+                    component.getRspEngineHandler().
+                            moveQueriesOriginatingFromDivideQueryCentrally(divideQuery);
+                } else {
+                    component.getRspEngineHandler().
+                            moveQueriesOriginatingFromDivideQueryLocally(divideQuery);
+                }
+            } catch (RspEngineHandlerException e) {
+                String message = String.format("Something went wrong when performing the query " +
+                                "location update for queries derived from DIVIDE query '%s' to %s " +
+                                "for component with ID '%s' in RSP query update thread",
+                        divideQuery.getName(), moveToCentral ? "central" : "local", component.getId());
+                LOGGER.error(message, e);
+            }
+
+            LOGGER.info("Finished DIVIDE query window parameter updater for DIVIDE query '{}' and" +
+                    " component with ID '{}'", divideQuery.getName(), component.getId());
+            LOGGER.info(Constants.METRIC_MARKER,
+                    "QUERY_LOCATION_UPDATE_TASK_END\t{}\t{}\t{}",
+                    divideQuery.getName(), component.getId(), moveToCentral ? "central" : "local");
+
+            return Thread.currentThread().isInterrupted();
         }
     }
 

@@ -1,0 +1,65 @@
+@prefix sd: <http://idlab.ugent.be/sensdesc#> .
+@prefix sd-query: <http://idlab.ugent.be/sensdesc/query#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+sd-query:prefixes-activity-brushing-teeth
+	rdf:type owl:Ontology ;
+	sh:declare [ sh:prefix "xsd" ; sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "saref-core" ; sh:namespace "https://saref.etsi.org/core/"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "ActivityRecognition" ; sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/"^^xsd:anyURI ] ;
+	sh:declare [ sh:prefix "KBActivityRecognition" ; sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/"^^xsd:anyURI ] .
+
+sd-query:pattern
+    rdf:type sd:QueryPattern ;
+    sh:prefixes sd-query:prefixes-activity-brushing-teeth ;
+    sh:construct """
+        CONSTRUCT {
+            _:p a KBActivityRecognition:RelevantActivityIndex ;
+                saref-core:hasValue ?ai ;
+                KBActivityRecognition:calculationMadeFor ?patient ;
+                KBActivityRecognition:calculatedBy ?calculator ;
+                saref-core:hasTimestamp ?now .
+        }
+        FROM NAMED WINDOW :win ON <http://protego.ilabt.imec.be/idlab.homelab> [RANGE ?{range} SLIDE ?{slide}]
+        WHERE {
+            WINDOW :win {
+                BIND (NOW() AS ?now)
+
+                {
+                    SELECT ?sensor (AVG(?var) AS ?ai)
+                    {
+                        SELECT ?sensor ?p (IF(?count=1, -1, (?sx / ?count)) AS ?var)
+                        WHERE {
+                            SELECT ?sensor ?p (SUM(?x) AS ?sx) ?count
+                            WHERE {
+                                SELECT ?sensor ?p ?v (xsd:float(?v) AS ?ni) ?mean (xsd:float(?ni - ?mean) AS ?nmean)
+                                       (((?nmean) * (?nmean)) AS ?x) ?count
+                                WHERE {
+                                    ?sensor saref-core:makesMeasurement [
+                                        saref-core:hasValue ?v ;
+                                        saref-core:relatesToProperty ?p
+                                    ] .
+                                    {
+                                       SELECT (?newSensor AS ?sensor) ?p (AVG(?v2) AS ?mean) (COUNT(?v2) as ?count)
+                                       WHERE {
+                                           ?newSensor saref-core:makesMeasurement [
+                                               saref-core:hasValue ?v2 ;
+                                               saref-core:relatesToProperty ?p
+                                           ] .
+                                       }
+                                       GROUP BY (?newSensor AS ?sensor) ?p
+                                    }
+                                }
+                            } GROUP BY ?sensor ?p ?count
+                        }
+                    }
+                    GROUP BY ?sensor
+                }
+            }
+        }
+        LIMIT 1
+        """ .

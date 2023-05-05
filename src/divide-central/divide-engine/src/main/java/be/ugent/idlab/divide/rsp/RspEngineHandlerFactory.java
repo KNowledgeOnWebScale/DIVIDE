@@ -1,21 +1,27 @@
 package be.ugent.idlab.divide.rsp;
 
+import be.ugent.idlab.divide.core.engine.IDivideEngine;
 import be.ugent.idlab.divide.core.exception.DivideInvalidInputException;
 
 public class RspEngineHandlerFactory {
 
     /**
-     * Creates an {@link IRspEngineHandler} object for an RSP engine
+     * Creates an {@link IRspEngineHandler} object for a local RSP engine
      * with the given query language and registration URL.
-     * @param rspQueryLanguage query language used by the RSP engine
-     * @param url base URL which will be used for communication with the RSP engine
-     * @return a new instance of {@link IRspEngineHandler} that acts as a handler of the RSP engine
+     * @param localRspEngineQueryLanguage query language used by the local RSP engine
+     * @param localRspEngineUrl base URL which will be used for communication with the local RSP engine
+     * @return a new instance of {@link IRspEngineHandler} that acts as a handler of the local RSP engine
      * @throws DivideInvalidInputException when the query registration URL is no valid URL
      */
-    public static IRspEngineHandler createInstance(RspQueryLanguage rspQueryLanguage,
-                                                   String url)
+    public static IRspEngineHandler createInstance(RspQueryLanguage localRspEngineQueryLanguage,
+                                                   String localRspEngineUrl,
+                                                   int localRspEngineServerPort,
+                                                   String componentId,
+                                                   IDivideEngine divideEngine)
             throws DivideInvalidInputException {
-        return new RspEngineHandler(rspQueryLanguage, url);
+        return new RspEngineHandler(
+                localRspEngineQueryLanguage, localRspEngineUrl, localRspEngineServerPort,
+                componentId, divideEngine);
     }
 
 }

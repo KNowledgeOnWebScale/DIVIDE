@@ -69,11 +69,13 @@ public class DivideQueryParser implements IDivideQueryParser {
             "\\s*(WINDOW|GRAPH)\\s+(\\S+)\\s+\\{", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern SPARQL_QUERY_SPLIT_PATTERN = Pattern.compile(
-            "(" + PREFIX_PATTERN.pattern() + "*)" + // prefix group 1
-                    ".+(CONSTRUCT|SELECT|ASK|DESCRIBE)((.(?!FROM))*)" + // form group 3, result group 4
-                    "(\\s*(FROM.+)*)" + // from clauses group 8
-                    "(WHERE\\s*\\{(.+)})" + // where clause group 11
-                    "([^{}]*)", // remainder group 12
+            "^\\s*" + // beginning of query string
+                    "(" + PREFIX_PATTERN.pattern() + "*)" + // prefix group 1
+                    "\\s+(CONSTRUCT|SELECT|ASK|DESCRIBE)((.(?!FROM))*)" + // form group 5, result group 6
+                    "(\\s*(FROM(.(?!WHERE))+)*)\\s*" + // from clauses group 8
+                    "(WHERE\\s*\\{(.+)})" + // where clause group 12
+                    "([^{}]*)" + // remainder group 13
+                    "\\s*$", // end of query string
             Pattern.CASE_INSENSITIVE);
 
     private static final Pattern SPECIAL_SPARQL_PATTERN =
@@ -115,7 +117,7 @@ public class DivideQueryParser implements IDivideQueryParser {
                     UNBOUND_VARIABLES_IN_STREAM_WINDOW_PATTERN,
                     UNBOUND_VARIABLES_IN_STREAM_WINDOW_PATTERN));
     private static final Pattern STREAM_WINDOW_PARAMETER_NUMBER_PATTERN =
-            Pattern.compile("(PT([0-9]+)([SMH]))");
+            Pattern.compile("(PT(\\d+)([SMH]))");
 
     private static final Pattern SELECT_CLAUSE_EXPRESSION_PATTERN =
             Pattern.compile(String.format("\\(\\s*(\\S+)\\s+AS\\s+(%s)\\s*\\)", VAR1_PATTERN));
@@ -302,12 +304,12 @@ public class DivideQueryParser implements IDivideQueryParser {
 
         // check if all variable mappings are valid, i.e. whether all keys are variable
         // names in the stream query, and all values are variable names in final query
-        if (!streamQueryVariables.containsAll(mapping.keySet())) {
+        if (!new HashSet<>(streamQueryVariables).containsAll(mapping.keySet())) {
             throw new InvalidDivideQueryParserInputException(
                     "Stream to final query variable mapping contains variable " +
                             "names that do not occur in stream query");
         }
-        if (!finalQueryVariables.containsAll(mapping.values())) {
+        if (!new HashSet<>(finalQueryVariables).containsAll(mapping.values())) {
             throw new InvalidDivideQueryParserInputException(
                     "Stream to final query variable mapping contains variable " +
                             "names that do not occur in final query");
@@ -490,6 +492,7 @@ public class DivideQueryParser implements IDivideQueryParser {
 
         // parse stream query
         ParsedSparqlQuery parsedStreamQuery = parseSparqlQuery(input.getStreamQuery());
+        print("PARSED STREAM QUERY: " + parsedStreamQuery.toString());
 
         // if final query of input is not present, and query form of stream query
         // is not CONSTRUCT, a new input should be constructed in order to properly
@@ -639,6 +642,7 @@ public class DivideQueryParser implements IDivideQueryParser {
                 parsedStreamQuery.getPrefixes(),
                 inputGraphNames,
                 InputQueryLanguage.SPARQL);
+        print("STREAM QUERY WHERE CLAUSE: " + streamQueryWhereClause);
 
         // parse where clause of stream query
         ParsedStreamQueryWhereClause parsedStreamQueryWhereClause =
@@ -935,8 +939,8 @@ public class DivideQueryParser implements IDivideQueryParser {
 
         // check that solution modifier only contains variables that are occurring
         // in the RSP-QL query body
-        if (!findUnboundVariables(rspQlQueryBody.getQueryBody().replace(
-                input.getSolutionModifier(), ""))
+        if (!new HashSet<>(findUnboundVariables(rspQlQueryBody.getQueryBody().replace(
+                input.getSolutionModifier(), "")))
                 .containsAll(solutionModifierVariables)) {
             throw new InvalidDivideQueryParserInputException(
                     "Solution modifier contains variables that do not occur in the " +
@@ -1413,8 +1417,8 @@ public class DivideQueryParser implements IDivideQueryParser {
 
         // check that solution modifier only contains variables that are occurring
         // in the RSP-QL query body
-        if (!findUnboundVariables(rspQlQueryBody.getQueryBody().replace(
-                input.getSolutionModifier(), ""))
+        if (!new HashSet<>(findUnboundVariables(rspQlQueryBody.getQueryBody().replace(
+                input.getSolutionModifier(), "")))
                 .containsAll(solutionModifierVariables)) {
             throw new InvalidDivideQueryParserInputException(
                     "Solution modifier contains variables that do not occur in the " +
@@ -1821,8 +1825,8 @@ public class DivideQueryParser implements IDivideQueryParser {
                     queryForm,
                     resultPart,
                     m.group(8) == null ? null : m.group(8).trim(),
-                    m.group(11) == null ? null : m.group(11).trim(),
-                    m.group(12) == null ? null : m.group(12).trim());
+                    m.group(12) == null ? null : m.group(12).trim(),
+                    m.group(13) == null ? null : m.group(13).trim());
 
         } else {
             throw new InvalidDivideQueryParserInputException(
@@ -2322,7 +2326,8 @@ public class DivideQueryParser implements IDivideQueryParser {
         Matcher matcher = UNBOUND_VARIABLES_PATTERN.matcher(queryPart);
         Set<String> unboundVariables = new LinkedHashSet<>();
         while (matcher.find()) {
-            unboundVariables.add(matcher.group());
+            String unboundVariable = matcher.group();
+            unboundVariables.add(unboundVariable);
         }
         return new ArrayList<>(unboundVariables);
     }
@@ -2440,9 +2445,14 @@ public class DivideQueryParser implements IDivideQueryParser {
             try {
                 q = QueryFactory.create(query);
             } catch (Exception e) {
-                throw new InvalidDivideQueryParserInputException(
-                        String.format("Error in input which causes the following " +
-                                "invalid parsed SPARQL clause: %s", itemContent));
+                // temporarily disable exception since this only means that we will not include
+                // this stream-dependent part of the WHERE clause in the sensor query rule's consequence
+                // (is not really necessary either to perform the correct query derivation)
+                // -> just ignore this where clause item and continue to next one
+                // throw new InvalidDivideQueryParserInputException(
+                //         String.format("Error in input which causes the following " +
+                //                 "invalid parsed SPARQL clause: %s", itemContent));
+                continue;
             }
 
             // only filter actual triple blocks in WHERE clause content
@@ -3015,6 +3025,12 @@ public class DivideQueryParser implements IDivideQueryParser {
 
     public static void main(String[] args) throws Exception {
         DivideQueryParser parser = new DivideQueryParser();
+
+        String query = IOUtilities.readFileIntoString("/home/mathias/Github/divide/divide-protego/protego-case/divide-queries/activity-brushing-teeth/sparql/stream-query.sparql");
+        query = IOUtilities.removeWhiteSpace(query).replace("\r", "").trim();
+        SplitSparqlQuery splitSparqlQuery = parser.splitSparqlQuery(query);
+        System.out.println(splitSparqlQuery);
+
         Map<String, String> defaultWindowParameters = new HashMap<>();
         defaultWindowParameters.put("?seconds", "123M");
         String wd = "FROM NOW-?{seconds} TO NOW-PT?{otherSeconds}M STEP PT10S";

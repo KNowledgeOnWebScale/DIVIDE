@@ -1,6 +1,8 @@
 package be.ugent.idlab.divide.api;
 
 import be.ugent.idlab.divide.api.endpoints.component.ComponentEndpoint;
+import be.ugent.idlab.divide.api.endpoints.component.ComponentQueryDerivationEndpoint;
+import be.ugent.idlab.divide.api.endpoints.component.ComponentQueryLocationUpdateEndpoint;
 import be.ugent.idlab.divide.api.endpoints.component.GeneralComponentEndpoint;
 import be.ugent.idlab.divide.api.endpoints.query.DivideQueryEndpoint;
 import be.ugent.idlab.divide.api.endpoints.query.DivideQueryRegistrationAsRspQlEndpoint;
@@ -58,6 +60,14 @@ public class DivideApiApplication extends Application {
         router.attach(DivideRoutes.ENDPOINT_DIVIDE_QUERY_GENERAL, GeneralDivideQueryEndpoint.class);
         LOGGER.info("DIVIDE API endpoint {}", DivideRoutes.ENDPOINT_DIVIDE_QUERY_GENERAL);
         GeneralDivideQueryEndpoint.logEndpoints(LOGGER);
+
+        router.attach(DivideRoutes.ENDPOINT_DIVIDE_QUERY_DERIVATION, ComponentQueryDerivationEndpoint.class);
+        LOGGER.info("DIVIDE API endpoint {}", DivideRoutes.ENDPOINT_DIVIDE_QUERY_DERIVATION);
+        ComponentQueryDerivationEndpoint.logEndpoints(LOGGER);
+
+        router.attach(DivideRoutes.ENDPOINT_DIVIDE_QUERY_LOCATION_UPDATE, ComponentQueryLocationUpdateEndpoint.class);
+        LOGGER.info("DIVIDE API endpoint {}", DivideRoutes.ENDPOINT_DIVIDE_QUERY_LOCATION_UPDATE);
+        ComponentQueryLocationUpdateEndpoint.logEndpoints(LOGGER);
 
         return router;
     }

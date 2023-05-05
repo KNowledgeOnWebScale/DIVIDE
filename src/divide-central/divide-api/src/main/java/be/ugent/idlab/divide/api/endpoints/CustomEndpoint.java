@@ -7,6 +7,7 @@ import org.restlet.resource.ServerResource;
 public abstract class CustomEndpoint extends ServerResource {
 
     public static final String SERVER_ATTR_ID = "id";
+    public static final String SERVER_ATTR_NAME = "name";
 
     protected IDivideEngine getDivideEngine() {
         return (IDivideEngine) getContext().getAttributes().get(
@@ -15,6 +16,10 @@ public abstract class CustomEndpoint extends ServerResource {
 
     protected String getIdAttribute() {
         return (String) getRequest().getAttributes().get(SERVER_ATTR_ID);
+    }
+
+    protected String getNameAttribute() {
+        return (String) getRequest().getAttributes().get(SERVER_ATTR_NAME);
     }
 
 }

@@ -81,6 +81,6 @@ sd-query:prefixes-activity-toileting sh:declare _:e_e_bn_4_1_1.
 _:e_e_bn_4_1_1 sh:prefix "KBActivityRecognition".
 _:e_e_bn_4_1_1 sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/"^^xsd:anyURI.
 
-#2022-05-01T12:05:01.300Z in=33 out=19 ent=44 step=28 brake=2 inf=172549 sec=0.075 inf/sec=2300653
+#2023-06-01T09:28:12.586Z in=33 out=19 ent=44 step=28 brake=2 inf=172862 sec=0.043 inf/sec=4020047
 #ENDS
 

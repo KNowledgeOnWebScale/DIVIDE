@@ -6,7 +6,7 @@ import be.ugent.idlab.divide.core.context.Context;
 import be.ugent.idlab.divide.core.exception.DivideInitializationException;
 import be.ugent.idlab.divide.core.exception.DivideInvalidInputException;
 import be.ugent.idlab.divide.rsp.RspQueryLanguage;
-import be.ugent.idlab.divide.util.LogConstants;
+import be.ugent.idlab.divide.util.Constants;
 import be.ugent.idlab.kb.IIriResolver;
 import be.ugent.idlab.kb.IKnowledgeBase;
 import be.ugent.idlab.kb.IKnowledgeBaseObserver;
@@ -80,9 +80,10 @@ class DivideComponentManager implements IKnowledgeBaseObserver<Model> {
         this.pauseRspEngineStreamsOnContextChanges = pauseRspEngineStreamsOnContextChanges;
     }
 
-    synchronized IComponent registerComponent(List<String> contextIris,
-                                              RspQueryLanguage rspQueryLanguage,
-                                              String rspEngineUrl)
+    synchronized IComponent registerComponent(String ipAddress,
+                                              List<String> contextIris,
+                                              RspQueryLanguage localRspQueryLanguage,
+                                              int localRspEngineServerPort)
             throws DivideInvalidInputException {
         // resolve all context IRIs
         List<String> resolvedContextIris = new ArrayList<>();
@@ -98,7 +99,7 @@ class DivideComponentManager implements IKnowledgeBaseObserver<Model> {
 
         // create component
         IComponent component = ComponentFactory.createInstance(
-                resolvedContextIris, rspQueryLanguage, rspEngineUrl);
+                ipAddress, resolvedContextIris, localRspQueryLanguage, localRspEngineServerPort, divideEngine);
 
         // ensure component with that ID does not yet exist
         if (registeredComponents.containsKey(component.getId())) {
@@ -168,7 +169,7 @@ class DivideComponentManager implements IKnowledgeBaseObserver<Model> {
                 // if an error occurs when retrieving the knowledge base context
                 // for a given component, the context is incomplete and therefore
                 // considered non-existing
-                LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+                LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                         "Error occurred when retrieving current context of" +
                                 " component with ID {}",
                         component.getId(), e);
@@ -232,11 +233,10 @@ class DivideComponentManager implements IKnowledgeBaseObserver<Model> {
                     // if an error occurs when retrieving the knowledge base context
                     // for a given component, no RSP query update is enqueued for this
                     // component (because the context is incomplete)
-                    LOGGER.error(LogConstants.UNKNOWN_ERROR_MARKER,
+                    LOGGER.error(Constants.UNKNOWN_ERROR_MARKER,
                             "Error occurred when retrieving current context of" +
                             " component with ID {} -> queries are NOT updated",
                             component.getId(), e);
-
                 }
             }
         }

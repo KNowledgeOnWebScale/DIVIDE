@@ -13,6 +13,8 @@
 @base <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> .
 
 <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/> rdf:type owl:Ontology ;
+                                                              owl:imports <https://saref.etsi.org/saref4ehaw/v1.1.1/> ,
+                                                                          <https://w3id.org/eep> ;
                                                               dc:creator "Bram Steenwinckel, Mathias De Brouwer, Femke Ongenae" ;
                                                               terms:publisher "IDLab - imec- Ghent University" ;
                                                               rdfs:comment "This Ontology descirbes the different concepts within the DAHCCC ontology to link human activities and postures together with activity recognition concepts." ;

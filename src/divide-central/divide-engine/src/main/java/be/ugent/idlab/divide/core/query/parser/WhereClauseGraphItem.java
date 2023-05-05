@@ -20,7 +20,7 @@ class WhereClauseGraphItem extends WhereClauseItem {
 
     @Override
     public String toString() {
-        return "WhereClauseGraphItem{\n" +
+        return "WhereClauseGraphItem{" +
                 "graph=" + graph +
                 '}';
     }

@@ -83,6 +83,6 @@ _:e_bn_4_1 sh:namespace "https://dahcc.idlab.ugent.be/Ontology/ActivityRecogniti
 _:sk_0 sd:staticWindowParameters ().
 _:sk_1 sd:staticWindowParameters ().
 
-#2022-05-01T12:05:01.111Z in=40 out=21 ent=48 step=32 brake=2 inf=186113 sec=0.076 inf/sec=2448855
+#2023-06-01T09:28:12.524Z in=40 out=21 ent=48 step=32 brake=2 inf=186446 sec=0.043 inf/sec=4335953
 #ENDS
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="60" strict="true" name="DIVIDE Local Monitor">
+    <Properties>
+        <Property name="patternWithoutMarker">%d{ISO8601} [%t] %-5level %logger{36} - %msg%n</Property>
+        <Property name="patternWithMarker">%d{ISO8601}\t[%t]\t%-5level\t%logger{36}\t%marker\t%msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Appender type="Console" name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="${patternWithMarker}"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="RollingFile"
+                  fileName="logs/divide-local-monitor.log"
+                  filePattern="logs/divide-local-monitor.log-%i">
+            <PatternLayout pattern="${patternWithoutMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="UnknownErrorLogging"
+                  fileName="logs/divide-unknown-errors.log"
+                  filePattern="logs/divide-unknown-errors.log-%i">
+            <Filters>
+                <Filter type="MarkerFilter" marker="[UNKNOWN_ERROR]" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${patternWithMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+    </Appenders>
+
+    <Loggers>
+        <!-- Logging of everything -->
+        <Root level="DEBUG">
+            <AppenderRef ref="STDOUT" level="INFO"/>
+            <AppenderRef ref="RollingFile" level="INFO"/>
+            <AppenderRef ref="UnknownErrorLogging" level="INFO"/>
+        </Root>
+
+        <!-- Disable logging of Apache Jena -->
+        <Logger name="org.apache.jena.riot" level="OFF"/>
+    </Loggers>
+</Configuration>

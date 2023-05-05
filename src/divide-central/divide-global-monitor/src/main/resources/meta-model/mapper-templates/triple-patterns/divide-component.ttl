@@ -1,0 +1,13 @@
+%s
+    a divide-core:DivideComponent ;
+    divide-core:hasID "%s" ;
+    divide-core:isHostedBy %s ;
+    divide-core:hasLocalRspEngine %s .
+
+%s
+     a divide-core:RspEngine ;
+     divide-core:hasServerPort "%s"^^xsd:integer .
+
+%s
+    a saref-core:Device ;
+    divide-core:hasIPAddress "%s" .

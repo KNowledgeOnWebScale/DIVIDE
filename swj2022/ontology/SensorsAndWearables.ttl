@@ -12,6 +12,9 @@
 @base <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
 
 <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> rdf:type owl:Ontology ;
+                                                              owl:imports <https://dahcc.idlab.ugent.be/Ontology/Sensors/> ,
+                                                                          <https://saref.etsi.org/core/v3.1.1/> ,
+                                                                          <https://saref.etsi.org/saref4wear/v1.1.1/> ;
                                                               terms:creator "Bram Steenwinckel, Mathias De Brouwer, Femke Ongenae" ;
                                                               terms:publisher "IDLab - imec - Ghent University" ;
                                                               rdfs:comment "This ontology describes the different concepts used within the DAHCC ontology to link wearables and wearables sensors to their corresponding properties and sensing abilities." ;

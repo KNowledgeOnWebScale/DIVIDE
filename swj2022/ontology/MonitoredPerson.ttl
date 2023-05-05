@@ -11,6 +11,8 @@
 @base <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> .
 
 <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> rdf:type owl:Ontology ;
+                                                          owl:imports <https://saref.etsi.org/saref4bldg/v1.1.2/> ,
+                                                                      <https://saref.etsi.org/saref4ehaw/v1.1.1/> ;
                                                           dc:creator "Bram Steenwinckel, Mathias De Brouwer, Femke Ongenae" ;
                                                           terms:publisher "IDLab - imec - Ghent University" ;
                                                           rdfs:comment "This ontology describes the different concepts used within the DAHCC ontology to describe a person/patient, monitored inside its resident." ;

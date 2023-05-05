@@ -28,7 +28,7 @@ public class CsvComponentEntryParser {
      * @return a list of parsed component entries of which the gettable fields can
      *         directly be used as input for the registration of components in a
      *         DIVIDE engine using the {@link IDivideEngine#registerComponent(
-     *         List, RspQueryLanguage, String)} method
+     *         String, List, RspQueryLanguage, int)} method
      * @throws ComponentEntryParserException if a component configuration in the CSV file is
      *                                       invalid (invalid list of additional context IRIs,
      *                                       invalid RSP engine URL, or invalid
@@ -55,20 +55,23 @@ public class CsvComponentEntryParser {
 
     private static ComponentEntry parseComponentEntry(String[] entry)
             throws ComponentEntryParserException {
-        if (entry.length == 4) {
+        if (entry.length == 5) {
+            // retrieve IP address (or host name)
+            String ipAddress = entry[0];
+
             // retrieve main context IRI
-            String mainContextIri = entry[0].trim();
+            String mainContextIri = entry[1].trim();
 
             // convert array string to actual array of additional context IRIs
-            if (!entry[1].trim().matches("\\[[^\\[\\]]+]")) {
+            if (!entry[2].trim().matches("\\[[^\\[\\]]*]")) {
                 throw new ComponentEntryParserException(
                         "Component entry contains invalid list of additional IRIs");
             }
             List<String> contextIris = new ArrayList<>();
             contextIris.add(mainContextIri);
-            if (!entry[1].replace(" ", "").replace("\t", "").trim().equals("[]")) {
+            if (!entry[2].replace(" ", "").replace("\t", "").trim().equals("[]")) {
                 contextIris.addAll(
-                        Arrays.stream(entry[1].replace("[", "").replace("]", "").split(","))
+                        Arrays.stream(entry[2].replace("[", "").replace("]", "").split(","))
                                 .map(String::trim)
                                 .collect(Collectors.toList()));
             }
@@ -76,19 +79,18 @@ public class CsvComponentEntryParser {
 
             // parse RSP query language
             RspQueryLanguage rspQueryLanguage =
-                    ComponentEntryParser.parseRspEngineQueryLanguage(entry[2]);
+                    ComponentEntryParser.parseRspEngineQueryLanguage(entry[3]);
 
             // parse RSP engine URL
-            String rspEngineUrl = entry[3].trim();
-            ComponentEntryParser.validateRspEngineUrl(rspEngineUrl);
+            int rspEngineServerPort = Integer.parseInt(entry[4].trim());
 
             // if no errors, then return new component entry
             return new ComponentEntry(
-                    contextIris, rspQueryLanguage, rspEngineUrl);
+                    ipAddress, contextIris, rspQueryLanguage, rspEngineServerPort);
 
         } else {
             throw new ComponentEntryParserException(
-                    "Component entry does not contain 4 elements");
+                    "Component entry does not contain 5 elements");
         }
     }
 

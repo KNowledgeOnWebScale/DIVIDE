@@ -14,7 +14,7 @@ import be.ugent.idlab.divide.core.query.parser.InvalidDivideQueryParserInputExce
 import be.ugent.idlab.divide.core.query.parser.ParsedSparqlQuery;
 import be.ugent.idlab.divide.core.query.parser.Prefix;
 import be.ugent.idlab.divide.core.query.parser.SplitSparqlQuery;
-import be.ugent.idlab.divide.util.LogConstants;
+import be.ugent.idlab.divide.util.Constants;
 import be.ugent.idlab.util.bash.BashException;
 import be.ugent.idlab.util.eye.EyeReasoner;
 import be.ugent.idlab.util.io.IOUtilities;
@@ -45,16 +45,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+import static be.ugent.idlab.divide.util.Constants.DIVIDE_DIRECTORY;
+
 @SuppressWarnings({"FieldCanBeLocal", "ResultOfMethodCallIgnored"})
 class EyeDivideQueryDeriver implements IDivideQueryDeriver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EyeDivideQueryDeriver.class.getName());
-
-    /**
-     * Hidden directory where EYE stores all its files related to the
-     * DIVIDE query derivation
-     */
-    private static final String DIVIDE_DIRECTORY = ".divide";
 
     /**
      * Path of JAR resource for generating all triples, used during the EYE preprocessing
@@ -556,9 +552,9 @@ class EyeDivideQueryDeriver implements IDivideQueryDeriver {
 
         if (eyeDivideQuery != null) {
             try {
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_START\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_START\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_START_OVERHEAD\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_START_OVERHEAD\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
 
                 // prepare context for query derivation
@@ -622,19 +618,19 @@ class EyeDivideQueryDeriver implements IDivideQueryDeriver {
                 // -> potential rule files representing context-enriching queries
                 //    are also added to input files for proof generation
                 proofInputFiles.addAll(eyeDivideQuery.getContextEnrichingQueryFilePaths());
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_END_OVERHEAD\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_END_OVERHEAD\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
 
                 // construct proof towards goal
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_START_REASONING\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_START_REASONING\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
                 EyeReasoner.runFromImageToFile(
                         usedImageFile, proofInputFiles, queryGoalFile, proofFilePath, null);
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_END_REASONING\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_END_REASONING\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
 
                 // extract queries from proof
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_START_EXTRACTION\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_START_EXTRACTION\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
                 List<String> queryExtractionInputFiles = Arrays.asList(
                         proofFilePath, contextFile);
@@ -648,11 +644,11 @@ class EyeDivideQueryDeriver implements IDivideQueryDeriver {
                 EyeReasoner.runToFile(
                         windowParameterExtractionInputFiles, windowParameterExtractionGoalFile,
                         extractedWindowParametersFilePath, windowParameterExtractionOptions);
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_END_EXTRACTION\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_END_EXTRACTION\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
 
                 // substitute input variables of extracted queries in query patterns
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_START_INPUT_SUBSTITUTION\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_START_INPUT_SUBSTITUTION\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
                 List<String> inputVariableSubstitutionInputFiles = Arrays.asList(
                         queryPatternFile,
@@ -665,12 +661,12 @@ class EyeDivideQueryDeriver implements IDivideQueryDeriver {
                         queryInputVariableSubstitutionGoalFile,
                         queriesAfterInputVariableSubstitutionFilePath,
                         querySubstitutionOptions);
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_END_INPUT_SUBSTITUTION\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_END_INPUT_SUBSTITUTION\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
 
                 // create an intermediate query derivation result
                 // -> send this intermediate query derivation result to the window parameter substitution
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_START_WINDOW_SUBSTITUTION\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_START_WINDOW_SUBSTITUTION\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
                 EyeDivideQueryDeriverIntermediateResult eyeDivideQueryDeriverIntermediateResult =
                         new EyeDivideQueryDeriverIntermediateResult(
@@ -679,9 +675,9 @@ class EyeDivideQueryDeriver implements IDivideQueryDeriver {
                 EyeDivideQueryDeriverResult result = substituteWindowParametersInQuery(
                         eyeDivideQueryDeriverIntermediateResult,
                         SubstitutionTrigger.CONTEXT_CHANGE);
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_END_WINDOW_SUBSTITUTION\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_END_WINDOW_SUBSTITUTION\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
-                LOGGER.debug(LogConstants.METRIC_MARKER, "DERIVE_QUERIES_END\t{}\t{}\t{}",
+                LOGGER.debug(Constants.METRIC_MARKER, "DERIVE_QUERIES_END\t{}\t{}\t{}",
                         divideQueryName, componentId, context);
                 return result;
 
@@ -715,6 +711,10 @@ class EyeDivideQueryDeriver implements IDivideQueryDeriver {
         }
 
         try {
+            LOGGER.info(Constants.METRIC_MARKER,
+                    "DERIVE_QUERIES_WINDOW_SUBSTITUTION_MONITOR_START\t{}\t{}\t{}",
+                    divideQueryName, componentId, windowParameters.hashCode());
+
             // write new window parameters to temp file
             String windowParametersFile = writeToTempTurtleFile(windowParameters);
 
@@ -730,10 +730,14 @@ class EyeDivideQueryDeriver implements IDivideQueryDeriver {
 
             // do the window parameter substitution again,
             // starting from the intermediate query deriver result
-            return substituteWindowParametersInQuery(
+            EyeDivideQueryDeriverResult result = substituteWindowParametersInQuery(
                     eyeDivideQueryDeriverResult.getIntermediateResult(),
                     SubstitutionTrigger.MONITOR,
                     windowParametersFile);
+            LOGGER.info(Constants.METRIC_MARKER,
+                    "DERIVE_QUERIES_WINDOW_SUBSTITUTION_MONITOR_END\t{}\t{}\t{}",
+                    divideQueryName, componentId, windowParameters.hashCode());
+            return result;
 
         } catch (BashException | IOException e) {
             throw new DivideQueryDeriverException(e);

@@ -1,0 +1,48 @@
+PREFIX divide-core: <https://divide.idlab.ugent.be/meta-model/divide-core/>
+PREFIX monitoring: <https://divide.idlab.ugent.be/meta-model/monitoring/>
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+
+CONSTRUCT {
+    [ a saref-core:Measurement ;
+        saref-core:hasValue ?minV ;
+        om:hasAggregateFunction om:minimum ;
+        saref-core:isMeasuredIn ?unit ;
+        saref-core:relatesToProperty [ a ?prop ] ;
+        saref-core:isMeasurementOf ?featureOfInterest ;
+        saref-core:hasTimestamp ?now ] .
+
+    [ a saref-core:Measurement ;
+        saref-core:hasValue ?maxV ;
+        om:hasAggregateFunction om:maximum ;
+        saref-core:isMeasuredIn ?unit ;
+        saref-core:relatesToProperty [ a ?prop ] ;
+        saref-core:isMeasurementOf ?featureOfInterest ;
+        saref-core:hasTimestamp ?now ] .
+
+    [ a saref-core:Measurement ;
+        saref-core:hasValue ?avgV ;
+        om:hasAggregateFunction om:average ;
+        saref-core:isMeasuredIn ?unit ;
+        saref-core:relatesToProperty [ a ?prop ] ;
+        saref-core:isMeasurementOf ?featureOfInterest ;
+        saref-core:hasTimestamp ?now ] .
+}
+FROM STREAM <https://divide.idlab.ugent.be/monitor/local> [RANGE 60s STEP 20s]
+WHERE {
+    BIND (NOW() as ?now)
+    {
+        SELECT ?featureOfInterest ?prop ?unit
+               (MIN(?v) AS ?minV)
+               (MAX(?v) AS ?maxV)
+               (AVG(?v) AS ?avgV)
+        WHERE {
+            ?m a saref-core:Measurement ;
+               saref-core:hasValue ?v ;
+               saref-core:isMeasuredIn ?unit ;
+               saref-core:relatesToProperty [ a ?prop ] ;
+               saref-core:isMeasurementOf ?featureOfInterest .
+        }
+        GROUP BY ?featureOfInterest ?prop ?unit
+    }
+}

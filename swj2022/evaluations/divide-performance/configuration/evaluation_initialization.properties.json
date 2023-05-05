@@ -12,7 +12,7 @@
       "baseIri": "http://protego.ilabt.imec.be/idlab.homelab/"
     },
     "ontology": {
-      "dir": "definitions/ontology/",
+      "dir": "definitions/ontology-no-imports/",
       "files": [
         "KBActivityRecognition.ttl",
         "ActivityRecognition.ttl",

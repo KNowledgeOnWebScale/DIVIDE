@@ -14,8 +14,10 @@ The Activity Recognition ontology contains two parts:
   - All imports of the `imports` folder of the DAHCC GitHub repo that are being (indirectly) imported by any of the other included DAHCC files.
 - The additional ontology file [`KBActivityRecognition.ttl`](KBActivityRecognition.ttl) that represents all extra definitions related to the knowledge-driven activity recognition.
 
-All files in this folder together represent the Activity Recognition ontology. 
+All files in this folder, except for the files in the [`ontology-no-imports`](ontology-no-imports) subfolder, together represent the Activity Recognition ontology. 
 This ontology is also used for the paper's [evaluations](../evaluations).
+
+The [`ontology-no-imports`](ontology-no-imports) subfolder contains an identical copy of the files of the Activity Recognition ontology, with one change: all import statements in the ontology files are removed. This is a small change required to load them in the EYE reasoner. Hence, these files are the ones that are actually used when loading the ontology in DIVIDE.
 
 ## Contact
  

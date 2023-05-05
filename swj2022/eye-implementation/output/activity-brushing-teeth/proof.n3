@@ -176,8 +176,8 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/bathroom"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo "1.0E-5"^^xsd:float];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_BathRoom"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/BathRoom"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Room"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Room"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_WaterRunning"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/WaterRunning"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo "30.0"^^xsd:float];
@@ -223,7 +223,7 @@
 
 <#lemma6> a r:Inference;
   r:gives {
-    _:sk_1 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_53>.
+    _:sk_1 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_53>.
   };
   r:evidence (
     <#lemma53>
@@ -234,7 +234,7 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_53>} => {var:x_0 a :RoutineActivityPrediction}.
+    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_53>} => {var:x_0 a :RoutineActivityPrediction}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
@@ -330,13 +330,13 @@
 
 <#lemma23> a r:Extraction;
   r:gives {
-    :brushing_teeth_condition02 Sensors:analyseStateOf :_BathRoom.
+    :brushing_teeth_condition02 Sensors:analyseStateOf :_Room.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/triples.n3>].
 
 <#lemma24> a r:Extraction;
   r:gives {
-    :_BathRoom a SensorsAndActuators:BathRoom.
+    :_Room a SensorsAndActuators:Room.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/triples.n3>].
 
@@ -360,7 +360,7 @@
 
 <#lemma28> a r:Extraction;
   r:gives {
-    SensorsAndActuators:BathRoom rdfs:subClassOf :AnalyzableForCondition.
+    SensorsAndActuators:Room rdfs:subClassOf :AnalyzableForCondition.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/triples.n3>].
 
@@ -457,18 +457,22 @@
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma43> a r:Extraction;
+<#lemma43> a r:Inference;
   r:gives {
-    ns3:bathroom a SensorsAndActuators:BathRoom.
+    ns3:bathroom a SensorsAndActuators:Room.
   };
-  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
+  r:evidence (
+    <#lemma59>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/bathroom"]];
+  r:rule <#lemma60>.
 
 <#lemma44> a r:Inference;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> a saref-core:Device.
   };
   r:evidence (
-    <#lemma59>
+    <#lemma61>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer"]];
   r:rule <#lemma57>.
@@ -503,25 +507,25 @@
   };
   r:evidence (
     <#lemma50>
-    <#lemma60>
+    <#lemma62>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/bathroom"]];
-  r:rule <#lemma61>.
+  r:rule <#lemma63>.
 
 <#lemma50> a r:Inference;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> Sensors:analyseStateOf patients:patient157.
   };
   r:evidence (
-    <#lemma62>
-    <#lemma63>
+    <#lemma64>
+    <#lemma65>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
-  r:rule <#lemma64>.
+  r:rule <#lemma66>.
 
 <#lemma51> a r:Extraction;
   r:gives {
@@ -590,30 +594,30 @@
 
 <#lemma53> a r:Inference;
   r:gives {
-    _:sk_1 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_54>.
+    _:sk_1 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_54>.
   };
   r:evidence (
     <#lemma3>
-    <#lemma65>
+    <#lemma67>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
-  r:rule <#lemma66>.
+  r:rule <#lemma68>.
 
 <#lemma54> a r:Inference;
   r:gives {
     _:sk_1 a :BrushingTeethActivityPrediction.
   };
   r:evidence (
-    <#lemma67>
+    <#lemma69>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:rule <#lemma68>.
+  r:rule <#lemma70>.
 
 <#lemma55> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_54>.
-     var:x_0 a :BrushingTeethActivityPrediction} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_53>}.
+    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_54>.
+     var:x_0 a :BrushingTeethActivityPrediction} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_53>}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
@@ -622,10 +626,10 @@
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/water.pi.bathroom> a saref-core:Sensor.
   };
   r:evidence (
-    <#lemma69>
+    <#lemma71>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/water.pi.bathroom"]];
-  r:rule <#lemma70>.
+  r:rule <#lemma72>.
 
 <#lemma57> a r:Extraction;
   r:gives {
@@ -639,17 +643,29 @@
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma59> a r:Inference;
+<#lemma59> a r:Extraction;
+  r:gives {
+    ns3:bathroom a SensorsAndActuators:BathRoom.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
+
+<#lemma60> a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a SensorsAndActuators:BathRoom} => {var:x_0 a SensorsAndActuators:Room}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
+
+<#lemma61> a r:Inference;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> a saref-core:Sensor.
   };
   r:evidence (
-    <#lemma71>
+    <#lemma73>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer"]];
-  r:rule <#lemma72>.
+  r:rule <#lemma74>.
 
-<#lemma60> a r:Inference;
+<#lemma62> a r:Inference;
   r:gives {
     patients:patient157 ns2:hasLocation ns3:bathroom.
   };
@@ -658,139 +674,139 @@
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/bathroom"]];
-  r:rule <#lemma73>.
+  r:rule <#lemma75>.
 
-<#lemma61> a r:Extraction;
+<#lemma63> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_0 Sensors:analyseStateOf var:x_1.
      var:x_1 ns2:hasLocation var:x_2} => {var:x_0 Sensors:isRelevantTo var:x_2}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma62> a r:Extraction;
+<#lemma64> a r:Extraction;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> Sensors:analyseStateOf <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813>.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma63> a r:Inference;
+<#lemma65> a r:Inference;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813> ns6:isLocated patients:patient157.
   };
   r:evidence (
-    <#lemma74>
+    <#lemma76>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
-  r:rule <#lemma75>.
+  r:rule <#lemma77>.
 
-<#lemma64> a r:Extraction;
+<#lemma66> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_0 Sensors:analyseStateOf var:x_1.
      var:x_1 ns6:isLocated var:x_2} => {var:x_0 Sensors:analyseStateOf var:x_2}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma65> a r:Inference;
+<#lemma67> a r:Inference;
   r:gives {
     patients:patient157 a :UserWithBrushingTeethRoutine.
   };
   r:evidence (
-    <#lemma76>
+    <#lemma78>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
-  r:rule <#lemma77>.
-
-<#lemma66> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 ActivityRecognition:activityPredictionMadeFor var:x_1.
-     var:x_1 a :UserWithBrushingTeethRoutine} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_54>}.
-  };
-  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
-
-<#lemma67> a r:Inference;
-  r:gives {
-    _:sk_1 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_2>.
-  };
-  r:evidence (
-    <#lemma78>
-    <#lemma3>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma79>.
 
 <#lemma68> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_2>} => {var:x_0 a :BrushingTeethActivityPrediction}.
+    @forAll var:x_0, var:x_1. {var:x_0 ActivityRecognition:activityPredictionMadeFor var:x_1.
+     var:x_1 a :UserWithBrushingTeethRoutine} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_54>}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma69> a r:Extraction;
+<#lemma69> a r:Inference;
+  r:gives {
+    _:sk_1 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_2>.
+  };
+  r:evidence (
+    <#lemma80>
+    <#lemma3>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:rule <#lemma81>.
+
+<#lemma70> a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_2>} => {var:x_0 a :BrushingTeethActivityPrediction}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
+
+<#lemma71> a r:Extraction;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndActuators/water.pi.bathroom> a SensorsAndActuators:WaterRunningSensor.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma70> a r:Extraction;
+<#lemma72> a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a SensorsAndActuators:WaterRunningSensor} => {var:x_0 a saref-core:Sensor}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma71> a r:Inference;
+<#lemma73> a r:Inference;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> a <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor>.
   };
   r:evidence (
-    <#lemma80>
+    <#lemma82>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer"]];
-  r:rule <#lemma81>.
+  r:rule <#lemma83>.
 
-<#lemma72> a r:Extraction;
+<#lemma74> a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor>} => {var:x_0 a saref-core:Sensor}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma73> a r:Extraction;
+<#lemma75> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 ns2:hasIndoorLocation var:x_1} => {var:x_0 ns2:hasLocation var:x_1}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma74> a r:Extraction;
+<#lemma76> a r:Extraction;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813> ns6:isLocatedOn patients:patient157.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma75> a r:Extraction;
+<#lemma77> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 ns6:isLocatedOn var:x_1} => {var:x_0 ns6:isLocated var:x_1}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma76> a r:Inference;
+<#lemma78> a r:Inference;
   r:gives {
-    patients:patient157 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_94>.
+    patients:patient157 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_94>.
   };
   r:evidence (
-    <#lemma82>
-    <#lemma83>
+    <#lemma84>
+    <#lemma85>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
-  r:rule <#lemma84>.
+  r:rule <#lemma86>.
 
-<#lemma77> a r:Extraction;
+<#lemma79> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_94>} => {var:x_0 a :UserWithBrushingTeethRoutine}.
+    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_94>} => {var:x_0 a :UserWithBrushingTeethRoutine}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma78> a r:Inference;
+<#lemma80> a r:Inference;
   r:gives {
-    _:sk_1 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_3>.
+    _:sk_1 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_3>.
   };
   r:evidence (
     <#lemma3>
@@ -798,40 +814,40 @@
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:rule <#lemma85>.
+  r:rule <#lemma87>.
 
-<#lemma79> a r:Extraction;
+<#lemma81> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_3>.
-     var:x_0 a ActivityRecognition:ActivityPrediction} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_2>}.
+    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_3>.
+     var:x_0 a ActivityRecognition:ActivityPrediction} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_2>}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma80> a r:Extraction;
+<#lemma82> a r:Extraction;
   r:gives {
     <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/empatica.E4.A03813.Accelerometer> a SensorsAndWearables:Accelerometer.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma81> a r:Extraction;
+<#lemma83> a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a SensorsAndWearables:Accelerometer} => {var:x_0 a <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/3DSensor>}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma82> a r:Inference;
+<#lemma84> a r:Inference;
   r:gives {
-    patients:patient157 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_95>.
+    patients:patient157 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_95>.
   };
   r:evidence (
-    <#lemma86>
-    <#lemma87>
+    <#lemma88>
+    <#lemma89>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/MorningRoutine_patient157"]];
-  r:rule <#lemma88>.
+  r:rule <#lemma90>.
 
-<#lemma83> a r:Inference;
+<#lemma85> a r:Inference;
   r:gives {
     patients:patient157 a saref4ehaw:User.
   };
@@ -839,112 +855,112 @@
     <#lemma51>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/patients/patient157"]];
-  r:rule <#lemma89>.
-
-<#lemma84> a r:Extraction;
-  r:gives {
-    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_95>.
-     var:x_0 a saref4ehaw:User} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_94>}.
-  };
-  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
-
-<#lemma85> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 ActivityRecognition:forActivity var:x_1.
-     var:x_1 a ActivityRecognition:BrushingTeeth} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_3>}.
-  };
-  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
+  r:rule <#lemma91>.
 
 <#lemma86> a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_95>.
+     var:x_0 a saref4ehaw:User} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_94>}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
+
+<#lemma87> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1. {var:x_0 ActivityRecognition:forActivity var:x_1.
+     var:x_1 a ActivityRecognition:BrushingTeeth} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_3>}.
+  };
+  r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
+
+<#lemma88> a r:Extraction;
   r:gives {
     patients:patient157 ns2:hasRoutine idlab:MorningRoutine_patient157.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma87> a r:Inference;
+<#lemma89> a r:Inference;
   r:gives {
-    idlab:MorningRoutine_patient157 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_96>.
+    idlab:MorningRoutine_patient157 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_96>.
   };
   r:evidence (
-    <#lemma90>
-    <#lemma91>
+    <#lemma92>
+    <#lemma93>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/MorningRoutine_patient157"]];
-  r:rule <#lemma92>.
+  r:rule <#lemma94>.
 
-<#lemma88> a r:Extraction;
+<#lemma90> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 ns2:hasRoutine var:x_1.
-     var:x_1 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_96>} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_95>}.
+     var:x_1 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_96>} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_95>}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma89> a r:Extraction;
+<#lemma91> a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a saref4ehaw:Patient} => {var:x_0 a saref4ehaw:User}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma90> a r:Inference;
+<#lemma92> a r:Inference;
   r:gives {
-    idlab:MorningRoutine_patient157 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_97>.
+    idlab:MorningRoutine_patient157 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_97>.
   };
   r:evidence (
-    <#lemma93>
-    <#lemma94>
+    <#lemma95>
+    <#lemma96>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/MorningRoutine_patient157"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/.well-known/genid/HL5c4a0WhqXPcEYBV2YpdSHRWro#e_A4_1"]];
-  r:rule <#lemma95>.
+  r:rule <#lemma97>.
 
-<#lemma91> a r:Inference;
+<#lemma93> a r:Inference;
   r:gives {
     idlab:MorningRoutine_patient157 a ActivityRecognition:Routine.
   };
   r:evidence (
-    <#lemma96>
+    <#lemma98>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://protego.ilabt.imec.be/idlab.homelab/MorningRoutine_patient157"]];
-  r:rule <#lemma97>.
+  r:rule <#lemma99>.
 
-<#lemma92> a r:Extraction;
+<#lemma94> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_97>.
-     var:x_0 a ActivityRecognition:Routine} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_96>}.
+    @forAll var:x_0. {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_97>.
+     var:x_0 a ActivityRecognition:Routine} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_96>}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma93> a r:Extraction;
+<#lemma95> a r:Extraction;
   r:gives {
     idlab:MorningRoutine_patient157 ActivityRecognition:consistsOf <http://josd.github.io/.well-known/genid/HL5c4a0WhqXPcEYBV2YpdSHRWro#e_A4_1>.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma94> a r:Extraction;
+<#lemma96> a r:Extraction;
   r:gives {
     <http://josd.github.io/.well-known/genid/HL5c4a0WhqXPcEYBV2YpdSHRWro#e_A4_1> a ActivityRecognition:BrushingTeeth.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma95> a r:Extraction;
+<#lemma97> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 ActivityRecognition:consistsOf var:x_1.
-     var:x_1 a ActivityRecognition:BrushingTeeth} => {var:x_0 a <http://josd.github.io/.well-known/genid/8EUXM2GXtRqJp4kwEYqnOTtLTx8#bn_97>}.
+     var:x_1 a ActivityRecognition:BrushingTeeth} => {var:x_0 a <http://josd.github.io/.well-known/genid/B2kQ9TIWiEvQViUqfJ1cBrvCYMI#bn_97>}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-<#lemma96> a r:Extraction;
+<#lemma98> a r:Extraction;
   r:gives {
     idlab:MorningRoutine_patient157 a ActivityRecognition:MorningRoutine.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/context.ttl>].
 
-<#lemma97> a r:Extraction;
+<#lemma99> a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a ActivityRecognition:MorningRoutine} => {var:x_0 a ActivityRecognition:Routine}.
   };
   r:because [ a r:Parsing; r:source <file:///home/mathias/Github/IBCNServices/DIVIDE/swj2022/eye-implementation/output/rules.n3>].
 
-#2022-05-01T12:04:32.455Z in=29589 out=6 ent=20182 step=503835 brake=6 inf=16246676 sec=1.555 inf/sec=10448023
+#2023-06-01T09:29:40.613Z in=29604 out=6 ent=20201 step=504029 brake=6 inf=16132103 sec=1.221 inf/sec=13212206
 #ENDS
 

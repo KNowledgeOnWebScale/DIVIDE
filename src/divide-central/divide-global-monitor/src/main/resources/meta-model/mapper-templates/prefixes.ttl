@@ -1,0 +1,5 @@
+@prefix divide-core: <https://divide.idlab.ugent.be/meta-model/divide-core/> .
+@prefix monitoring: <https://divide.idlab.ugent.be/meta-model/monitoring/> .
+@prefix saref-core: <https://saref.etsi.org/core/> .
+@prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .

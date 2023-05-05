@@ -1,0 +1,1636 @@
+@prefix : <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl> .
+
+<http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://www.w3.org/2000/01/rdf-schema#comment
+rdfs:comment rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#anyType
+xsd:anyType rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#bindsTo
+:bindsTo rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#connectedTo
+:connectedTo rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#consistsOf
+:consistsOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#consistsOfAtomicPart
+:consistsOfAtomicPart rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#contains
+:contains rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#controls
+:controls rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#governs
+:governs rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasCommand
+:hasCommand rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasEdge
+:hasEdge rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasMetaData
+:hasMetaData rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasNode
+:hasNode rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasPayload
+:hasPayload rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasSoftware
+:hasSoftware rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasSource
+:hasSource rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasTarget
+:hasTarget rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasValue
+:hasValue rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#implements
+:implements rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#plugsInto
+:plugsInto rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#provides
+:provides rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#representedBy
+:representedBy rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#requiredBy
+:requiredBy rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            owl:inverseOf :requires .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#requires
+:requires rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#runsOn
+:runsOn rdf:type owl:ObjectProperty ;
+        rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#supports
+:supports rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#uses
+:uses rdf:type owl:ObjectProperty ;
+      rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://www.w3.org/2002/07/owl#topObjectProperty
+owl:topObjectProperty rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasDescription
+:hasDescription rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasID
+:hasID rdf:type owl:DatatypeProperty ;
+       rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#inDegree
+:inDegree rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#isWeighted
+:isWeighted rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#outDegree
+:outDegree rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://www.w3.org/2002/07/owl#topDataProperty
+owl:topDataProperty rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Application
+:Application rdf:type owl:Class ;
+             rdfs:subClassOf :LogicalResource ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :contains ;
+                               owl:someValuesFrom :ApplicationComponent
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :contains ;
+                               owl:someValuesFrom :Engine
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :provides ;
+                               owl:someValuesFrom :Service
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :contains ;
+                               owl:allValuesFrom [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :ApplicationComponent
+                                                                 :Engine
+                                                               )
+                                                 ]
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :provides ;
+                               owl:allValuesFrom [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :Resource
+                                                                 :Service
+                                                               )
+                                                 ]
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :uses ;
+                               owl:allValuesFrom [ rdf:type owl:Class ;
+                                                   owl:unionOf ( :Resource
+                                                                 :Service
+                                                               )
+                                                 ]
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :contains ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Engine
+                             ] ;
+             rdfs:comment "This is an abstract class that serves as the root of all Application managed entities. An Application is modeled as a Resource that provides Services to the System, other Applications, and/or Users. The set of Services that an Application provides enables the Application to be used to perform a set of tasks." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ApplicationComponent
+:ApplicationComponent rdf:type owl:Class ;
+                      rdfs:subClassOf :LogicalResource ;
+                      rdfs:comment "This is an abstract class that serves as the root of all entities that are combined to produce an Application. Each ApplicationComponent is modeled as a Resource that provides Services to the System, other ApplicationComponents, and/or Users. The set of Services that an ApplicationComponent provides enables the Application to be used to perform a set of tasks." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#AuxiliaryComponent
+:AuxiliaryComponent rdf:type owl:Class ;
+                    rdfs:subClassOf :PhysicalContainer ;
+                    rdfs:comment """This is an abstract base class that represents managed entities, such as power supplies, fans and cables, wihch are required for the proper operation of the Device but have a primary function that is different than the primary end-user function(s) of the Device.
+
+The difference between AuxiliaryComponents and other subclasses of Equipment are whether or not the physical object performs a function intrinsic to the main function of the Device. This is best understood by way of example. Consider a Router. Its main function is to route and forward packets. A PowerSupply is an AuxiliaryComponent, because even though it is needed for the proper operation of the Router, it does not directly help in routing and forwarding packets. A LineCard (that provides routing functionality) is a subclass of Equipment because its purpose is to route and forward packets. Similar examples exist for different types of equipment, where their criteria may be different. For example, instead of whether it routes or forwards packets, the criterion \"does it carry signal\" may be useful to appropriately classify components.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#BehavioralAspect
+:BehavioralAspect rdf:type owl:Class ;
+                  rdfs:subClassOf :ManagedEntity ;
+                  rdfs:comment "This is an abstract class for representing entities that have statically defined behavior, such as behavior that is governed by policy rules or applicable to a specific context or domain." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#BridgingProtocol
+:BridgingProtocol rdf:type owl:Class ;
+                  rdfs:subClassOf :Protocol ;
+                  rdfs:comment """Bridging Protocols operate at the data link layer of the OSI model, and are used to define communications over different types of homogeneous and heterogeneous local area networks.
+
+The DEN-ng model defines SRBridging, SRTBridging, and TransparentBridging as examples of subclasses of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Cable
+:Cable rdf:type owl:Class ;
+       rdfs:subClassOf :PhysicalResource ;
+       rdfs:comment "This class represents a container of conductors or fibres. At least two connectors will be attached to a cable." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Capability
+:Capability rdf:type owl:Class ;
+            rdfs:subClassOf :EntityMetaData ;
+            rdfs:comment """Capability is an abstract class .Capabilities are associated with ManagedEntities in the system, and are defined as one or more hardware or software features that represent a service or resource provided by that entity. A ManagedEntity can be a system, network, device, component, or other unit of abstraction. 
+
+Note that capabilities are features, resources, or services that are externally visible and can be monitored and/or controlled. 
+
+The composite pattern is used to model hierarchies of capabilities.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#CompoundResource
+:CompoundResource rdf:type owl:Class ;
+                  rdfs:subClassOf :Resource ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :consistsOf ;
+                                    owl:allValuesFrom :Resource
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :consistsOf ;
+                                    owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :Resource
+                                  ] .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#CompoundResourceAtomic
+:CompoundResourceAtomic rdf:type owl:Class ;
+                        rdfs:subClassOf :CompoundResource ;
+                        owl:disjointWith :CompoundResourceComposite .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#CompoundResourceComposite
+:CompoundResourceComposite rdf:type owl:Class ;
+                           rdfs:subClassOf :CompoundResource ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty :consistsOf ;
+                                             owl:allValuesFrom :CompoundResource
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty :consistsOf ;
+                                             owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                             owl:onClass :CompoundResource
+                                           ] .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Context
+:Context rdf:type owl:Class ;
+         rdfs:subClassOf :BehavioralAspect ;
+         rdfs:comment """The Context of an Entity is a collection of knowledge and data that result from the set of all interrelated conditions in which an Entity exists. Events point out changing conditions that may affect that Entity; an appropriate governance mechanism, such as policy rules, then defines a set of actions in response to the Event(s) to change or maintain the state of the Entity according to these conditions and actions.
+
+Context can have multiple distinct sets of related data and knowledge that are used to adjust its state in accordance with the changes in the environment that it exists in. The DEN-ng model represents this as a set of aggregations to ContextData, where ContextData is a class that focuses on one specific type of data and/or knowledge that is aggregated by the Entity's Context.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#CoordinateSystem
+:CoordinateSystem rdf:type owl:Class ;
+                  rdfs:subClassOf :UnManagedEntity ;
+                  rdfs:comment "This class represents the concept of a Coordinate System. In general, this is a system for assigning an n-tuple of numbers to each point in an n-dimensional space. Numbers can be integers, real or complex numbers, or even other more complex units." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#CustomerFacingService
+:CustomerFacingService rdf:type owl:Class ;
+                       rdfs:subClassOf :ServiceAtomic ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :requires ;
+                                         owl:someValuesFrom :ResourceFacingService
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :requires ;
+                                         owl:allValuesFrom :ResourceFacingService
+                                       ] ;
+                       owl:disjointWith :ResourceFacingService ;
+                       rdfs:comment """This is the base class for defining CustomerFacingServices in the DEN-ng Service model. A CustomerFacingService is an abstraction that defines the characteristics and behavior of a particular Service as seen by the Customer or other appropriate PartyRole. This means that this PartyRole purchases, leases, uses and/or is otherwise directly aware of this type of Service. This is in direct contrast to ResourceFacingServices, which support CustomerFacingServices but are NOT seen or purchased directly by the Customer. For example, a VPN is an example of a CustomerFacingService, while the sub-services that perform different types of routing between network devices making up the VPN are examples of ResourceFacingServices.
+
+Please see the DEN-ng Service model for more details.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#CustomerFacingServiceAtomic
+:CustomerFacingServiceAtomic rdf:type owl:Class ;
+                             rdfs:subClassOf :CustomerFacingService ;
+                             owl:disjointWith :CustomerFacingServiceComposite ;
+                             rdfs:comment "This is an abstract base class that defines a stand-alone CustomerFacingService that meets the needs of a Product. Stand-alone CustomerFacingServices may be linked directly to a Product or aggregated by a CustomerFacingServiceProduct." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#CustomerFacingServiceComposite
+:CustomerFacingServiceComposite rdf:type owl:Class ;
+                                rdfs:subClassOf :CustomerFacingService ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty :consistsOf ;
+                                                  owl:allValuesFrom :CustomerFacingService
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty :consistsOf ;
+                                                  owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :CustomerFacingService
+                                                ] ;
+                                rdfs:comment "This is an abstract base class that defines an integrated set of CustomerFacingServices that collectively meets the needs of a Product. For example, the Customer may have requested \"GoldService\", which is a ServicePackage that defines a set of ServiceBundles, each of which has its own QoS. This enables \"GoldService\" to be abstracted and treated as a managed object that provides a CustomerFacingService." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#DeviceInterface
+:DeviceInterface rdf:type owl:Class ;
+                 rdfs:subClassOf :LogicalResource ;
+                 rdfs:comment "This is an abstract class that represents the (logical) interface or sub-interface of a device. A DeviceInterface is a concrete class that represents the (logical) interface or sub-interface of a device. This is not a transmission entity; rather, DeviceInterfaces are used to program Services and LogicalResources on a Device. For example, it is used to program a logical connection from a device to a network medium. Different types of DeviceInterfaces exist for the different types of network media (e.g., IP vs. ATM) that are used in a network to enable such media to be programmed. The combination of a LogicalDevice and a DeviceInterface is what a developer programs to define Services that run on the device." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Domain
+:Domain rdf:type owl:Class ;
+        rdfs:subClassOf :BehavioralAspect ;
+        rdfs:comment "A Domain is a collection of Entities that share a common purpose. In addition, each constituent Entity in a Domain is both uniquely addressable and uniquely identifiable within that Domain. Note that a Domain is simply a container with metadata." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#DomainAtomic
+:DomainAtomic rdf:type owl:Class ;
+              rdfs:subClassOf :Domain ;
+              owl:disjointWith :DomainComposite .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#DomainComposite
+:DomainComposite rdf:type owl:Class ;
+                 rdfs:subClassOf :Domain .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#EdgeConcept
+:EdgeConcept rdf:type owl:Class ;
+             rdfs:subClassOf :MetaData ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSource ;
+                               owl:allValuesFrom :Node
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTarget ;
+                               owl:allValuesFrom :Node
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasSource ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Node
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasTarget ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onClass :Node
+                             ] ;
+             rdfs:comment "This is an abstract class - one of its four subclasses needs to be chosen to instantiate a Graph." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Engine
+:Engine rdf:type owl:Class ;
+        rdfs:subClassOf :LogicalResource ;
+        rdfs:comment "An Engine is an abstract subclass of LogicalResource. It provides resources for instantiating and running different Applications and ApplicationComponents. An Engine provides a generic set of framework services that are molded by an Application and its ApplicationComponents to perform specific tasks." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Entity
+:Entity rdf:type owl:Class ;
+        rdfs:subClassOf :RootEntity ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasMetaData ;
+                          owl:allValuesFrom :MetaData
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasValue ;
+                          owl:allValuesFrom :Value
+                        ] ;
+        rdfs:comment "This is an abstract class that extends the RootEntity class in order to represent classes of objects that are important to the environment being managed. Some of these may play one or more business functions, while others are required in order to represent characteristics and behavior of the entities in the environment. Entities can be either managed or unmanaged. More formally, an Entity represents objects that have a separate and distinct existence. They are not just a collection of attributes or an abstraction of behavior." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#EntityMetaData
+:EntityMetaData rdf:type owl:Class ;
+                rdfs:subClassOf :MetaData ;
+                rdfs:comment "EntityMetaData contains data for different types of Entities that describe, but does not contribute to or impact, the state of the Entity." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Equipment
+:Equipment rdf:type owl:Class ;
+           rdfs:subClassOf :PhysicalContainer ;
+           rdfs:comment """This class is based on the  m.3100 specification, and is described as follows:
+
+The Equipment object class is a class of managed objects that represents physical components of a managed device, including replaceable components. An instance of this object class must be present in only a single geographic location. An Equipment object may be nested within another Equipment object, thereby creating a containment relationship. The Equipment type shall be identified by sub-classing this object class. Either the name of the sub-class or an attribute may be used for identifying the equipment type.
+
+Changed name of m.3100 attribute AlarmReportingIndicator to AlarmStatus, and enhanced semantics.
+
+The m.3100 SystemTitle attribute is NOT implemented in this class, we're using CommonName instead.
+
+We don't support the m.3100 supportedByObjectList attribute. This attribute is intended to list a set of physical and logical objects that directly affect this object. We think that the model should show this via associations, not via an embedded attribute.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#EquipmentHolder
+:EquipmentHolder rdf:type owl:Class ;
+                 rdfs:subClassOf :PhysicalContainer ;
+                 rdfs:comment """This class is based on the  M.3100 specification, and is a base class that represents physical objects that are both manageable as well as able to host, hold, or contain other physical objects. Examples of physical objects that can be represented by instances of this object class are Racks, Chassis, Shelfs, and Slots.
+
+The difference between subclasses of EquipmentHolder (such as a Slot or a Chassis) and subclasses of Equipment that have a Holder role (such as a Card) is that the subclasses of EquipmentHolder are dedicated to holding other Hardware. The subclasses of Equipment that have a holder role have a holding capability as a secondary capability, usually for expansion. Their primary function, however, is not to hold other objects.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Event
+:Event rdf:type owl:Class ;
+       rdfs:subClassOf :Entity ;
+       rdfs:comment "An Event is a significant occurrence which contains data and/or knowledge pertaining to a specific context. An event carries information that may be used by the object to evaluate whether it should make a state transition or not." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#EventAtomic
+:EventAtomic rdf:type owl:Class ;
+             rdfs:subClassOf :Event ;
+             rdfs:comment "This is a concrete base class for representing an Event when the Event can be modeled as a single, stand-alone object. In other words, this class represents all Events that are atomic in nature (e.g., not made up of multiple distinct Events that can be separately managed)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#EventComposite
+:EventComposite rdf:type owl:Class ;
+                rdfs:subClassOf :Event ;
+                rdfs:comment "This is a concrete base class for representing Event objects that are composite in nature (e.g., made up of multiple distinct Event objects that can be separately managed). The composite pattern is used to enable EventComposite objects to be made up of Event objects (i.e., either EventAtomic and/or EventComposite objects)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#FederatedDomain
+:FederatedDomain rdf:type owl:Class ;
+                 rdfs:subClassOf :BehavioralAspect ;
+                 rdfs:comment """A FederatedDomain is a type of organization in which a set of partially self-governing Domains are united by a set of commonly adhered to governance mechanisms, such as a set of common Policy Rules. The Federation is itself a ManagedEntity, and is typically logically centralized but physically distributed. However, DEN-ng allows for logical distribution as well.
+
+In a federation, the self-governing status of the component Domains cannot be altered by the FederatedDomain that contains them.
+
+The basis of the Federation may include social, political, geographical, and/or governance mechanisms that must be applied to all constituent Domains in order to govern behavior that is of mutual interest. Note, however, that each constituent Domain can act autonomously in other matters that are outside the governance provisions of the Federation.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#FederatedDomainAtomic
+:FederatedDomainAtomic rdf:type owl:Class ;
+                       rdfs:subClassOf :FederatedDomain .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#FederatedDomainComposite
+:FederatedDomainComposite rdf:type owl:Class ;
+                          rdfs:subClassOf :FederatedDomain .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Graph
+:Graph rdf:type owl:Class ;
+       rdfs:subClassOf :MetaData ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasEdge ;
+                         owl:someValuesFrom :EdgeConcept
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasNode ;
+                         owl:someValuesFrom :Node
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasEdge ;
+                         owl:allValuesFrom :EdgeConcept
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasNode ;
+                         owl:allValuesFrom :Node
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :isWeighted ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onDataRange xsd:boolean
+                       ] ;
+       rdfs:comment "A Graph is an abstract class that represents a collection of a set of Nodes and a set of Edges that establish relationships between the Nodes." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Hardware
+:Hardware rdf:type owl:Class ;
+          rdfs:subClassOf :PhysicalResource ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :contains ;
+                            owl:allValuesFrom :Hardware
+                          ] ;
+          rdfs:comment "This is an abstract base class that represents any type of hardware entity that exists as an atomic unit that is not a PhysicalLink or a PhysicalConnector. Hardware is defined as any component that has a distinct physical identity and can be a component of a PhysicalDevice. An object has a physical identity if it has a physical manifestation that enables it to be held and have a label attached to it. Thus, software, files, protocols, and policies are not physical objects." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#IdentityAspect
+:IdentityAspect rdf:type owl:Class ;
+                rdfs:subClassOf :ManagedEntity ;
+                rdfs:comment "Identity enables the system to unambiguously identity a ManagedEntity. More than one identifier may be used to identify the ManagedEntity. Each identifier has to be unique in the namespace that the ManagedEntity exists in." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#IdentityAtomic
+:IdentityAtomic rdf:type owl:Class ;
+                rdfs:subClassOf :IdentityAspect ;
+                owl:disjointWith :IdentityComposite ;
+                rdfs:comment "This is an abstract class for representing the identification of an Entity when it can be modeled as a single, stand-alone object." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#IdentityComposite
+:IdentityComposite rdf:type owl:Class ;
+                   rdfs:subClassOf :IdentityAspect ;
+                   rdfs:comment "This is an abstract class for representing the identity of entities that are composite in nature (e.g., made up of multiple distinct identity objects that can be separately managed). The composite pattern is used to enable IdentityComposite objects to be made up of Identity objects (i.e., either IdentityAtomic and/or IdentityComposite objects)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#IndividualIdentificationLogical
+:IndividualIdentificationLogical rdf:type owl:Class ;
+                                 rdfs:subClassOf :PersonIdentification ;
+                                 owl:disjointWith :IndividualIdentificationPhysical ;
+                                 rdfs:comment "This is an abstract class for all logical forms of identification, such as a username-password pair or a retinal scan, that is used to identify an individual." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#IndividualIdentificationPhysical
+:IndividualIdentificationPhysical rdf:type owl:Class ;
+                                  rdfs:subClassOf :PersonIdentification ;
+                                  rdfs:comment "This is an abstract class for all physical forms of identification, such as an electronic card with a picture, that is used to identify an individual." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Interaction
+:Interaction rdf:type owl:Class ;
+             rdfs:subClassOf :BehavioralAspect ;
+             rdfs:comment "An Interaction is an arrangement, contract, communication or joint activity between one or more Entities and/or EntityRoles. An Interaction may consist of one or more InteractionItems that provide further details on the specifics of the Interaction.There are five types of Interactions:  Requests, Responses, Notifications, Agreements, and Orders." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#LANProtocol
+:LANProtocol rdf:type owl:Class ;
+             rdfs:subClassOf :Protocol ;
+             rdfs:comment """LAN Protocols operate at the lowest two levels of the OSI model (i.e., physical and data link) and are used to define communications over different types of local area media.
+
+The DEN-ng model defines Ethernet, FDDI, and TokenRing as examples of subclasses of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Language
+:Language rdf:type owl:Class ;
+          rdfs:subClassOf :UnManagedEntity ;
+          rdfs:comment """This class represents the concept of Language.
+
+In general, a language is a system for encoding and decoding information. It consists of a systematic creation and usage of systems of symbols, each referring to linguistic concepts with syntactic, semantic and/or or otherwise expressive meanings.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Lifecycle
+:Lifecycle rdf:type owl:Class ;
+           rdfs:subClassOf :MetaData ;
+           rdfs:comment "This class is the base class for representing the lifecycle of an Entity. A lifecycle is defined as the span of time of ae Entity, from its creation or receipt to its final disposition. Life cycle stages may include creation, active use and maintenance, inactive storage, and permanent storage (archival) or destruction." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Link
+:Link rdf:type owl:Class ;
+      rdfs:subClassOf :PhysicalResource ;
+      rdfs:comment "A Link defines a communications channel that connects two or more communicating devices. This link may be an actual physical link, an optical link, or it may be a logical link that uses one or more physical links." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Location
+:Location rdf:type owl:Class ;
+          rdfs:subClassOf :UnManagedEntity ;
+          rdfs:comment "This is an abstract class, and represents the concept of a place or part of a place that hosts objects to be managed, is part of the context of a managed object, or is somehow involved in the interaction of managed objects. Note that locations often come in groups; hence, LocationComposite objects are frequently used to contain sets of Locations." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#LogicalDevice
+:LogicalDevice rdf:type owl:Class ;
+               rdfs:subClassOf :LogicalResource ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasCommand ;
+                                 owl:someValuesFrom :Software
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :controls ;
+                                 owl:allValuesFrom :ManagedHardware
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :governs ;
+                                 owl:allValuesFrom :DeviceInterface
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :hasCommand ;
+                                 owl:allValuesFrom :Software
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :supports ;
+                                 owl:allValuesFrom :Protocol
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty :uses ;
+                                 owl:allValuesFrom :OperatingSystem
+                               ] ;
+               rdfs:comment """This is an abstract base class for representing logical concepts and services that can be managed that are associated with the device as a whole. This class represents a convenient aggregation point for combining different aspects of a device (e.g., software contained in the device, protocols that the devices runs, the set of services that it offers, and so forth). It also enables the device itself to have a single logical manifestation.
+
+Conceptually, this represents the \"brains\" of the Device. For example, it represents the set of entities required for a Router to know how to route packets.
+
+Please see the DEN-ng Resource model for more details.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#LogicalDeviceAtomic
+:LogicalDeviceAtomic rdf:type owl:Class ;
+                     rdfs:subClassOf :LogicalDevice ;
+                     owl:disjointWith :LogicalDeviceComposite ;
+                     rdfs:comment """This is a concrete base class for representing logical concepts and services that can be managed which are associated with the device as a whole. This class represents a convenient aggregation point for combining different aspects of a device (e.g., software contained in the device, protocols that the devices runs, the set of services that it offers, and so forth). It also enables the device itself to have a single logical manifestation.
+
+This class represents all logical devices that are atomic in nature (e.g., not made up of multiple distinct logical devices that can be separately managed).""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#LogicalDeviceComposite
+:LogicalDeviceComposite rdf:type owl:Class ;
+                        rdfs:subClassOf :LogicalDevice ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty :consistsOf ;
+                                          owl:allValuesFrom :LogicalDevice
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty :consistsOf ;
+                                          owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                          owl:onClass :LogicalDevice
+                                        ] ;
+                        rdfs:comment """This is a concrete base class for representing logical concepts and services that can be managed which are associated with the device as a whole. This class represents a convenient aggregation point for combining different aspects of a device (e.g., software contained in the device, protocols that the devices runs, the set of services that it offers, and so forth). It also enables the device itself to have a single logical manifestation.
+
+This class represents all logical devices that are composite in nature (e.g., made up of multiple distinct logical devices that can be separately managed). The composite pattern is used to enable LogicalDeviceComposite objects to be made up of LogicalDevice objects (i.e., either LogicalDeviceAtomic and/or LogicalDeviceComposite objects).""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#LogicalResource
+:LogicalResource rdf:type owl:Class ;
+                 rdfs:subClassOf :Resource ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :implements ;
+                                   owl:allValuesFrom :ResourceFacingService
+                                 ] ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :requiredBy ;
+                                   owl:allValuesFrom :PhysicalResource
+                                 ] .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ManagedEntity
+:ManagedEntity rdf:type owl:Class ;
+               rdfs:subClassOf :Entity ;
+               rdfs:comment """This is an abstract base class that is used to represent entities in a managed environment that have the following commonsemantics: (1) each ManagedEntity is associated with at least one ManagementDomain, (2) each ManagedEntity is governed by at least one ManagementApplication, (3) the ManagedEntity is \"important\" from a management and/or functionality point-of-view. As such, it is a point at which semantically important relationships can be created; this avoids duplicating these relationships on multiple subclasses.
+
+A fundamental characteristic of a ManagedEntity is that it can perform and/or respond to management functions. This distinguishes ManagedEntities from UnManagedEntities.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ManagedHardware
+:ManagedHardware rdf:type owl:Class ;
+                 rdfs:subClassOf :Hardware ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty :plugsInto ;
+                                   owl:allValuesFrom :PhysicalConnector
+                                 ] ;
+                 owl:disjointWith :PhysicalConnector ;
+                 rdfs:comment "This is an abstract base class that adds additional semantics to the Hardware base class. These semantics are used to provide management information on the hardware. For example, attributes defined by this class can provide the administrative and operational state of the entity, and tell whether it has any alarms." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ManagedTransmissionEntity
+:ManagedTransmissionEntity rdf:type owl:Class ;
+                           rdfs:subClassOf :LogicalResource ;
+                           rdfs:comment "This is an abstract base class for describing different types of logical entities that are or help to form connections that transmit and/or receive information. This represents a superclass to various ITU specs (e.g., G.805 and M.3100) as well as IETF concepts (such as those found in various RFCs) so that it can unite ITU and IETF concepts." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ManagementInfo
+:ManagementInfo rdf:type owl:Class ;
+                rdfs:subClassOf :LogicalResource ;
+                rdfs:comment """This is an abstract base class that is used to represent management information for a ManagedEntity that is obtained in a managed environment . Specifically, in the process of managing an entity, information of various forms are created. This class is the base class for defining different types of management information.
+
+The design of how management information is obtained uses this class to gather specific type of information, and the ManagementMethodEntity class to obtain the desired data using an appropriate method. This combination of class hierarchies enables different management methods (e.g., CLI vs. SNMP) to be used to gather different types of management data, and is unique to the DEN-ng information model.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ManagementMethodEntity
+:ManagementMethodEntity rdf:type owl:Class ;
+                        rdfs:subClassOf :LogicalResource ;
+                        rdfs:comment """This is an abstract base class for representing the different types of management methods that can be used to gather a particular type of management information. For example, this enables configuration setting classes to be defined as using CLI, while configuration monitoring classes could be defined as using a different method, such as SNMP.
+
+The design of how management information is obtained uses this class to gather specific type of information, and the ManagementMethodEntity class to obtain the desired data using an appropriate method. This combination of class hierarchies enables different management methods (e.g., CLI vs. SNMP) to be used to gather different types of management data, and is unique to the DEN-ng information model.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ManagementProtocol
+:ManagementProtocol rdf:type owl:Class ;
+                    rdfs:subClassOf :Protocol ;
+                    rdfs:comment """A ManagementProtocol is an abstract superclass for protocols that are dedicated to exchanging management information between network devices. This type of protocol is an application layer protocol, and is used for configuring, monitoring, and gathering information about devices.
+
+The DEN-ng model defines SNMP and a framework for proprietary management protocols as examples of subclasses of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Market
+:Market rdf:type owl:Class ;
+        rdfs:subClassOf :ProducerConsumerAspect ;
+        rdfs:comment "This is an abstract class that represents any commercial activity where information, goods and/or services are traded, bought and/or sold. Subclasses model the promotion, sale, and distribution of goods and services." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Measurable
+:Measurable rdf:type owl:Class ;
+            rdfs:subClassOf :Observable ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasValue ;
+                              owl:someValuesFrom :MeasurableValue
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasValue ;
+                              owl:allValuesFrom :MeasurableValue
+                            ] ;
+            rdfs:comment "This class represents the concept of values that are observable and measurable." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#MeasurableValue
+:MeasurableValue rdf:type owl:Class ;
+                 rdfs:subClassOf :ObservableValue ;
+                 rdfs:comment "All MeasureableValues are ObservableValues, but not all ObservableValues can in fact be measured." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Message
+:Message rdf:type owl:Class ;
+         rdfs:subClassOf :EventAtomic ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasPayload ;
+                           owl:allValuesFrom :RootEntity
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSource ;
+                           owl:allValuesFrom :Entity
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasTarget ;
+                           owl:allValuesFrom :Entity
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSource ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Entity
+                         ] ;
+         rdfs:comment "A message is an Event with a payload. This distinguishes simple events with no content (i.e., just a notification) from events that contain additional content that can be filtered." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#MetaData
+:MetaData rdf:type owl:Class ;
+          rdfs:subClassOf :RootEntity ;
+          rdfs:comment """Metadata is information that describes, but does not directly contribute to or impact, the state of the entity that the MetaData is applied to.
+
+MetaData is defined as data that describes an individual datum or a collection of data. It can be used to describe how data elements or attributes are defined, and where they are physically located. Metadata may include descriptive information about the context, quality and condition, or characteristics of the data.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#NetworkAddress
+:NetworkAddress rdf:type owl:Class ;
+                rdfs:subClassOf :LogicalResource ;
+                rdfs:comment "This class represents the generic concept of a network address. Its subclasses define different types of addresses of different technologies, such as an IPAddress vs. an IPXAddress. Its utility lies in its ability to serve as a convenient point for sourcing and terminating relationships. This eliminates undue duplication of relationships that interact with the subclasses of NetworkAddress." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Node
+:Node rdf:type owl:Class ;
+      rdfs:subClassOf :MetaData ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :inDegree ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:int
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :outDegree ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:int
+                      ] ;
+      rdfs:comment """A Node is one of the two fundamental building blocks of a Graph. In a SimpleGraph, the Nodes that an Edge connects are called the endpoints of an Edge; theEdge is said to be incident to each Node.
+
+The two vertices forming an edge are said to be its endpoints, and the edge is said to be incident to the vertices. A vertex w is said to be adjacent to another vertex v if the graph contains an edge (v,w). The neighborhood of a vertex v is an induced subgraph of the graph, formed by all vertices adjacent to v.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Observable
+:Observable rdf:type owl:Class ;
+            rdfs:subClassOf :Value ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasValue ;
+                              owl:someValuesFrom :ObservableValue
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasValue ;
+                              owl:allValuesFrom :ObservableValue
+                            ] ;
+            owl:disjointWith :ObservableValue ;
+            rdfs:comment """An Observable is a container that is used to define (1) a concept that is observable but not necessaarily measurable, and (2) categorize the type of concept independent of its values (which is defined as subclasses of ObservableValue). This is critical for ontology support.
+
+An important subclass of Observable is Measurable, which strengthens the notion of something that can be observed by adding the quality of measurement.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ObservableValue
+:ObservableValue rdf:type owl:Class ;
+                 rdfs:subClassOf :Value ;
+                 rdfs:comment "An ObservableValue is a class used to house a Value that is associated with a particular Observable class." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#OperatingSystem
+:OperatingSystem rdf:type owl:Class ;
+                 rdfs:subClassOf :LogicalResource ;
+                 rdfs:comment """An OperatingSystem is a concrete entity that represents either software and/or firmware that runs the LogicalResource.  This entity implements and/or manages the resources, tasks, file systems, security, and data available on the LogicalResource.
+
+Note that an OperatingSystem is distinct from software applications that are run on the Resource. All aplications and software must communicate with the OperatingSystem for all operations that they need.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#OrchestrationAspect
+:OrchestrationAspect rdf:type owl:Class ;
+                     rdfs:subClassOf :ManagedEntity ;
+                     rdfs:comment "This is an abstract class for representing how governance mechanisms are used to orchestrate the behavior of this ManagedEntity. In DEN-ng, orchestration is typically performed using one or more State Machines in conjunction with PolicyRules." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#OrgIdentification
+:OrgIdentification rdf:type owl:Class ;
+                   rdfs:subClassOf :IdentityAtomic ;
+                   rdfs:comment "This is an abstract class that contains common information used as proof of identity by an Organization or Organizational Unit. Note that this class and its subclasses contain ALL information that could be used to identify a Person; the OrgPublicIdentification contains only public identification, and hence is a restricted view of this object." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#OrgPublicIdentification
+:OrgPublicIdentification rdf:type owl:Class ;
+                         rdfs:subClassOf :IdentityAtomic ;
+                         rdfs:comment "This is an abstract class that contains common information used as proof of identity by an Organization or Organizational Unit that is designated as public information. Note that this is most likely a subset of the full (and private) version of OrgInformation that describes the Organization. In addition, Policy Rules can be used to define the specific type of information that is made available using the ProvidesPublicOrgID association and ProvidesPublicOrgIDDetails association class." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#OrgUnitAtomic
+:OrgUnitAtomic rdf:type owl:Class ;
+               rdfs:subClassOf :Organization ;
+               owl:disjointWith :OrgUnitComposite ;
+               rdfs:comment "This is an abstract class for representing OrganizationalUnits that can exist on their own, that are individually manageable, and do NOT form composite, or nested, OrganizationalUnits." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#OrgUnitComposite
+:OrgUnitComposite rdf:type owl:Class ;
+                  rdfs:subClassOf :Organization ;
+                  rdfs:comment "This is an abstract class for representing Organizations that are made up of other OrganizationalUnits (i.e., instances of this class as well as the OrgUnitAtomic class). This provides the semantics of collecting a set of OrganizationalUnits, each of which is individually manageable, and being able to manage the set of OrganizationalUnits as a whole.  An example is the set of different OrganizationalUnits that make up a Division in a Company." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Organization
+:Organization rdf:type owl:Class ;
+              rdfs:subClassOf :PersonOrOrganization ;
+              owl:disjointWith :Person ;
+              rdfs:comment "A group of people identified by shared interests or purpose. Examples include business, department, enterprise. Because of the complex nature of many businesses, both organizations and organizational units are represented by the same business entity in this model. This also facilitates mapping to DAP and LDAP." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Person
+:Person rdf:type owl:Class ;
+        rdfs:subClassOf :PersonOrOrganization ;
+        rdfs:comment "This is an abstract class, and represents an  individual." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PersonIdentification
+:PersonIdentification rdf:type owl:Class ;
+                      rdfs:subClassOf :IdentityAtomic ;
+                      rdfs:comment "This is an abstract class that contains common information used as proof of identity by a Person. Note that this class and its subclasses contain ALL information that could be used to identify a Person; the PersonPublicIdentification contains only public identification, and hence is a restricted view of this object." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PersonOrOrganization
+:PersonOrOrganization rdf:type owl:Class ;
+                      rdfs:subClassOf :Entity ;
+                      rdfs:comment "This is an abstract class that serves as the superclass of the Person and Organization classes in DEN-ng. Note that it is a peer of ManagedEntity. In general, people must be able to be treated independently of the Products, Services, and Resources that they use." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PersonPublicIdentification
+:PersonPublicIdentification rdf:type owl:Class ;
+                            rdfs:subClassOf :IdentityAtomic ;
+                            rdfs:comment "This is an abstract class that contains common information used as proof of identity by a Person that is designated as public information. Note that this is most likely a subset of the full (and private) version of PersonInformation that describes the Person. In addition, Policy Rules can be used to define the specific type of information that is made available using the ProvidesPublicPersonID association and ProvidesPublicPersonIDDetails association class." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalComponent
+:PhysicalComponent rdf:type owl:Class ;
+                   rdfs:subClassOf :PhysicalContainer ;
+                   rdfs:comment """This is the base class for different types of PhysicalComponents that can reside either in an Equipment or an EquipmentHolder object. They can NOT be used as a stand-alone object.
+
+From a management point-of-view, this object either can not or does not need to be split into its constituent parts. For example, an ASIC (or Chip) can not , and a tape for data storage does not, need to be split up into their constituent parts. Any piece of hardware that is not a PhysicalLink, PhysicalConnector, Equipment, or EquipmentHolder, is a subclass of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalConnector
+:PhysicalConnector rdf:type owl:Class ;
+                   rdfs:subClassOf :Hardware ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty :connectedTo ;
+                                     owl:allValuesFrom :PhysicalConnector
+                                   ] ;
+                   rdfs:comment "This is a concrete class that represents any type of hardware unit that is used to connect to other hardware units and transmit signals and/or power between them." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalContainer
+:PhysicalContainer rdf:type owl:Class ;
+                   rdfs:subClassOf :ManagedHardware ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty :hasSoftware ;
+                                     owl:allValuesFrom :Software
+                                   ] ;
+                   owl:disjointWith :PhysicalPort ;
+                   rdfs:comment "This is an abstract class that is used to add additional semantics to the ManagedHardware class. Its attributes define whether a ManagedHardware object can be removed and/or replaced, and whether this action requires power to be removed or not when the action is performed." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalDevice
+:PhysicalDevice rdf:type owl:Class ;
+                rdfs:subClassOf :PhysicalResource ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :consistsOf ;
+                                  owl:allValuesFrom :Hardware
+                                ] ;
+                rdfs:comment "This is an abstract base class for representing hardware devices that can be managed. This class represents a convenient aggregation point for combining different aspects of a device (e.g., the cables, connectors, cards, power supplies, and other objects that together make up the device). Thus, it enables the device itself to have a physical manifestation (e.g., the \"Internet Gateway Router\" can be identified as a PhysicalDevice). Examples of this class include routers and switches, computers, and other end-devices that are managed." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalDeviceAtomic
+:PhysicalDeviceAtomic rdf:type owl:Class ;
+                      rdfs:subClassOf :PhysicalDevice ;
+                      owl:disjointWith :PhysicalDeviceComposite ;
+                      rdfs:comment """This is a concrete base class for representing hardware devices that can be managed that contains no sub-ordinate devices. In other words, this physical device is a stand-alone physical device.
+
+This class represents a convenient aggregation point for combining different aspects of a device (e.g., its physical composition as well as the set of services that it offers). It also enables the device itself to have a physical manifestation. Examples of this class include routers and switches, computers, and other end-devices that are managed.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalDeviceComposite
+:PhysicalDeviceComposite rdf:type owl:Class ;
+                         rdfs:subClassOf :PhysicalDevice ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty :consistsOfAtomicPart ;
+                                           owl:allValuesFrom :PhysicalDevice
+                                         ] ,
+                                         [ rdf:type owl:Restriction ;
+                                           owl:onProperty :consistsOfAtomicPart ;
+                                           owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                           owl:onClass :PhysicalDevice
+                                         ] ;
+                         rdfs:comment """This is a concrete base class for representing hardware devices that can be managed that contains one or more sub-ordinate devices. In other words, this physical device is not a stand-alone physical device; rather, it represents an aggregation of physical devices. Each physical device in this aggregation can be managed.
+
+This class represents a convenient aggregation point for combining different aspects of a device (e.g., its physical composition as well as the set of services that it offers). It also enables the device itself to have a physical manifestation. Examples of this class include routers and switches, computers, and other end-devices that are managed.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalPort
+:PhysicalPort rdf:type owl:Class ;
+              rdfs:subClassOf :ManagedHardware ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :bindsTo ;
+                                owl:allValuesFrom :DeviceInterface
+                              ] ;
+              rdfs:comment "This class represents an actual or potential end point of a topological (physical) link, and corresponds directly to a physical port on a topology map. PhysicalPorts are always contained by another physical object - they can't exist by themselves. The two most common examples are PhysicalPorts on a Card and on a Chassis." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PhysicalResource
+:PhysicalResource rdf:type owl:Class ;
+                  rdfs:subClassOf :Resource ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :requiredBy ;
+                                    owl:allValuesFrom :LogicalResource
+                                  ] ;
+                  rdfs:comment """This is an abstract base class for describing different types of hardware that constitute a Product. It has two main purposes: (1) to collect common attributes and relationships for all hardware, and (2) to provide a convenient, single point where relationships with other managed objects can be defined.
+
+The HasWarrantyInfo association (not shown) describes warranty information of hardware.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyClause
+:PolicyClause rdf:type owl:Class ;
+              rdfs:subClassOf :PolicyConcept ;
+              rdfs:comment """This class models the triplet {variable, operator, value} that is used by the \"atomic\" subclasses of PolicyRuleComponent/ Note that the semantics are reflected in the types of operators that are allowed to be used in each case.
+
+For events and conditions, we want the semantics of \"variable relates to value\", where \"relates to\" is usually the match operator, but could also be other applicable operators (e.g., a comparison operator). For actions, we want the semantics of \"set variable to value\".
+
+Both of these semantics are enforced using OCL.
+
+The ability to use the same basic form for writing PolicyEvents, PolicyConditions and PolicyActions greatly simplifies the design and implementation of a policy management system by enabling such statements to be automatically generated.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyConcept
+:PolicyConcept rdf:type owl:Class ;
+               rdfs:subClassOf :BehavioralAspect ;
+               rdfs:comment "This is an abstract base class, and is the root of the Policy DEN-ng model. As such, it defines common attributes, methods and relationships that all policy subclasses use and take part in." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyMetaData
+:PolicyMetaData rdf:type owl:Class ;
+                rdfs:subClassOf :MetaData ;
+                rdfs:comment "This is an abstract class that contains data for different types of policy objects (e.g., policy rules, policy rule components, such as policy events, and policy applications) that describes, but does not contribute to or impact, the state of an entity." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyOperator
+:PolicyOperator rdf:type owl:Class ;
+                rdfs:subClassOf :PolicyConcept ;
+                rdfs:comment "This is a concrete class for modeling different types of operators in a PolicyStatement. By restricting the type of operator used in a PolicyStatement, one can effectively restrict the semantics of that PolicyStatement." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyRuleComponentMetaData
+:PolicyRuleComponentMetaData rdf:type owl:Class ;
+                             rdfs:subClassOf :PolicyMetaData ;
+                             owl:disjointWith :PolicyRuleMetaData ;
+                             rdfs:comment "This is an abstract class that defines the basic metadata that applies to different types of PolicyRuleComponents, such as PolicyEvents, PolicyConditions, and PolicyActions. This decouples common metadata that different PolicyRuleComponent representation systems need from the actual realization of the PolicyRuleComponents. Hence, ECA and non-ECA Policies can both use the metadata contained in this class. It also decouples the representation and structure of a particular type of PolicyRuleComponent (e.g., an ECAPolicyRuleComponent) from the metadata. This is critical for properly constructing ontologies from policy models." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyRuleComponentStructure
+:PolicyRuleComponentStructure rdf:type owl:Class ;
+                              rdfs:subClassOf :PolicyConcept ;
+                              rdfs:comment """Since different types of Policy Rules have different structural components, the PolicyRuleComponentStructure class is used to represent the different types of Policy Rule Components that can be used in a PolicyRule. Notable subclasses of this class include PolicyEvent, PolicyCondition, and PolicyAction (which are used together to define an ECAPolicyRule).
+
+This is part of a set of changes introduced in DEN-ng 7.0 that enables the DEN-ng information model to be more easily related to the DEN-ng ontology.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyRuleMetaData
+:PolicyRuleMetaData rdf:type owl:Class ;
+                    rdfs:subClassOf :PolicyMetaData ;
+                    rdfs:comment "This is an abstract class that defines the basic metadata that applies to different types of Policies, such as ECAPolicies. This decouples common metadata that different Policy representation systems need from the actual realization of the Policy, enabling all PolicyRules to share common metadata while enabling specific types of PolicyRules to define their own particular metadata. It also decouples the representation and structure of a particular type of policy (e.g., an ECAPolicy) from the metadata. This is critical for properly constructing ontologies from policy models." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyRuleStructure
+:PolicyRuleStructure rdf:type owl:Class ;
+                     rdfs:subClassOf :PolicyConcept ;
+                     rdfs:comment """This is an abstract class; it is used to represent the structure of a policy rule. Supported rule types include CA (condition-action, for backwards compatibility), ECA (event-condition-action, preferred over CA), Goal, and Utility policies.
+
+More formally, the purpose of this class is to define different subclasses that each formalize the semantics of different types of Policy Rules using a subsumption relationship. This enables a system (such as FOCALE) that uses DEN-ng to import different types of Policy Rules, each with their own specific structure, and represent how each is used. This provides extensibility, so that new Policy Rule types can be added without adversely affecting the overall design of the DEN-ng Policy Hierarchy.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicySubject
+:PolicySubject rdf:type owl:Class ;
+               rdfs:subClassOf :PolicyConcept ;
+               rdfs:comment """A PolicySubject defines the set of objects upon which the PolicyStatement is predicated. A PolicySubject is defined as a set of ManagedEntities that can, cannot, must, must not, need, or need not request and/or invoke the action of the policy from and/or on a PolicyTarget.
+
+The PolicySubject can make policy decision and information requests, and it can direct policies to be enforced at a set of PolicyTargets. Note that a PolicySubject does NOT evaluate PolicyRules, nor does it execute PolicyActions. Rather, it orchestrates the flow of policy evaluation. It is characterized as a managed object in order to build a set of reusable managed entities that can be used to form various PolicyStatements.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyTarget
+:PolicyTarget rdf:type owl:Class ;
+              rdfs:subClassOf :PolicyConcept ;
+              rdfs:comment """A PolicyTarget defines the set of ManagedEntities that describe actions that are to be applied to the PolicyTarget. In other words, a PolicyTarget is a set of ManagedEntities that a set of policies will be applied to. This is determined by: (1) agreeing to be a PolicyTarget (i.e., in general a ManagedEntity may or may not be in a state that enables PolicyRules to be applied to it to change its state; hence, a negotiation process may need to occur between the PolicySubject and the PolicyTarget, wherein the PolicyTarget consents to have PolicyRules applied to it), (2) being set as a PolicyTarget by a PolicySubject, and (3) being able to process PolicyRules (which includes being able to receive events and/or messages that trigger the evaluation of the PolicyRule).
+
+A Policy Target is an entity or set of entities from/on which the action of a policy is requested and/or invoked.
+
+Note that a PolicyProxy can provide a \"translation function\" between the commands received by the PolicyTarget and the actual ManagedEntity.  The objective of applying PolicyRules is to either maintain the current state of the policy target (i.e. the current state is a \"desired\" state), or to transition the policy target to a new desired state. It is characterized as a managed object in order to build a set of reusable managed entities that can be used to form various PolicyStatements.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyValue
+:PolicyValue rdf:type owl:Class ;
+             rdfs:subClassOf :PolicyConcept ;
+             rdfs:comment "The PolicyValue class is an abstract base class for modeling different types of values that occur in a PolicyStatement. The PolicyValue specifies an attribute that should either be set or cleared (if used in a PolicyAction) or matched or compared in some way to a value of the PolicyVariable in a PolicyCondition." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#PolicyVariable
+:PolicyVariable rdf:type owl:Class ;
+                rdfs:subClassOf :PolicyConcept ;
+                rdfs:comment """This is an abstract class for modeling different types of variables that can be used to form a PolicyStatement.  The variable specifies an attribute or concept that should either be matched or in some way compared to a value when the condition is evaluated.
+
+There are three important factors that must be taken into account in the design of variables. The first is that not every combination of a variable and a value creates a meaningful condition. For example, port numbers cannot be negative. Rather, the type of variable in the condition defines the set of matchable value types.
+
+Second, just because a value has the correct datatype does not mean that it can be meaningfully compared to a variable. To continue the above example, a port of 1,000,000 is meaningless. This is handled in this model by specifying constraints (using OCL) that apply to a particular variable that must be obeyed by any value that it is being compared to. The ExpectedPolicyValuesForVariable association binds a PolicyVariable to a PolicyValue; any constraints that are required in this binding are added to an instance of this association using OCL.
+
+Third, while the DEN-ng model defines a set of useful PolicyVariables, there is a high likelihood that specific applications will need extensions to these variables. This is accommodated through the notion of implicit and explicit PolicyVariable classes.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Preference
+:Preference rdf:type owl:Class ;
+            rdfs:subClassOf :BehavioralAspect ;
+            rdfs:comment "A Preference is an attribute of a sender or receiver that indicates the choice of a set of particular type of information or behavior instead of others, even if multiple options are possible." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProducerConsumerAspect
+:ProducerConsumerAspect rdf:type owl:Class ;
+                        rdfs:subClassOf :ManagedEntity ;
+                        rdfs:comment "This is an abstract class for representing entities that can be managed that are produced and/or consumed by other entities. Examples are Products, Resources, and Services." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Product
+:Product rdf:type owl:Class ;
+         rdfs:subClassOf :ProducerConsumerAspect ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :provides ;
+                           owl:allValuesFrom [ rdf:type owl:Class ;
+                                               owl:unionOf ( :Resource
+                                                             :Service
+                                                           )
+                                             ]
+                         ] ;
+         rdfs:comment """A Product represents any combination of goods, services, and information that is offered for trial, purchase, or even for free.
+
+A Product may be realized as one or more Service(s) and/or Resource(s).""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProductAtomic
+:ProductAtomic rdf:type owl:Class ;
+               rdfs:subClassOf :Product ;
+               owl:disjointWith :ProductComposite ;
+               rdfs:comment "A type of Product that has no subordinate Product(s) and can be sold and used by itself without other Product(s)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProductComposite
+:ProductComposite rdf:type owl:Class ;
+                  rdfs:subClassOf :Product ;
+                  rdfs:comment "A type of Product that is comprised of other Product(s).  The other Product(s) may be ProductComposite(s) and/or ProductAtomic(s)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProductLine
+:ProductLine rdf:type owl:Class ;
+             rdfs:subClassOf :ProducerConsumerAspect ;
+             rdfs:comment "This class defines a group of products that are closely related to each other by one or more factors (e.g., they have similar functions and/or prices)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProductOffering
+:ProductOffering rdf:type owl:Class ;
+                 rdfs:subClassOf :ProductSpecificationAtomic ;
+                 rdfs:comment """This class represents a set of ProductSpecifications that are made available to a specific Market for sale, rental, or lease for a price, which may be zero. A ProductOffering may target one or more MarketSegments, be included in one or more ProductCatalogs, be present in support of one or more ProductStrategies, and be made available in one or more Locations.
+
+ It can be thought of as a ProductSpecificationAtomic that is offered to a particular Market segment. """ .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProductSpecification
+:ProductSpecification rdf:type owl:Class ;
+                      rdfs:subClassOf :ProducerConsumerAspect ;
+                      rdfs:comment "This class provides a detailed description of a tangible or intangible object made available externally in the form of a specification describing the invariant attributes and behavior of a Product. A ProductSpecification may include other ProductSpecifications supplied together as a collection." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProductSpecificationAtomic
+:ProductSpecificationAtomic rdf:type owl:Class ;
+                            rdfs:subClassOf :ProductSpecification ;
+                            owl:disjointWith :ProductSpecificationComposite ;
+                            rdfs:comment "This class represents a stand-alone type of ProductSpecification that does not have any subordinate ProductSpecifications." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ProductSpecificationComposite
+:ProductSpecificationComposite rdf:type owl:Class ;
+                               rdfs:subClassOf :ProductSpecification ;
+                               rdfs:comment "This represents a type of ProductSpecification that is formed by aggregating other ProductSpecifications, which may be Composite or Atomic ProductSpecifications. A ProductSpecificationComposite is an intelligent container, and is used primarily to manage its constituent component ProductSpecifications." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Profile
+:Profile rdf:type owl:Class ;
+         rdfs:subClassOf :BehavioralAspect ;
+         rdfs:comment "This is an abstract class that describes a specific set of user-programmable capabilities for a specific entity. A profile enables some or all of the functionality of the entity to be programmed. A profile does NOT have to describe ALL functionality in the entity that it is profiling." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Protocol
+:Protocol rdf:type owl:Class ;
+          rdfs:subClassOf :LogicalResource ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :runsOn ;
+                            owl:someValuesFrom :DeviceInterface
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :runsOn ;
+                            owl:allValuesFrom :DeviceInterface
+                          ] ;
+          rdfs:comment """A Protocol is a formal set of rules and conventions that governs how two entities exchange information (usually over one or more types of network media).
+
+This is an abstract base class for representing Protocols that can be managed. This class represents a convenient aggregation point for defining how Protocols are managed and used.
+
+Please see the DEN-ng Service model for more details.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Requirement
+:Requirement rdf:type owl:Class ;
+             rdfs:subClassOf :MetaData ;
+             rdfs:comment "This is an abstract class that defines metadata to describe different types of requirements and specifications." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Resource
+:Resource rdf:type owl:Class ;
+          rdfs:subClassOf :ProducerConsumerAspect ;
+          rdfs:comment "This is the abstract base class for all entities that are inherently manageable and make up a Product. Examples which are not Manageable include legacy Hubs that don't support any type of management protocol; rather, they must be manually managed. Entities like Policy are of course manageable, but do not make up or are found packaged inside of a Product." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ResourceFacingService
+:ResourceFacingService rdf:type owl:Class ;
+                       rdfs:subClassOf :ServiceAtomic ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :requiredBy ;
+                                         owl:allValuesFrom :CustomerFacingService
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :uses ;
+                                         owl:allValuesFrom :Protocol
+                                       ] ;
+                       rdfs:comment """This is the base class for defining ResourceFacingServices in the DEN-ng Service model. A ResourceFacingService is an abstraction that defines the characteristics and behavior of a particular Service that is not directly seen or purchased by the Customer. ResourceFacingServices are \"internal\" Services that are required to support a CustomerFacingService. The Customer purchases CustomerFacingServices, and is not aware of the ResourceFacingServices which support the CustomerFacingService(s) that is being purchased directly by the Customer. For example, a VPN is an example of a CustomerFacingService. This particular type of VPN may require BGP to support it. Customers don't purchase BGP, and hopefully aren't even aware that BGP is running. Therefore, BGP is an example of a ResourceFacingService.
+
+Please see the DEN-ng Service model for more details.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ResourceFacingServiceAtomic
+:ResourceFacingServiceAtomic rdf:type owl:Class ;
+                             rdfs:subClassOf :ResourceFacingService ;
+                             owl:disjointWith :ResourceFacingServiceComposite ;
+                             rdfs:comment "This is an abstract base class that defines a stand-alone ResourceFacingService that meets the needs of a particular CustomerFacingService. Stand-alone ResourceFacingServices may be linked directly to a CustomerFacingService or aggregated by a ResourceFacingServiceComposite." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ResourceFacingServiceComposite
+:ResourceFacingServiceComposite rdf:type owl:Class ;
+                                rdfs:subClassOf :ResourceFacingService ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty :consistsOf ;
+                                                  owl:allValuesFrom :ResourceFacingService
+                                                ] ,
+                                                [ rdf:type owl:Restriction ;
+                                                  owl:onProperty :consistsOf ;
+                                                  owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                  owl:onClass :ResourceFacingService
+                                                ] ;
+                                rdfs:comment """This is an abstract base class that defines an integrated set of ResourceFacingServices that collectively meets the needs of a CustomerFacingService. For example, the Customer may have requested \"GoldService\", which is a ServicePackage that defines a set of ServiceBundles, each of which has its own QoS. A set of ResourceFacingServiceProducts can then be defined, one for each different ServiceBundle instance, that provides the required QoS for each ServiceBundle instance.
+
+Please see the DEN-ng Service Model whitepaper for more information and examples.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Role
+:Role rdf:type owl:Class ;
+      rdfs:subClassOf :MetaData ;
+      rdfs:comment """Role is an abstract class that defines the concept of various types of roles used in the DEN-ng model. Each role uses the role-object pattern to define an extensible representation of the concept that it is modeling.
+
+Roles enable the user to adapt an object to different client's needs through transparently attached role objects, each one representing a role the object has to play in that client's context. Each context may be its own application, which therefore gets decoupled from the other applications.
+
+The Role Object pattern models context-specific views of an object as separate role objects which are dynamically
+attached to and removed from the core object. The resulting object aggregate represents one logical object, even
+though it consists of several physically distinct objects.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#RootEntity
+:RootEntity rdf:type owl:Class ;
+            rdfs:subClassOf [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasDescription ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:string
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasID ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:anyType
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty :hasName ;
+                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onDataRange xsd:string
+                            ] ;
+            rdfs:comment "This is the top of the DEN-ng class hierarchy. These properties enable us to name, describe, and identify all objects (manageable and unmanageable) in the environment." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#RoutedProtocol
+:RoutedProtocol rdf:type owl:Class ;
+                rdfs:subClassOf :Protocol ;
+                rdfs:comment """This is an abstract base class for representing different types of routed protocols that can be managed. Routed protocols are those protocols that can be routed by a router. Specifically, the router must be able to interpret the logical internetwork as specified by that routed protocol. This class represents a convenient aggregation point for defining how routed protocols are managed and used.
+
+The DEN-ng model defines AppleTalk, DecNET, IP, and IPX as examples of subclasses of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#RoutingProtocol
+:RoutingProtocol rdf:type owl:Class ;
+                 rdfs:subClassOf :Protocol ;
+                 rdfs:comment """This is an abstract base class for representing different types of routing protocols that can be managed. Routing protocols are used to determine how information is routed (e.g., how it traverses an intermediate system). This class represents a convenient aggregation point for defining how routing protocols are managed and used.
+
+The DEN-ng model defines LinkStateRoutingProtocols (e.g., OSPF and IS-IS), DistanceVectorRoutingProtocols (e.g., RIP and IGRP), PathVectorRoutingProtocols (e.g., BGP) and HybridRoutingProtocols (e.g., EIGRP) as examples of subclasses of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#SecurityMetaData
+:SecurityMetaData rdf:type owl:Class ;
+                  rdfs:subClassOf :MetaData ;
+                  rdfs:comment "This class defines generic metrics about Security MetaData, and may be applied to different types of Entities (not just ManagedEntities)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#SemanticMetaData
+:SemanticMetaData rdf:type owl:Class ;
+                  rdfs:subClassOf :MetaData ;
+                  rdfs:comment "SemanticMetaData represents data and/or knowledge that describes, but does not contribute to or impact, the behavior of the entity that the SemanticMetaData is applied to." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Service
+:Service rdf:type owl:Class ;
+         rdfs:subClassOf :ProducerConsumerAspect ;
+         rdfs:comment """This class is the base class for the DEN-ng Service hierarchy. A Service represents logical functionality that is packaged as part of a Product. Its two principal subclasses are CustomerFacingService and ResourceFacingService. A Service represents the object that will be instantiated. Each Service instance can be different; therefore, Service is limited to owning just the changeable attributes, methods, relationships, and constraints that can be instantiated. The invariant attributes, methods, relationships, and constraints that can be instantiated are defined by a ServiceSpecification.
+
+The purpose of this class is twofold. First, it is used to define attributes, methods, and relationships that are common to all Services. Second, it provides a convenient point to define how Services interact with other parts of the DEN-ng model.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ServiceAtomic
+:ServiceAtomic rdf:type owl:Class ;
+               rdfs:subClassOf :Service ;
+               owl:disjointWith :ServiceComposite ;
+               rdfs:comment "This class represents a stand-alone customer-facing or resource-facing service." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ServiceComposite
+:ServiceComposite rdf:type owl:Class ;
+                  rdfs:subClassOf :Service ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :consistsOf ;
+                                    owl:allValuesFrom :Service
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :consistsOf ;
+                                    owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :Service
+                                  ] ;
+                  rdfs:comment "This class represents a composite Service. It must have at least one ServiceAtomic, and may have zero or more ServiceComposites." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#SignalingProtocol
+:SignalingProtocol rdf:type owl:Class ;
+                   rdfs:subClassOf :Protocol ;
+                   rdfs:comment """This is an abstract base class for representing different types of signaling protocols that can be managed. Signaling protocols are used to convey information along a specific path. This class represents a convenient aggregation point for defining how signaling protocols are managed and used.
+
+The DEN-ng model defines COPS and RSVP as examples of subclasses of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Software
+:Software rdf:type owl:Class ;
+          rdfs:subClassOf :LogicalResource ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :uses ;
+                            owl:allValuesFrom :OperatingSystem
+                          ] ;
+          rdfs:comment """This is an abstract base class for representing software. Software represents the set of user visible functions and processes that are contained in a device. The HasSoftwareFeatures association is used to define software that is associated in some way with a LogicalDevice, such as programs and operating systems. Since this software can be associated with devices and/or device components, this association is defined between the roots of the two classes. 
+
+Software may be nested within other software, thereby creating a containment relationship (which is part of the system view).
+
+Currently, the subclasses of this class reflect user-facing features (e.g., features that are manageable, configurable, and executable by users and applications).""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#State
+:State rdf:type owl:Class ;
+       rdfs:subClassOf :OrchestrationAspect ;
+       rdfs:comment """A state is a unique collection of information, valid during a particular time period during the life of an object, during which one or more of the following apply:
+(1)  one or more of its attributes each has a range of values that are unique to this particular state
+(2) all required relationships meet the following conditions that are unique to this particular state:
+	a) owned containment attributes contain (or not) references to created (or destroyed) relationships, and
+	b)  in the case of relationships that are realized by association classes, any communication required between classes used to implement the relationship and the classes that the relationship connects has been completed
+(2) the object can perform one or more internal actions that are used to either maintain its current state or to transition to a new state. Internal actions are not visible outside of the object, and hence other objects and states do NOT depend on internal actions performed.
+(3) the object can perform one or more external services. In contrast to internal activities, external services are visible to other objects and states, and hence represent dependencies and control points that may have far-reaching effects.
+(4) the object waits for an external event to trigger a new action
+Fundamentally, a state stores information about the past. My problem with the UML 1 and 2 definitions is that they say nothing about containing a unique collection of information which represents the past; rather, they read like an event!""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#StateMachine
+:StateMachine rdf:type owl:Class ;
+              rdfs:subClassOf :OrchestrationAspect ;
+              rdfs:comment "A StateMachine is an abstract superclass that models different types of behavior that can be represented by State Machines. A State Machine is made up of a set of states, state transitions, and actions." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#StateTransition
+:StateTransition rdf:type owl:Class ;
+                 rdfs:subClassOf :OrchestrationAspect ;
+                 rdfs:comment """This is an abstract superclass for defining different types of Transitions that connect different types of States in a StateMachine.
+
+More formally, a StateTransition defines a relationship between two States indicating that an object in the first State will perform certain specified actions and enter the second State when a specified Event occurs and specified conditions are satisfied. This class is designed to be an intelligent container, whose attributes and relationships are populated by a set of external applications; these attributes and relationships are then used to control the semantics of the aggregation.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Subscription
+:Subscription rdf:type owl:Class ;
+              rdfs:subClassOf :BehavioralAspect ;
+              rdfs:comment "A Subscription defines the set of Products, Services, and/or Resources that a Subscriber uses and/or procures (e.g., purchase, rent, lease) from this particular ServiceProvider." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#SwitchingProtocol
+:SwitchingProtocol rdf:type owl:Class ;
+                   rdfs:subClassOf :Protocol ;
+                   rdfs:comment """This is an abstract base class for representing different types of switching protocols that can be managed. Switching protocols are those protocols that enable routing to take into account layer 2 information, such as bandwidth and QoS. (Remember that traditional routing protocols are designed to evaluate each frame's layer 3 header only). 
+
+Several methods are available for accomplishing the task of looking at layer 2 information and defining a next hop. Most now use the concept of a label, which is a means to define the next hop without evaluating all of the information of a traditional header.
+
+The DEN-ng model currently concentrates on defining MPLS as an example of a SwitchingProtocol.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Topology
+:Topology rdf:type owl:Class ;
+          rdfs:subClassOf :MetaData ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :representedBy ;
+                            owl:allValuesFrom :Graph
+                          ] ;
+          rdfs:comment "This class represents the arrangement or mapping of the physical and/or logical elements of an entity and their interconnections between the nodes of an entity." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Type
+:Type rdf:type owl:Class ;
+      rdfs:subClassOf :MetaData ;
+      rdfs:comment "Type entities are metadata that are used to categorize sets of objects. Multiple Types can be related to each other using the RelatedTypes association." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#UnManagedEntity
+:UnManagedEntity rdf:type owl:Class ;
+                 rdfs:subClassOf :Entity ;
+                 rdfs:comment """The UnManagedEntity class is a concrete class that extends the Entity class in order to represent Entities that are not manageable. Specifically, this means that an UnManagedEntity is one that has no management information associated with it, and cannot perform management functions.
+	
+A corollary of the above is that an UnManagedEntity is a type of Entity that can only be manually controlled.
+
+Note that management information can be associated with components of an UnManagedEntity (e.g., antennae in a Tower), or indirectly with the UnManagedEntity (e.g., a temperature sensor for a Tower or Building).""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Value
+:Value rdf:type owl:Class ;
+       rdfs:subClassOf :RootEntity ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasMetaData ;
+                         owl:allValuesFrom :MetaData
+                       ] ;
+       rdfs:comment "A Value is an abstract class whose subclasses are used to reify the notion of something that exists that does NOT have a distinct associated identity (like subclasses from Entity do)." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#ValueMetaData
+:ValueMetaData rdf:type owl:Class ;
+               rdfs:subClassOf :MetaData ;
+               rdfs:comment "ValueMetaData contains data for different types of Value objects that describe, but does not contribute to or impact, the state of the Value." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Version
+:Version rdf:type owl:Class ;
+         rdfs:subClassOf :MetaData ;
+         rdfs:comment "This is an abstract class, and is used to define different versions of an entity." .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#WANProtocol
+:WANProtocol rdf:type owl:Class ;
+             rdfs:subClassOf :Protocol ;
+             rdfs:comment """WAN Protocols operate at the lowest three levels of the OSI model (i.e., physical, data link, and network) and are used to define communications over different types of wide-area media.
+
+The DEN-ng model defines ATM, FrameRelay, HDLC, ISDN, PPP, SLIP, SMDS, and X.25 as examples of subclasses of this class.""" .
+
+
+###  http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#WorldGeodeticSystem
+:WorldGeodeticSystem rdf:type owl:Class ;
+                     rdfs:subClassOf :UnManagedEntity ;
+                     rdfs:comment "The World Geodetic System is a standard for use in cartography, geodesy, and navigation. It comprises a standard coordinate frame for the Earth, a standard spheroidal reference surface (the datum or reference ellipsoid) for raw altitude data, and a gravitational equipotential surface (the geoid) that defines the nominal sea level." .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Application
+                :ApplicationComponent
+                :DeviceInterface
+                :Engine
+                :LogicalDevice
+                :ManagedTransmissionEntity
+                :ManagementInfo
+                :ManagementMethodEntity
+                :NetworkAddress
+                :OperatingSystem
+                :Protocol
+                :Software
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :AuxiliaryComponent
+                :Equipment
+                :EquipmentHolder
+                :PhysicalComponent
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :BehavioralAspect
+                :IdentityAspect
+                :OrchestrationAspect
+                :ProducerConsumerAspect
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :BridgingProtocol
+                :LANProtocol
+                :ManagementProtocol
+                :RoutedProtocol
+                :RoutingProtocol
+                :SignalingProtocol
+                :SwitchingProtocol
+                :WANProtocol
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Cable
+                :Hardware
+                :Link
+                :PhysicalDevice
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CompoundResource
+                :LogicalResource
+                :PhysicalResource
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Context
+                :Domain
+                :FederatedDomain
+                :Interaction
+                :PolicyConcept
+                :Preference
+                :Profile
+                :Subscription
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CoordinateSystem
+                :Language
+                :Location
+                :WorldGeodeticSystem
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :EdgeConcept
+                :EntityMetaData
+                :Graph
+                :Lifecycle
+                :Node
+                :PolicyMetaData
+                :Requirement
+                :Role
+                :SecurityMetaData
+                :SemanticMetaData
+                :Topology
+                :Type
+                :ValueMetaData
+                :Version
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Entity
+                :MetaData
+                :Value
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Event
+                :ManagedEntity
+                :PersonOrOrganization
+                :UnManagedEntity
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Market
+                :Product
+                :ProductSpecification
+                :Resource
+                :Service
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :OrgIdentification
+                :OrgPublicIdentification
+                :PersonIdentification
+                :PersonPublicIdentification
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :PolicyClause
+                :PolicyOperator
+                :PolicyRuleComponentStructure
+                :PolicyRuleStructure
+                :PolicySubject
+                :PolicyTarget
+                :PolicyValue
+                :PolicyVariable
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :State
+                :StateMachine
+                :StateTransition
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

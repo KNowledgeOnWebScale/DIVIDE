@@ -11,6 +11,9 @@
 @base <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/> .
 
 <https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/> rdf:type owl:Ontology ;
+                                                              owl:imports <https://dahcc.idlab.ugent.be/Ontology/Sensors/> ,
+                                                                          <https://saref.etsi.org/core/v3.1.1/> ,
+                                                                          <https://saref.etsi.org/saref4bldg/v1.1.2/> ;
                                                               dc:creator "Bram Steenwinckel, Mathias De Brouwer, Femke Ongenae" ;
                                                               dc:publisher "IDLab - imec - Ghent University" ;
                                                               rdfs:comment """This ontology describes the different concepts used within the DAHCC ontology to link static sensors and actuators to their corresponding properties and locations.

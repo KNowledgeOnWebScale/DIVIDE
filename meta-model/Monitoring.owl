@@ -1,0 +1,328 @@
+@prefix : <https://divide.idlab.ugent.be/meta-model/monitoring/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://divide.idlab.ugent.be/meta-model/monitoring/> .
+
+<https://divide.idlab.ugent.be/meta-model/monitoring/> rdf:type owl:Ontology ;
+                                                        owl:imports <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl> ,
+                                                                    <http://www.ontology-of-units-of-measure.org/resource/om-2> ,
+                                                                    <https://divide.idlab.ugent.be/meta-model/divide-core/> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/hasHardware
+:hasHardware rdf:type owl:ObjectProperty ;
+             rdfs:range <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Hardware> .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/hasTimestampUTC
+:hasTimestampUTC rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf owl:topDataProperty ;
+                 rdfs:range xsd:long .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.ontology-of-units-of-measure.org/resource/om-2/Unit
+<http://www.ontology-of-units-of-measure.org/resource/om-2/Unit> owl:equivalentClass <https://saref.etsi.org/core/UnitOfMeasure> .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/RdfStream
+<https://divide.idlab.ugent.be/meta-model/divide-core/RdfStream> rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                                                   owl:onProperty <https://saref.etsi.org/core/hasProperty> ;
+                                                                                   owl:allValuesFrom :RdfStreamEventProperty
+                                                                                 ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/RspEntity
+<https://divide.idlab.ugent.be/meta-model/divide-core/RspEntity> rdfs:subClassOf <https://saref.etsi.org/core/FeatureOfInterest> ,
+                                                                                 [ rdf:type owl:Restriction ;
+                                                                                   owl:onProperty <https://saref.etsi.org/core/hasProperty> ;
+                                                                                   owl:allValuesFrom :RspProperty
+                                                                                 ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/divide-core/RspQuery
+<https://divide.idlab.ugent.be/meta-model/divide-core/RspQuery> rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                                                  owl:onProperty <https://saref.etsi.org/core/hasProperty> ;
+                                                                                  owl:allValuesFrom :RspQueryExecutionProperty
+                                                                                ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/Bandwidth
+:Bandwidth rdf:type owl:Class ;
+           rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/CPU
+:CPU rdf:type owl:Class ;
+     rdfs:subClassOf :Hardware ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty <https://saref.etsi.org/core/hasProperty> ;
+                       owl:allValuesFrom :CpuProperty
+                     ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/Computer
+:Computer rdf:type owl:Class ;
+          rdfs:subClassOf <https://saref.etsi.org/core/Device> ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasHardware ;
+                            owl:someValuesFrom <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Hardware>
+                          ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/CpuLoad
+:CpuLoad rdf:type owl:Class ;
+         rdfs:subClassOf :CpuProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/CpuProperty
+:CpuProperty rdf:type owl:Class ;
+             rdfs:subClassOf :HardwareProperty ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                               owl:allValuesFrom :CPU
+                             ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/CpuUsage
+:CpuUsage rdf:type owl:Class ;
+          rdfs:subClassOf :CpuProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/Delay
+:Delay rdf:type owl:Class ;
+       rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/Disk
+:Disk rdf:type owl:Class ;
+      rdfs:subClassOf :Hardware ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty <https://saref.etsi.org/core/hasProperty> ;
+                        owl:allValuesFrom :DiskProperty
+                      ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/DiskProperty
+:DiskProperty rdf:type owl:Class ;
+              rdfs:subClassOf :HardwareProperty ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                                owl:allValuesFrom :Disk
+                              ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/DiskSpaceAvailable
+:DiskSpaceAvailable rdf:type owl:Class ;
+                    rdfs:subClassOf :DiskProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/DiskSpaceUsed
+:DiskSpaceUsed rdf:type owl:Class ;
+               rdfs:subClassOf :DiskProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/Hardware
+:Hardware rdf:type owl:Class ;
+          rdfs:subClassOf <https://saref.etsi.org/core/FeatureOfInterest> .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/HardwareProperty
+:HardwareProperty rdf:type owl:Class ;
+                  rdfs:subClassOf <https://saref.etsi.org/core/Property> ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                                    owl:allValuesFrom <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Hardware>
+                                  ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/Jitter
+:Jitter rdf:type owl:Class ;
+        rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/NetworkInterface
+:NetworkInterface rdf:type owl:Class ;
+                  rdfs:subClassOf <https://saref.etsi.org/core/FeatureOfInterest> ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty <https://saref.etsi.org/core/hasProperty> ;
+                                    owl:allValuesFrom :NetworkProperty
+                                  ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/NetworkProperty
+:NetworkProperty rdf:type owl:Class ;
+                 rdfs:subClassOf <https://saref.etsi.org/core/Property> ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                                   owl:allValuesFrom :NetworkInterface
+                                 ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/NumberOfStreamEventTriples
+:NumberOfStreamEventTriples rdf:type owl:Class ;
+                            rdfs:subClassOf :RdfStreamEventProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/PacketsReceived
+:PacketsReceived rdf:type owl:Class ;
+                 rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/PacketsReceivedDropped
+:PacketsReceivedDropped rdf:type owl:Class ;
+                        rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/PacketsSent
+:PacketsSent rdf:type owl:Class ;
+             rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/PacketsSentDropped
+:PacketsSentDropped rdf:type owl:Class ;
+                    rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RAM
+:RAM rdf:type owl:Class ;
+     rdfs:subClassOf :Hardware ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty <https://saref.etsi.org/core/hasProperty> ;
+                       owl:allValuesFrom :RamProperty
+                     ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RamAvailable
+:RamAvailable rdf:type owl:Class ;
+              rdfs:subClassOf :RamProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RamProperty
+:RamProperty rdf:type owl:Class ;
+             rdfs:subClassOf :HardwareProperty ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                               owl:allValuesFrom :RAM
+                             ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RamUsed
+:RamUsed rdf:type owl:Class ;
+         rdfs:subClassOf :RamProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RdfStreamEventProperty
+:RdfStreamEventProperty rdf:type owl:Class ;
+                        rdfs:subClassOf :RspProperty ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                                          owl:allValuesFrom <https://divide.idlab.ugent.be/meta-model/divide-core/RdfStream>
+                                        ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RoundTripTime
+:RoundTripTime rdf:type owl:Class ;
+               rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RspProperty
+:RspProperty rdf:type owl:Class ;
+             rdfs:subClassOf <https://saref.etsi.org/core/Property> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                               owl:allValuesFrom <https://divide.idlab.ugent.be/meta-model/divide-core/RspEntity>
+                             ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RspQueryExecutionMemoryUsage
+:RspQueryExecutionMemoryUsage rdf:type owl:Class ;
+                              rdfs:subClassOf :RspQueryExecutionProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RspQueryExecutionProperty
+:RspQueryExecutionProperty rdf:type owl:Class ;
+                           rdfs:subClassOf :RspProperty ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty <https://saref.etsi.org/core/isPropertyOf> ;
+                                             owl:allValuesFrom <https://divide.idlab.ugent.be/meta-model/divide-core/RspQuery>
+                                           ] .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RspQueryExecutionTime
+:RspQueryExecutionTime rdf:type owl:Class ;
+                       rdfs:subClassOf :RspQueryExecutionProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RspQueryNumberOfHits
+:RspQueryNumberOfHits rdf:type owl:Class ;
+                      rdfs:subClassOf :RspQueryExecutionProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RspQueryProcessingTime
+:RspQueryProcessingTime rdf:type owl:Class ;
+                        rdfs:subClassOf :RspQueryExecutionProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/RxRate
+:RxRate rdf:type owl:Class ;
+        rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/Throughput
+:Throughput rdf:type owl:Class ;
+            rdfs:subClassOf :NetworkProperty .
+
+
+###  https://divide.idlab.ugent.be/meta-model/monitoring/TxRate
+:TxRate rdf:type owl:Class ;
+        rdfs:subClassOf :NetworkProperty .
+
+
+###  https://saref.etsi.org/core/Measurement
+<https://saref.etsi.org/core/Measurement> rdfs:subClassOf <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#MeasurableValue> ,
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty <http://www.ontology-of-units-of-measure.org/resource/om-2/hasAggregateFunction> ;
+                                                            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                            owl:onClass <http://www.ontology-of-units-of-measure.org/resource/om-2/Function>
+                                                          ] ,
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :hasTimestampUTC ;
+                                                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                            owl:onDataRange xsd:long
+                                                          ] .
+
+
+###  https://saref.etsi.org/core/Property
+<https://saref.etsi.org/core/Property> rdfs:subClassOf <http://acintra.intec.ugent.be/ontologies/den_ng/7.0/denon_ng.owl#Measurable> .
+
+
+###  https://saref.etsi.org/core/UnitOfMeasure
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CpuLoad
+                :CpuUsage
+                :DiskSpaceAvailable
+                :RamAvailable
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

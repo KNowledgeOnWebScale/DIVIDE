@@ -19,7 +19,8 @@
 @prefix SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
 @base <https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/> .
 
-<https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/> rdf:type owl:Ontology .
+<https://dahcc.idlab.ugent.be/Homelab/SensorsAndWearables/> rdf:type owl:Ontology ;
+                                                             owl:imports SensorsAndWearables: .
 
 #################################################################
 #    Classes

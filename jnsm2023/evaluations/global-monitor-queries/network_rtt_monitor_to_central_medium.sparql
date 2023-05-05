@@ -1,0 +1,44 @@
+PREFIX divide-core: <https://divide.idlab.ugent.be/meta-model/divide-core/>
+PREFIX monitoring: <https://divide.idlab.ugent.be/meta-model/monitoring/>
+PREFIX saref-core: <https://saref.etsi.org/core/>
+PREFIX om: <http://www.ontology-of-units-of-measure.org/resource/om-2/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+    [ a divide-core:DivideQueryLocationUpdateTask ;
+      divide-core:isTaskForDivideQueryName ?divideQueryName ;
+      divide-core:isTaskForComponentId ?componentId ;
+      divide-core:hasUpdatedQueryLocation [ a divide-core:CentralLocation ]
+    ]
+}
+WHERE {
+    {
+        SELECT DISTINCT ?componentId ?divideQueryName
+        WHERE {
+            ?device a saref-core:Device ;
+                    divide-core:hosts ?component .
+            ?component a divide-core:DivideComponent ;
+                       divide-core:hasID ?componentId  ;
+                       divide-core:hasLocalRspEngine ?rspEngine .
+            ?rspEngine divide-core:hasRegisteredQuery ?rspQuery .
+            ?rspQuery divide-core:hasCorrespondingDivideQuery ?divideQuery ;
+                      divide-core:hasAssociatedComponent ?component .
+            ?divideQuery divide-core:hasName ?divideQueryName ;
+                         divide-core:hasQueryDeployment [
+                             saref-core:isAbout ?component ;
+                             divide-core:hasQueryLocation
+                                 [ a divide-core:LocalLocation ]
+                         ] .
+
+            ?measurement a saref-core:Measurement ;
+                         saref-core:hasValue ?avgRtt ;
+                         om:hasAggregateFunction om:average ;
+                         saref-core:isMeasuredIn om:second-Time ;
+                         saref-core:relatesToProperty [
+                             a monitoring:RoundTripTime ] ;
+                         saref-core:isMeasurementOf ?device .
+
+            FILTER (xsd:float(?avgRtt) <= xsd:float(1.6))
+        }
+    }
+}

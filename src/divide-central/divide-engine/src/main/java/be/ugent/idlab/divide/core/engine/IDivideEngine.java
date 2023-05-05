@@ -8,6 +8,9 @@ import be.ugent.idlab.divide.core.exception.DivideNotInitializedException;
 import be.ugent.idlab.divide.core.exception.DivideQueryDeriverException;
 import be.ugent.idlab.divide.core.query.IDivideQuery;
 import be.ugent.idlab.divide.core.query.parser.IDivideQueryParser;
+import be.ugent.idlab.divide.monitor.IDivideGlobalMonitor;
+import be.ugent.idlab.divide.monitor.MonitorException;
+import be.ugent.idlab.divide.monitor.metamodel.IDivideMetaModel;
 import be.ugent.idlab.divide.rsp.RspQueryLanguage;
 import be.ugent.idlab.kb.IKnowledgeBase;
 import org.apache.jena.rdf.model.Model;
@@ -78,6 +81,42 @@ public interface IDivideEngine {
                     boolean processUnmappedVariableMatchesInParser,
                     boolean validateUnboundVariablesInRspQlQueryBodyInParser)
             throws DivideInitializationException, DivideInvalidInputException;
+
+    /**
+     * Activates the DIVIDE monitoring.
+     * Initializes and starts the given DIVIDE Global Monitor, and uses the Local Monitor JAR
+     * on the provided path to remotely deploy the Local Monitor to all known DIVIDE components.
+     *
+     * @param divideGlobalMonitor instance of the DIVIDE Global Monitor to run on the DIVIDE
+     *                            engine server
+     * @param divideLocalMonitorJarPath path to the JAR file of the DIVIDE Local Monitor which can be
+     *                                  used to remotely deploy to all known DIVIDE components
+     */
+    void activateMonitor(IDivideGlobalMonitor divideGlobalMonitor,
+                         String divideLocalMonitorJarPath,
+                         String deviceNetworkIp)
+            throws DivideNotInitializedException, DivideInvalidInputException, MonitorException;
+
+    /**
+     * Updates the central RSP engine to be used by DIVIDE.
+     * If a central RSP engine is configured, queries can be moved between the local RSP engines
+     * of the DIVIDE components and this central RSP engine, e.g. triggered by the Monitor.
+     *
+     * For now, this method can only be called once during the lifetime of the DIVIDE server.
+     *
+     * @param rspQueryLanguage RSP query language used by the central RSP engine
+     * @param serverHost host/IP which should be used for communication with the central RSP engine
+     * @param serverPort port of the server API of the central RSP engine
+     * @param webSocketServerPort port of the WebSocket server to which input stream data can be sent
+     * @throws DivideInvalidInputException if the RSP engine URL is no valid URL
+     * @throws DivideInitializationException if a central RSP engine has already been configured
+     */
+    void configureCentralRspEngine(RspQueryLanguage rspQueryLanguage,
+                                   String serverProtocol,
+                                   String serverHost,
+                                   int serverPort,
+                                   int webSocketServerPort)
+            throws DivideInvalidInputException, DivideInitializationException;
 
     /**
      * Register a new DIVIDE query to this DIVIDE engine.
@@ -160,9 +199,9 @@ public interface IDivideEngine {
      *
      * @param contextIris IRIs of the ABoxes in a knowledge base that represents the
      *                    context associated to the new {@link IComponent}
-     * @param rspQueryLanguage RSP query language used by the RSP engine running on
+     * @param localRspEngineQueryLanguage RSP query language used by the RSP engine running on
      *                         the created component
-     * @param rspEngineUrl URL which should be used for communicating with the RSP engine
+     * @param localRspEngineServerPort URL which should be used for communicating with the RSP engine
      *                     running on the created component, and which will also be mapped
      *                     to a unique ID for the created component
      * @return the new {@link IComponent} that is registered (or null if a component
@@ -175,9 +214,10 @@ public interface IDivideEngine {
      *                                     additionalContextIris list), OR if the
      *                                     rspEngineUrl is no valid URL
      */
-    IComponent registerComponent(List<String> contextIris,
-                                 RspQueryLanguage rspQueryLanguage,
-                                 String rspEngineUrl)
+    IComponent registerComponent(String ipAddress,
+                                 List<String> contextIris,
+                                 RspQueryLanguage localRspEngineQueryLanguage,
+                                 int localRspEngineServerPort)
             throws DivideNotInitializedException, DivideInvalidInputException;
 
     /**
@@ -227,5 +267,57 @@ public interface IDivideEngine {
      * @return the DIVIDE query parser of this DIVIDE engine
      */
     IDivideQueryParser getQueryParser();
+
+    /**
+     * Update the window parameters of the active queries derived from the given
+     * DIVIDE query on the given component.
+     *
+     * @param componentId ID of the component for which the queries should be updated
+     * @param divideQueryName name of the DIVIDE query of which the derived queries
+     *                        should be updated
+     * @param windowParameters model of the window parameters that should be used for the update
+     * @throws DivideNotInitializedException if {@link #initialize(IDivideQueryDeriver,
+     *                                       IKnowledgeBase, Model, boolean, boolean, boolean)}
+     *                                       has not been called yet
+     */
+    void updateWindowParameters(String componentId,
+                                String divideQueryName,
+                                Model windowParameters) throws DivideNotInitializedException;
+
+    /**
+     * Update the location of the active queries derived from the given
+     * DIVIDE query on the given component.
+     *
+     * @param componentId ID of the component for which the queries should be updated
+     * @param divideQueryName name of the DIVIDE query of which the derived queries
+     *                        should be updated
+     * @param moveToCentral true if the queries should be moved to the central RSP engine,
+     *                      false if they should be moved to the local RSP engine
+     * @throws DivideNotInitializedException if {@link #initialize(IDivideQueryDeriver,
+     *                                       IKnowledgeBase, Model, boolean, boolean, boolean)}
+     *                                       has not been called yet and/or if no central RSP
+     *                                       engine has been configured for this DIVIDE engine
+     *                                       via the {@link #configureCentralRspEngine(RspQueryLanguage,
+     *                                       String, String, int, int)} method
+     */
+    void updateQueryLocation(String componentId,
+                             String divideQueryName,
+                             boolean moveToCentral) throws DivideNotInitializedException;
+
+    String getDeviceNetworkIp() throws DivideNotInitializedException;
+
+    String getId();
+
+    /**
+     * Method to let the DIVIDE engine know that the DIVIDE Meta Model of the activated
+     * DIVIDE monitor has been initialized and can be used by the DIVIDE engine.
+     * This method should be called by the DIVIDE Global Monitor after all initialization
+     * to the monitor & meta model has been completed.
+     */
+    void onDivideMetaModelInitialized();
+
+    IDivideMetaModel getDivideMetaModel();
+
+    void shutdown() throws DivideNotInitializedException;
 
 }

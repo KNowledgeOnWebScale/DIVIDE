@@ -1,0 +1,2 @@
+%s
+    divide-core:hasWindowSizeInSeconds "%s"^^xsd:integer .

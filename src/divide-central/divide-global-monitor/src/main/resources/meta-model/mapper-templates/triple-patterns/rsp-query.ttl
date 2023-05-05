@@ -1,0 +1,8 @@
+%s
+    a divide-core:RspQuery ;
+    divide-core:hasID "%s" ;
+    divide-core:hasName "%s" ;
+    divide-core:hasInputStreamWindow %s ;
+    divide-core:isRegisteredTo %s ;
+    divide-core:hasCorrespondingDivideQuery %s ;
+    divide-core:hasAssociatedComponent %s .

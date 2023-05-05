@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>be.ugent.idlab</groupId>
-    <artifactId>divide</artifactId>
+    <groupId>be.ugent.idlab.divide</groupId>
+    <artifactId>divide-central</artifactId>
     <version>1.0</version>
     <modules>
         <module>divide-engine</module>
         <module>divide-server</module>
-        <module>divide-monitor</module>
         <module>divide-api</module>
         <module>divide-eye</module>
         <module>divide-query-derivation</module>
+        <module>divide-global-monitor</module>
     </modules>
 
     <packaging>pom</packaging>

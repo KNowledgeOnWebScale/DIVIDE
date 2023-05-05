@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="60" strict="true" name="RSPService">
+<Configuration status="WARN" monitorInterval="60" strict="true" name="DIVIDE Central" shutdownHook="disable">
     <Properties>
         <Property name="patternWithoutMarker">%d{ISO8601} [%t] %-5level %logger{36} - %msg%n</Property>
         <Property name="patternWithMarker">%d{ISO8601}\t[%t]\t%-5level\t%logger{36}\t%marker\t%msg%n</Property>
@@ -7,10 +7,15 @@
 
     <Appenders>
         <Appender type="Console" name="STDOUT" target="SYSTEM_OUT">
+            <Filters>
+                <!-- Do not log incoming events to monitor in stdout -->
+                <RegexFilter regex=".*\[INCOMING_EVENT\].*" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
             <PatternLayout pattern="${patternWithMarker}"/>
         </Appender>
 
-        <Appender type="RollingFile" name="RollingFile" fileName="logs/divide-service.log"
+        <Appender type="RollingFile" name="RollingFile"
+                  fileName="logs/divide-service.log"
                   filePattern="logs/divide-service.log-%i">
             <PatternLayout pattern="${patternWithoutMarker}"/>
             <Policies>
@@ -19,7 +24,58 @@
             <DefaultRolloverStrategy max="10"/>
         </Appender>
 
-        <Appender type="RollingFile" name="RestletLogging" fileName="logs/divide-restlet.log"
+        <Appender type="RollingFile" name="RollingFileDebug"
+                  fileName="logs/divide-service-debug.log"
+                  filePattern="logs/divide-service-debug.log-%i">
+            <PatternLayout pattern="${patternWithoutMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="DivideLogging"
+                  fileName="logs/divide-central.log"
+                  filePattern="logs/divide-central.log-%i">
+            <PatternLayout pattern="${patternWithoutMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="DivideCentralWithoutMonitor"
+                  fileName="logs/divide-central-without-monitor.log"
+                  filePattern="logs/divide-central-without-monitor.log-%i">
+            <PatternLayout pattern="${patternWithoutMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="DivideMonitorLogging"
+                  fileName="logs/divide-monitor.log"
+                  filePattern="logs/divide-monitor.log-%i">
+            <PatternLayout pattern="${patternWithoutMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="GlobalMonitorReasoningServiceLogging"
+                  fileName="logs/divide-global-monitor-reasoning-service.log"
+                  filePattern="logs/divide-global-monitor-reasoning-service.log-%i">
+            <PatternLayout pattern="${patternWithoutMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="RestletLogging"
+                  fileName="logs/divide-restlet.log"
                   filePattern="logs/divide-restlet.log-%i">
             <Policies>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
@@ -52,18 +108,89 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </Appender>
+
+        <Appender type="RollingFile" name="GlobalMonitorReasoningServiceEventLogging"
+                  fileName="logs/divide-global-monitor-reasoning-service-event-logging.log"
+                  filePattern="logs/divide-global-monitor-reasoning-service-event-logging.log-%i">
+            <Filters>
+                <Filter type="MarkerFilter" marker="[EVENT]" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${patternWithMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
+
+        <Appender type="RollingFile" name="GlobalMonitorReasoningServiceQueryLogging"
+                  fileName="logs/divide-global-monitor-reasoning-service-query-logging.log"
+                  filePattern="logs/divide-global-monitor-reasoning-service-query-logging.log-%i">
+            <Filters>
+                <Filter type="MarkerFilter" marker="[QUERY]" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${patternWithMarker}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </Appender>
     </Appenders>
 
     <Loggers>
+        <!-- Logging of everything & markers -->
+        <Root level="DEBUG">
+            <AppenderRef ref="STDOUT" level="INFO"/>
+            <AppenderRef ref="RollingFileDebug" level="TRACE"/>
+            <AppenderRef ref="RollingFile" level="INFO"/>
+            <AppenderRef ref="UnknownErrorLogging" level="INFO"/>
+            <AppenderRef ref="MetricLogging" level="DEBUG"/>
+            <AppenderRef ref="GlobalMonitorReasoningServiceQueryLogging" level="INFO"/>
+            <AppenderRef ref="GlobalMonitorReasoningServiceEventLogging" level="INFO"/>
+        </Root>
+
+        <!-- Logging of all DIVIDE tasks -->
+        <Logger name="be.ugent.idlab.divide" level="INFO">
+            <AppenderRef ref="DivideLogging" level="INFO"/>
+        </Logger>
+
+        <!-- Logging of DIVIDE central tasks (excluding monitor) -->
+        <Logger name="be.ugent.idlab.divide.core" level="INFO">
+            <AppenderRef ref="DivideCentralWithoutMonitor" level="INFO"/>
+        </Logger>
+        <Logger name="be.ugent.idlab.divide.rsp" level="INFO">
+            <AppenderRef ref="DivideCentralWithoutMonitor" level="INFO"/>
+        </Logger>
+        <Logger name="be.ugent.idlab.divide.queryderivation" level="INFO">
+            <AppenderRef ref="DivideCentralWithoutMonitor" level="INFO"/>
+        </Logger>
+        <Logger name="be.ugent.idlab.divide.api" level="INFO">
+            <AppenderRef ref="DivideCentralWithoutMonitor" level="INFO"/>
+        </Logger>
+        <Logger name="be.ugent.idlab.divide.configuration" level="INFO">
+            <AppenderRef ref="DivideCentralWithoutMonitor" level="INFO"/>
+        </Logger>
+        <Logger name="be.ugent.idlab.divide.util" level="INFO">
+            <AppenderRef ref="DivideCentralWithoutMonitor" level="INFO"/>
+        </Logger>
+        <Logger name="be.ugent.idlab.divide.DivideServer" level="INFO">
+            <AppenderRef ref="DivideCentralWithoutMonitor" level="INFO"/>
+        </Logger>
+
+        <!-- Logging of DIVIDE monitor -->
+        <Logger name="be.ugent.idlab.divide.monitor" level="INFO">
+            <AppenderRef ref="DivideMonitorLogging" level="INFO"/>
+        </Logger>
+        <!-- Logging of DIVIDE global monitor reasoning service -->
+        <Logger name="be.ugent.idlab.reasoningservice" level="INFO">
+            <AppenderRef ref="GlobalMonitorReasoningServiceLogging" level="INFO"/>
+        </Logger>
+
+        <!-- Logging of Restlet services (API calls) -->
         <Logger name="LogService" level="INFO">
             <AppenderRef ref="RestletLogging"/>
         </Logger>
-        <Root level="DEBUG">
-            <AppenderRef ref="STDOUT" level="INFO"/>
-            <AppenderRef ref="RollingFile" level="TRACE"/>
-            <AppenderRef ref="UnknownErrorLogging" level="INFO"/>
-            <AppenderRef ref="MetricLogging" level="DEBUG"/>
-        </Root>
+
+        <!-- Disable logging of Apache Jena -->
         <Logger name="org.apache.jena.riot" level="OFF"/>
     </Loggers>
 </Configuration>

@@ -1,0 +1,248 @@
+@prefix : <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@base <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> .
+
+<https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> rdf:type owl:Ontology ;
+                                                          dc:creator "Bram Steenwinckel, Mathias De Brouwer, Femke Ongenae" ;
+                                                          terms:publisher "IDLab - imec - Ghent University" ;
+                                                          rdfs:comment "This ontology describes the different concepts used within the DAHCC ontology to describe a person/patient, monitored inside its resident." ;
+                                                          rdfs:label "The DAHCC Monitored Person Ontology" ;
+                                                          owl:versionInfo "0.0.1" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/publisher
+terms:publisher rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasAddiction
+:hasAddiction rdf:type owl:ObjectProperty ;
+              rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+              rdfs:range :Addiction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasIndoorLocation
+:hasIndoorLocation rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :hasLocation ;
+                   rdfs:domain <https://saref.etsi.org/saref4ehaw/User> ;
+                   rdfs:range <http://elite.polito.it/ontologies/dogont.owl#Room> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasLocation
+:hasLocation rdf:type owl:ObjectProperty .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasPets
+:hasPets rdf:type owl:ObjectProperty ;
+         rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+         rdfs:range :Pet .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasRoutine
+:hasRoutine rdf:type owl:ObjectProperty ;
+            rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+            rdfs:range <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Routine> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasSymptom
+:hasSymptom rdf:type owl:ObjectProperty ;
+            rdfs:domain <https://saref.etsi.org/saref4ehaw/ChronicDisease> ;
+            rdfs:range :Symptom .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/livesIn
+:livesIn rdf:type owl:ObjectProperty ;
+         rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+         rdfs:range <https://saref.etsi.org/saref4bldg/Building> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/takesMedication
+:takesMedication rdf:type owl:ObjectProperty ;
+                 rdfs:domain <https://saref.etsi.org/saref4ehaw/User> ;
+                 rdfs:range :Medication .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Address
+:Address rdf:type owl:DatatypeProperty ;
+         rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+         rdfs:range xsd:string .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Ethnicity
+:Ethnicity rdf:type owl:DatatypeProperty ;
+           rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+           rdfs:range xsd:string .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Language
+:Language rdf:type owl:DatatypeProperty ;
+          rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+          rdfs:range xsd:string .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/RecentHospitalAdmission
+:RecentHospitalAdmission rdf:type owl:DatatypeProperty ;
+                         rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+                         rdfs:range xsd:boolean .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Sex
+:Sex rdf:type owl:DatatypeProperty ;
+     rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/familialStatus
+:familialStatus rdf:type owl:DatatypeProperty ;
+                rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+                rdfs:range xsd:string .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hadWork
+:hadWork rdf:type owl:DatatypeProperty ;
+         rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+         rdfs:range xsd:string .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasHearingAid
+:hasHearingAid rdf:type owl:DatatypeProperty ;
+               rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+               rdfs:range xsd:boolean .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasStudied
+:hasStudied rdf:type owl:DatatypeProperty ;
+            rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+            rdfs:range xsd:string .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/socialStatus
+:socialStatus rdf:type owl:DatatypeProperty ;
+              rdfs:domain <https://saref.etsi.org/saref4ehaw/HealthActor> ;
+              rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://elite.polito.it/ontologies/dogont.owl#Room
+<http://elite.polito.it/ontologies/dogont.owl#Room> rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Routine
+<https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/Routine> rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Addiction
+:Addiction rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/AlcoholProblem
+:AlcoholProblem rdf:type owl:Class ;
+                rdfs:subClassOf :Addiction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Allergies
+:Allergies rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Cat
+:Cat rdf:type owl:Class ;
+     rdfs:subClassOf :Pet .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Dog
+:Dog rdf:type owl:Class ;
+     rdfs:subClassOf :Pet .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/DrugsProblem
+:DrugsProblem rdf:type owl:Class ;
+              rdfs:subClassOf :Addiction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Hypochondriac
+:Hypochondriac rdf:type owl:Class ;
+               rdfs:subClassOf :MentalState .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Latex
+:Latex rdf:type owl:Class ;
+       rdfs:subClassOf :Allergies .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Medication
+:Medication rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/MedicationAllergy
+:MedicationAllergy rdf:type owl:Class ;
+                   rdfs:subClassOf :Allergies .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/MedicationProblem
+:MedicationProblem rdf:type owl:Class ;
+                   rdfs:subClassOf :Addiction .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/MentalState
+:MentalState rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/OtherAllergy
+:OtherAllergy rdf:type owl:Class ;
+              rdfs:subClassOf :Allergies .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/OtherPet
+:OtherPet rdf:type owl:Class ;
+          rdfs:subClassOf :Pet .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Pet
+:Pet rdf:type owl:Class .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Schizophrenia
+:Schizophrenia rdf:type owl:Class ;
+               rdfs:subClassOf :MentalState .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Sensitive
+:Sensitive rdf:type owl:Class ;
+           rdfs:subClassOf :MentalState .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Symptom
+:Symptom rdf:type owl:Class ;
+         rdfs:subClassOf <https://saref.etsi.org/core/FeatureOfInterest> .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/Temperamental
+:Temperamental rdf:type owl:Class ;
+               rdfs:subClassOf :MentalState .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

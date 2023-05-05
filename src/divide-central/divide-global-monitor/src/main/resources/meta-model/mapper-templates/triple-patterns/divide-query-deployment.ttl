@@ -1,0 +1,10 @@
+%s
+    divide-core:hasQueryDeployment %s .
+
+%s
+    a divide-core:QueryDeployment ;
+    saref-core:isAbout %s ;
+    divide-core:hasQueryLocation %s .
+
+%s
+    a divide-core:%s .

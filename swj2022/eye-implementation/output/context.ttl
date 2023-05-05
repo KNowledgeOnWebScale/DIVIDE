@@ -3634,7 +3634,7 @@ idlab:MorningRoutine_patient157 ActivityRecognition:nextActivity <http://josd.gi
 <http://josd.github.io/.well-known/genid/HL5c4a0WhqXPcEYBV2YpdSHRWro#e_A4_1> ActivityRecognition:nextActivity <http://josd.github.io/.well-known/genid/HL5c4a0WhqXPcEYBV2YpdSHRWro#e_A5_1>.
 <http://josd.github.io/.well-known/genid/HL5c4a0WhqXPcEYBV2YpdSHRWro#e_A5_1> ActivityRecognition:nextActivity <http://josd.github.io/.well-known/genid/HL5c4a0WhqXPcEYBV2YpdSHRWro#e_A6_1>.
 
-#2022-05-01T12:04:56.950Z in=3600 out=3600 ent=0 step=0 brake=1 inf=5004820 sec=0.456 inf/sec=10975482
+#2023-06-01T09:29:39.369Z in=3600 out=3600 ent=0 step=0 brake=1 inf=5005581 sec=0.390 inf/sec=12834823
 #ENDS
 
  <http://idlab.ugent.be/sensdesc/query#pattern>  <http://idlab.ugent.be/sensdesc#windowParameters> () .

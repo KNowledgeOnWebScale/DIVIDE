@@ -1,0 +1,8 @@
+%s
+    a divide-core:DivideEngine ;
+    divide-core:hasID "%s" ;
+    divide-core:isHostedBy %s .
+
+%s
+    a saref-core:Device ;
+    divide-core:hasIPAddress "%s" .

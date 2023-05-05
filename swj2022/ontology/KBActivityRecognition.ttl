@@ -23,7 +23,11 @@
 @prefix SensorsAndWearables: <https://dahcc.idlab.ugent.be/Ontology/SensorsAndWearables/> .
 @base <https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> .
 
-<https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> rdf:type owl:Ontology .
+<https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/> rdf:type owl:Ontology ;
+                                                                                    owl:imports ActivityRecognition: ,
+                                                                                                <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/> ,
+                                                                                                SensorsAndActuators: ,
+                                                                                                SensorsAndWearables: .
 
 #################################################################
 #    Datatypes
@@ -98,8 +102,6 @@ Sensors:isRelevantTo owl:propertyChainAxiom ( Sensors:analyseStateOf
                                               <https://dahcc.idlab.ugent.be/Ontology/MonitoredPerson/hasLocation>
                                             ) .
 
-
-###  https://saref.etsi.org/core/consistsOf
 
 #################################################################
 #    Data properties
@@ -1210,6 +1212,10 @@ ActivityRecognition:WatchingTVActively rdfs:subClassOf :DetectableActivity .
 SensorsAndActuators:AtmosphericPressure rdfs:subClassOf :ConditionableProperty .
 
 
+###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/BathRoom
+SensorsAndActuators:BathRoom rdfs:subClassOf :AnalyzableForCondition .
+
+
 ###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Blind
 SensorsAndActuators:Blind rdfs:subClassOf :ConditionableProperty .
 
@@ -1288,7 +1294,7 @@ SensorsAndActuators:Relay rdfs:subClassOf :ConditionableProperty .
 
 
 ###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/Room
-SensorsAndActuators:BathRoom rdfs:subClassOf :AnalyzableForCondition .
+SensorsAndActuators:Room rdfs:subClassOf :AnalyzableForCondition .
 
 
 ###  https://dahcc.idlab.ugent.be/Ontology/SensorsAndActuators/VOC
@@ -1404,10 +1410,6 @@ saref4bldg:Pump rdf:type owl:Class ;
                 rdfs:subClassOf :AnalyzableForCondition .
 
 
-###  https://saref.etsi.org/saref4bldg/Room
-saref4bldg:Room rdf:type owl:Class .
-
-
 ###  https://saref.etsi.org/saref4ehaw/Patient
 saref4ehaw:Patient rdfs:subClassOf :AnalyzableForCondition .
 
@@ -1429,6 +1431,11 @@ saref4ehaw:Patient rdfs:subClassOf :AnalyzableForCondition .
                                                  :showering_rule ,
                                                  :toileting_rule ;
                                    terms:created "2022-01-04T17:00:00"^^xsd:dateTime .
+
+
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_BathRoom
+:_BathRoom rdf:type owl:NamedIndividual ,
+                    SensorsAndActuators:BathRoom .
 
 
 ###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_BrushingTeeth
@@ -1461,9 +1468,9 @@ saref4ehaw:Patient rdfs:subClassOf :AnalyzableForCondition .
                             SensorsAndActuators:RelativeHumidity .
 
 
-###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_BathRoom
-:_BathRoom rdf:type owl:NamedIndividual ,
-                SensorsAndActuators:BathRoom .
+###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Room
+:_Room rdf:type owl:NamedIndividual ,
+                SensorsAndActuators:Room .
 
 
 ###  https://dahcc.idlab.ugent.be/Ontology/ActivityRecognition/KBActivityRecognition/_Showering
@@ -1497,7 +1504,7 @@ saref4ehaw:Patient rdfs:subClassOf :AnalyzableForCondition .
 :brushing_teeth_condition02 rdf:type owl:NamedIndividual ,
                                      :RegularThreshold ;
                             :forProperty :_WaterRunning ;
-                            Sensors:analyseStateOf :_BathRoom ;
+                            Sensors:analyseStateOf :_Room ;
                             :isMinimumThreshold "true"^^xsd:boolean ;
                             saref-core:hasValue "1.0E-5"^^xsd:float .
 

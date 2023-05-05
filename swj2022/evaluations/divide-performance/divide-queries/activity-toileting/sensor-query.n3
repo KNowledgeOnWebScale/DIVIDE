@@ -44,9 +44,10 @@
     ?activityType rdfs:subClassOf KBActivityRecognition:DetectableActivity .
 
     ?sensor rdf:type saref-core:Device ;
-            saref-core:measuresProperty [ rdf:type ?prop ] ;
+            saref-core:measuresProperty ?prop_o ;
             Sensors:isRelevantTo ?room ;
             Sensors:analyseStateOf [ rdf:type ?analyzed ] .
+    ?prop_o rdf:type ?prop .
 
     ?prop rdfs:subClassOf KBActivityRecognition:ConditionableProperty .
     ?analyzed rdfs:subClassOf KBActivityRecognition:AnalyzableForCondition .
@@ -59,7 +60,7 @@
         sd:pattern sd-query:pattern ;
         sd:inputVariables (("?sensor" ?sensor) ("?threshold" ?threshold)
                            ("?activityType" ?activityType) ("?patient" ?patient)
-                           ("?model" ?model)) ;
+                           ("?model" ?model) ("?prop_o" ?prop_o)) ;
         sd:windowParameters () .
 
     _:p rdf:type ActivityRecognition:ActivityPrediction ;

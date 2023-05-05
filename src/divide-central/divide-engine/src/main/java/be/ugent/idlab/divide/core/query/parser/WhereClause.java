@@ -1,6 +1,7 @@
 package be.ugent.idlab.divide.core.query.parser;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 class WhereClause {
 
@@ -17,8 +18,8 @@ class WhereClause {
     @Override
     public String toString() {
         return "WhereClause{" +
-                "items=" + items +
-                '}';
+                "items=\n" + items.stream().map(Object::toString).collect(Collectors.joining("\n")) +
+                "\n}";
     }
 
 }
